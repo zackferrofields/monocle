@@ -1,0 +1,19 @@
+{
+  "name": "monocle",
+  "version": "0.0.1",
+  "description": "FLUX with lenses",
+  "main": "src/main",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zackferrofields/monocle.git"
+  },
+  "author": "",
+  "license": "Apache License",
+  "bugs": {
+    "url": "https://github.com/zackferrofields/monocle/issues"
+  },
+  "homepage": "https://github.com/zackferrofields/monocle#readme"
+}
