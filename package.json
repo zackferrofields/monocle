@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/zackferrofields/monocle/issues"
   },
-  "homepage": "https://github.com/zackferrofields/monocle#readme"
+  "homepage": "https://github.com/zackferrofields/monocle#readme",
+  "devDependencies": {
+    "eslint": "^3.1.1"
+  }
 }
