@@ -1,7 +1,8 @@
-import ramda from 'ramda';
-const { forEach } = ramda;
+import renderer from './renderer';
+import app from './components/app';
 
-forEach(x => console.log(x + 5), [1, 2, 3]);
+const node = document.querySelector('[app]');
+const render = renderer(app, node);
+render();
 
-const app = document.querySelector('[app]');
-app.innerHTML = '<h1>Hello World!<h1/>';
+setTimeout(() => render(app({ name: 'Zack' })), 1000);
