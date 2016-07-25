@@ -1,8 +1,8 @@
 import renderer from './renderer';
-import app from './components/app';
+import App from './components/App';
 
 const node = document.querySelector('[app]');
-const render = renderer(app, node);
+const render = renderer(App, node);
 render();
 
-setTimeout(() => render(app({ name: 'Zack' })), 1000);
+setTimeout(() => render(App({ name: 'Zack' })), 1000);

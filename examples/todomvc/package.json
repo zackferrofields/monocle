@@ -3,6 +3,7 @@
   "dependencies": {
     "babel-runtime": "^6.9.2",
     "ramda": "^0.21.0",
+    "ramda-lens": "git+https://github.com/ramda/ramda-lens.git",
     "snabbdom": "^0.5.1",
     "snabbdom-jsx": "^0.3.0",
     "todomvc-app-css": "^2.0.6",

@@ -2,7 +2,6 @@ env:
   browser: true
   es6: true
   node: true
-extends: 'eslint:recommended'
 parserOptions:
   ecmaFeatures:
     jsx: true
@@ -20,3 +19,17 @@ rules:
   semi:
     - error
     - always
+  jsx-quotes:
+    - 2
+    - prefer-double
+  react/react-in-jsx-scope:
+    - 0
+  react/prop-types:
+    - 0
+  react/display-name:
+    - 0
+plugins:
+  - react
+extends:
+  - eslint:recommended
+  - plugin:react/recommended
