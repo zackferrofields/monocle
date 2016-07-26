@@ -1,41 +1,41 @@
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
-
+/******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
-
+/******/
 /******/ 		// Check if module is in cache
 /******/ 		if(installedModules[moduleId])
 /******/ 			return installedModules[moduleId].exports;
-
+/******/
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = installedModules[moduleId] = {
 /******/ 			exports: {},
 /******/ 			id: moduleId,
 /******/ 			loaded: false
 /******/ 		};
-
+/******/
 /******/ 		// Execute the module function
 /******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-
+/******/
 /******/ 		// Flag the module as loaded
 /******/ 		module.loaded = true;
-
+/******/
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-
-
+/******/
+/******/
 /******/ 	// expose the modules object (__webpack_modules__)
 /******/ 	__webpack_require__.m = modules;
-
+/******/
 /******/ 	// expose the module cache
 /******/ 	__webpack_require__.c = installedModules;
-
+/******/
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "";
-
+/******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(0);
 /******/ })
@@ -45,23 +45,23 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-
+	
 	var _renderer = __webpack_require__(1);
-
+	
 	var _renderer2 = _interopRequireDefault(_renderer);
-
-	var _App = __webpack_require__(14);
-
+	
+	var _App = __webpack_require__(11);
+	
 	var _App2 = _interopRequireDefault(_App);
-
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
+	
 	var node = document.querySelector('[app]');
 	var render = (0, _renderer2.default)(_App2.default, node);
 	render();
-
+	
 	setTimeout(function () {
-	  return render((0, _App2.default)({ name: 'Zack' }));
+	  return render((0, _App2.default)());
 	}, 1000);
 
 /***/ },
@@ -69,39 +69,39 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-
+	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-
+	
 	var _snabbdom = __webpack_require__(2);
-
+	
 	var _snabbdom2 = _interopRequireDefault(_snabbdom);
-
+	
 	var _attributes = __webpack_require__(6);
-
+	
 	var _attributes2 = _interopRequireDefault(_attributes);
-
+	
 	var _class = __webpack_require__(7);
-
+	
 	var _class2 = _interopRequireDefault(_class);
-
+	
 	var _props = __webpack_require__(8);
-
+	
 	var _props2 = _interopRequireDefault(_props);
-
+	
 	var _style = __webpack_require__(9);
-
+	
 	var _style2 = _interopRequireDefault(_style);
-
+	
 	var _eventlisteners = __webpack_require__(10);
-
+	
 	var _eventlisteners2 = _interopRequireDefault(_eventlisteners);
-
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
+	
 	var patch = _snabbdom2.default.init([_attributes2.default, _class2.default, _props2.default, _style2.default, _eventlisteners2.default]);
-
+	
 	exports.default = function (Component, node) {
 	  return function () {
 	    var tree = arguments.length <= 0 || arguments[0] === undefined ? Component() : arguments[0];
@@ -116,20 +116,20 @@
 	// jshint newcap: false
 	/* global require, module, document, Node */
 	'use strict';
-
+	
 	var VNode = __webpack_require__(3);
 	var is = __webpack_require__(4);
 	var domApi = __webpack_require__(5);
-
+	
 	function isUndef(s) { return s === undefined; }
 	function isDef(s) { return s !== undefined; }
-
+	
 	var emptyNode = VNode('', {}, [], undefined, undefined);
-
+	
 	function sameVnode(vnode1, vnode2) {
 	  return vnode1.key === vnode2.key && vnode1.sel === vnode2.sel;
 	}
-
+	
 	function createKeyToOldIdx(children, beginIdx, endIdx) {
 	  var i, map = {}, key;
 	  for (i = beginIdx; i <= endIdx; ++i) {
@@ -138,25 +138,25 @@
 	  }
 	  return map;
 	}
-
+	
 	var hooks = ['create', 'update', 'remove', 'destroy', 'pre', 'post'];
-
+	
 	function init(modules, api) {
 	  var i, j, cbs = {};
-
+	
 	  if (isUndef(api)) api = domApi;
-
+	
 	  for (i = 0; i < hooks.length; ++i) {
 	    cbs[hooks[i]] = [];
 	    for (j = 0; j < modules.length; ++j) {
 	      if (modules[j][hooks[i]] !== undefined) cbs[hooks[i]].push(modules[j][hooks[i]]);
 	    }
 	  }
-
+	
 	  function emptyNodeAt(elm) {
 	    return VNode(api.tagName(elm).toLowerCase(), {}, [], undefined, elm);
 	  }
-
+	
 	  function createRmCb(childElm, listeners) {
 	    return function() {
 	      if (--listeners === 0) {
@@ -165,7 +165,7 @@
 	      }
 	    };
 	  }
-
+	
 	  function createElm(vnode, insertedVnodeQueue) {
 	    var i, data = vnode.data;
 	    if (isDef(data)) {
@@ -204,13 +204,13 @@
 	    }
 	    return vnode.elm;
 	  }
-
+	
 	  function addVnodes(parentElm, before, vnodes, startIdx, endIdx, insertedVnodeQueue) {
 	    for (; startIdx <= endIdx; ++startIdx) {
 	      api.insertBefore(parentElm, createElm(vnodes[startIdx], insertedVnodeQueue), before);
 	    }
 	  }
-
+	
 	  function invokeDestroyHook(vnode) {
 	    var i, j, data = vnode.data;
 	    if (isDef(data)) {
@@ -223,7 +223,7 @@
 	      }
 	    }
 	  }
-
+	
 	  function removeVnodes(parentElm, vnodes, startIdx, endIdx) {
 	    for (; startIdx <= endIdx; ++startIdx) {
 	      var i, listeners, rm, ch = vnodes[startIdx];
@@ -244,7 +244,7 @@
 	      }
 	    }
 	  }
-
+	
 	  function updateChildren(parentElm, oldCh, newCh, insertedVnodeQueue) {
 	    var oldStartIdx = 0, newStartIdx = 0;
 	    var oldEndIdx = oldCh.length - 1;
@@ -254,7 +254,7 @@
 	    var newStartVnode = newCh[0];
 	    var newEndVnode = newCh[newEndIdx];
 	    var oldKeyToIdx, idxInOld, elmToMove, before;
-
+	
 	    while (oldStartIdx <= oldEndIdx && newStartIdx <= newEndIdx) {
 	      if (isUndef(oldStartVnode)) {
 	        oldStartVnode = oldCh[++oldStartIdx]; // Vnode has been moved left
@@ -300,7 +300,7 @@
 	      removeVnodes(parentElm, oldCh, oldStartIdx, oldEndIdx);
 	    }
 	  }
-
+	
 	  function patchVnode(oldVnode, vnode, insertedVnodeQueue) {
 	    var i, hook;
 	    if (isDef(i = vnode.data) && isDef(hook = i.hook) && isDef(i = hook.prepatch)) {
@@ -338,30 +338,30 @@
 	      i(oldVnode, vnode);
 	    }
 	  }
-
+	
 	  return function(oldVnode, vnode) {
 	    var i, elm, parent;
 	    var insertedVnodeQueue = [];
 	    for (i = 0; i < cbs.pre.length; ++i) cbs.pre[i]();
-
+	
 	    if (isUndef(oldVnode.sel)) {
 	      oldVnode = emptyNodeAt(oldVnode);
 	    }
-
+	
 	    if (sameVnode(oldVnode, vnode)) {
 	      patchVnode(oldVnode, vnode, insertedVnodeQueue);
 	    } else {
 	      elm = oldVnode.elm;
 	      parent = api.parentNode(elm);
-
+	
 	      createElm(vnode, insertedVnodeQueue);
-
+	
 	      if (parent !== null) {
 	        api.insertBefore(parent, vnode.elm, api.nextSibling(elm));
 	        removeVnodes(parent, [oldVnode], 0, 0);
 	      }
 	    }
-
+	
 	    for (i = 0; i < insertedVnodeQueue.length; ++i) {
 	      insertedVnodeQueue[i].data.hook.insert(insertedVnodeQueue[i]);
 	    }
@@ -369,7 +369,7 @@
 	    return vnode;
 	  };
 	}
-
+	
 	module.exports = {init: init};
 
 
@@ -401,45 +401,45 @@
 	function createElement(tagName){
 	  return document.createElement(tagName);
 	}
-
+	
 	function createElementNS(namespaceURI, qualifiedName){
 	  return document.createElementNS(namespaceURI, qualifiedName);
 	}
-
+	
 	function createTextNode(text){
 	  return document.createTextNode(text);
 	}
-
-
+	
+	
 	function insertBefore(parentNode, newNode, referenceNode){
 	  parentNode.insertBefore(newNode, referenceNode);
 	}
-
-
+	
+	
 	function removeChild(node, child){
 	  node.removeChild(child);
 	}
-
+	
 	function appendChild(node, child){
 	  node.appendChild(child);
 	}
-
+	
 	function parentNode(node){
 	  return node.parentElement;
 	}
-
+	
 	function nextSibling(node){
 	  return node.nextSibling;
 	}
-
+	
 	function tagName(node){
 	  return node.tagName;
 	}
-
+	
 	function setTextContent(node, text){
 	  node.textContent = text;
 	}
-
+	
 	module.exports = {
 	  createElement: createElement,
 	  createElementNS: createElementNS,
@@ -464,20 +464,20 @@
 	                "muted", "nohref", "noresize", "noshade", "novalidate", "nowrap", "open", "pauseonexit", "readonly",
 	                "required", "reversed", "scoped", "seamless", "selected", "sortable", "spellcheck", "translate",
 	                "truespeed", "typemustmatch", "visible"];
-
+	
 	var booleanAttrsDict = {};
 	for(var i=0, len = booleanAttrs.length; i < len; i++) {
 	  booleanAttrsDict[booleanAttrs[i]] = true;
 	}
-
+	
 	function updateAttrs(oldVnode, vnode) {
 	  var key, cur, old, elm = vnode.elm,
 	      oldAttrs = oldVnode.data.attrs, attrs = vnode.data.attrs;
-
+	
 	  if (!oldAttrs && !attrs) return;
 	  oldAttrs = oldAttrs || {};
 	  attrs = attrs || {};
-
+	
 	  // update modified attributes, add new attributes
 	  for (key in attrs) {
 	    cur = attrs[key];
@@ -499,7 +499,7 @@
 	    }
 	  }
 	}
-
+	
 	module.exports = {create: updateAttrs, update: updateAttrs};
 
 
@@ -511,11 +511,11 @@
 	  var cur, name, elm = vnode.elm,
 	      oldClass = oldVnode.data.class,
 	      klass = vnode.data.class;
-
+	
 	  if (!oldClass && !klass) return;
 	  oldClass = oldClass || {};
 	  klass = klass || {};
-
+	
 	  for (name in oldClass) {
 	    if (!klass[name]) {
 	      elm.classList.remove(name);
@@ -528,7 +528,7 @@
 	    }
 	  }
 	}
-
+	
 	module.exports = {create: updateClass, update: updateClass};
 
 
@@ -539,11 +539,11 @@
 	function updateProps(oldVnode, vnode) {
 	  var key, cur, old, elm = vnode.elm,
 	      oldProps = oldVnode.data.props, props = vnode.data.props;
-
+	
 	  if (!oldProps && !props) return;
 	  oldProps = oldProps || {};
 	  props = props || {};
-
+	
 	  for (key in oldProps) {
 	    if (!props[key]) {
 	      delete elm[key];
@@ -557,7 +557,7 @@
 	    }
 	  }
 	}
-
+	
 	module.exports = {create: updateProps, update: updateProps};
 
 
@@ -567,21 +567,21 @@
 
 	var raf = (typeof window !== 'undefined' && window.requestAnimationFrame) || setTimeout;
 	var nextFrame = function(fn) { raf(function() { raf(fn); }); };
-
+	
 	function setNextFrame(obj, prop, val) {
 	  nextFrame(function() { obj[prop] = val; });
 	}
-
+	
 	function updateStyle(oldVnode, vnode) {
 	  var cur, name, elm = vnode.elm,
 	      oldStyle = oldVnode.data.style,
 	      style = vnode.data.style;
-
+	
 	  if (!oldStyle && !style) return;
 	  oldStyle = oldStyle || {};
 	  style = style || {};
 	  var oldHasDel = 'delayed' in oldStyle;
-
+	
 	  for (name in oldStyle) {
 	    if (!style[name]) {
 	      elm.style[name] = '';
@@ -601,7 +601,7 @@
 	    }
 	  }
 	}
-
+	
 	function applyDestroyStyle(vnode) {
 	  var style, name, elm = vnode.elm, s = vnode.data.style;
 	  if (!s || !(style = s.destroy)) return;
@@ -609,7 +609,7 @@
 	    elm.style[name] = style[name];
 	  }
 	}
-
+	
 	function applyRemoveStyle(vnode, rm) {
 	  var s = vnode.data.style;
 	  if (!s || !s.remove) {
@@ -632,7 +632,7 @@
 	    if (amount === 0) rm();
 	  });
 	}
-
+	
 	module.exports = {create: updateStyle, update: updateStyle, destroy: applyDestroyStyle, remove: applyRemoveStyle};
 
 
@@ -641,7 +641,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var is = __webpack_require__(4);
-
+	
 	function arrInvoker(arr) {
 	  return function() {
 	    if (!arr.length) return;
@@ -649,22 +649,22 @@
 	    arr.length === 2 ? arr[0](arr[1]) : arr[0].apply(undefined, arr.slice(1));
 	  };
 	}
-
+	
 	function fnInvoker(o) {
 	  return function(ev) { 
 	    if (o.fn === null) return;
 	    o.fn(ev); 
 	  };
 	}
-
+	
 	function updateEventListeners(oldVnode, vnode) {
 	  var name, cur, old, elm = vnode.elm,
 	      oldOn = oldVnode.data.on, on = vnode.data.on;
-
+	
 	  if (!on && !oldOn) return;
 	  on = on || {};
 	  oldOn = oldOn || {};
-
+	
 	  for (name in on) {
 	    cur = on[name];
 	    old = oldOn[name];
@@ -700,21 +700,58 @@
 	    }
 	  }
 	}
-
+	
 	module.exports = {create: updateEventListeners, update: updateEventListeners};
 
 
 /***/ },
-/* 11 */,
+/* 11 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _snabbdomJsx = __webpack_require__(12);
+	
+	var _snabbdomJsx2 = _interopRequireDefault(_snabbdomJsx);
+	
+	var _Footer = __webpack_require__(13);
+	
+	var _Footer2 = _interopRequireDefault(_Footer);
+	
+	var _Header = __webpack_require__(27);
+	
+	var _Header2 = _interopRequireDefault(_Header);
+	
+	var _Main = __webpack_require__(29);
+	
+	var _Main2 = _interopRequireDefault(_Main);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = function () {
+	  return _snabbdomJsx2.default.html(
+	    'section',
+	    { className: 'todoapp' },
+	    _snabbdomJsx2.default.html(_Header2.default, null),
+	    _snabbdomJsx2.default.html(_Main2.default, null),
+	    _snabbdomJsx2.default.html(_Footer2.default, null)
+	  );
+	};
+
+/***/ },
 /* 12 */
 /***/ function(module, exports) {
 
 	"use strict";
-
+	
 	var SVGNS = 'http://www.w3.org/2000/svg';    
 	var modulesNS = ['hook', 'on', 'style', 'class', 'props', 'attrs'];
 	var slice = Array.prototype.slice;
-
+	
 	function isPrimitive(val) {
 	  return  typeof val === 'string'   ||
 	          typeof val === 'number'   ||
@@ -723,7 +760,7 @@
 	          val === null              ||
 	          val === undefined;
 	}
-
+	
 	function normalizeAttrs(attrs, nsURI, defNS, modules) {
 	  var map = { ns: nsURI };
 	  for (var i = 0, len = modules.length; i < len; i++) {
@@ -741,15 +778,15 @@
 	    }
 	  }
 	  return map;
-
+	
 	  function addAttr(namespace, key, val) {
 	    var ns = map[namespace] || (map[namespace] = {});
 	    ns[key] = val;
 	  }
 	}
-
+	
 	function buildFromStringTag(nsURI, defNS, modules, tag, attrs, children) {
-
+	
 	  if(attrs.selector) {
 	    tag = tag + attrs.selector;
 	  }
@@ -759,7 +796,7 @@
 	      Array.isArray(cns) ? cns.join('.') : cns.replace(/\s+/g, '.')
 	    );
 	  }
-
+	
 	  return {
 	    sel       : tag,
 	    data      : normalizeAttrs(attrs, nsURI, defNS, modules),
@@ -769,7 +806,7 @@
 	    key: attrs.key
 	  };
 	}
-
+	
 	function buildFromComponent(nsURI, defNS, modules, tag, attrs, children) {
 	  var res;
 	  if(typeof tag === 'function')
@@ -783,7 +820,7 @@
 	  res.key = attrs.key;
 	  return res;
 	}
-
+	
 	function buildVnode(nsURI, defNS, modules, tag, attrs, children) {
 	  attrs = attrs || {};
 	  if(typeof tag === 'string') {
@@ -792,7 +829,7 @@
 	    return buildFromComponent(nsURI, defNS, modules, tag, attrs, children)
 	  }
 	}
-
+	
 	function JSX(nsURI, defNS, modules) {
 	  return function jsxWithCustomNS(tag, attrs, children) {
 	    if(arguments.length > 3 || !Array.isArray(children))
@@ -800,7 +837,7 @@
 	    return buildVnode(nsURI, defNS || 'props', modules || modulesNS, tag, attrs, children);
 	  };
 	}
-
+	
 	module.exports = {
 	  html: JSX(undefined),
 	  svg: JSX(SVGNS, 'attrs'),
@@ -813,28 +850,28 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-
+	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-
+	
 	var _snabbdomJsx = __webpack_require__(12);
-
+	
 	var _snabbdomJsx2 = _interopRequireDefault(_snabbdomJsx);
-
-	var _todo = __webpack_require__(28);
-
+	
+	var _todo = __webpack_require__(14);
+	
 	var _todo2 = _interopRequireDefault(_todo);
-
-	var _ramda = __webpack_require__(16);
-
+	
+	var _ramda = __webpack_require__(15);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var remaining = (0, _ramda.compose)((0, _ramda.filter)(function (_ref) {
-	  var complete = _ref.complete;
-	  return !complete;
+	
+	var remaining = (0, _ramda.curry)((0, _ramda.filter)(function (_ref) {
+	  var completed = _ref.completed;
+	  return !completed;
 	}));
-
+	
 	var Count = function Count(_ref2) {
 	  var remaining = _ref2.remaining;
 	  return _snabbdomJsx2.default.html(
@@ -848,7 +885,7 @@
 	    ' ' + (remaining.length === 1 ? 'item' : 'items') + ' left'
 	  );
 	};
-
+	
 	var Footer = function Footer(_ref3) {
 	  var items = _ref3.items;
 	  return items.length < 1 ? '' : _snabbdomJsx2.default.html(
@@ -857,7 +894,7 @@
 	    _snabbdomJsx2.default.html(Count, { remaining: remaining(items) })
 	  );
 	};
-
+	
 	exports.default = function () {
 	  return _snabbdomJsx2.default.html(Footer, { items: (0, _todo2.default)() });
 	};
@@ -867,49 +904,40 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-
+	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-
-	var _snabbdomJsx = __webpack_require__(12);
-
-	var _snabbdomJsx2 = _interopRequireDefault(_snabbdomJsx);
-
-	var _Footer = __webpack_require__(13);
-
-	var _Footer2 = _interopRequireDefault(_Footer);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
+	
 	exports.default = function () {
-	  var props = arguments.length <= 0 || arguments[0] === undefined ? { name: 'World' } : arguments[0];
-	  return _snabbdomJsx2.default.html(
-	    'section',
-	    { className: 'todoapp' },
-	    _snabbdomJsx2.default.html(
-	      'h1',
-	      null,
-	      'Hello ' + props.name + '!'
-	    ),
-	    _snabbdomJsx2.default.html(_Footer2.default, null)
-	  );
+	  return (0, _ramdaLens.view)(todo, store);
 	};
+	
+	var _ramda = __webpack_require__(15);
+	
+	var _ramdaLens = __webpack_require__(16);
+	
+	var store = { todo: [{ text: 'feed Willow', completed: true }, { text: 'brush Willow', completed: false }] };
+	
+	var todo = (0, _ramda.lensProp)('todo');
+	
+	setTimeout(function () {
+	  return store = (0, _ramdaLens.over)(todo, (0, _ramda.compose)((0, _ramda.concat)([{ text: 'buy food', completed: false }])), store);
+	}, 500);
 
 /***/ },
-/* 15 */,
-/* 16 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	//  Ramda v0.21.0
 	//  https://github.com/ramda/ramda
 	//  (c) 2013-2016 Scott Sauyet, Michael Hurley, and David Chambers
 	//  Ramda may be freely distributed under the MIT license.
-
+	
 	;(function() {
-
+	
 	  'use strict';
-
+	
 	  /**
 	     * A special placeholder value used to specify "gaps" within curried functions,
 	     * allowing partial application of any combination of arguments, regardless of
@@ -937,7 +965,7 @@
 	     *      greet('Alice'); //=> 'Hello, Alice!'
 	     */
 	    var __ = { '@@functional/placeholder': true };
-
+	
 	    /* eslint-disable no-unused-vars */
 	    var _arity = function _arity(n, fn) {
 	        /* eslint-disable no-unused-vars */
@@ -990,7 +1018,7 @@
 	            throw new Error('First argument to _arity must be a non-negative integer no greater than ten');
 	        }
 	    };
-
+	
 	    var _arrayFromIterator = function _arrayFromIterator(iter) {
 	        var list = [];
 	        var next;
@@ -999,21 +1027,21 @@
 	        }
 	        return list;
 	    };
-
+	
 	    var _arrayOf = function _arrayOf() {
 	        return Array.prototype.slice.call(arguments);
 	    };
-
+	
 	    var _cloneRegExp = function _cloneRegExp(pattern) {
 	        return new RegExp(pattern.source, (pattern.global ? 'g' : '') + (pattern.ignoreCase ? 'i' : '') + (pattern.multiline ? 'm' : '') + (pattern.sticky ? 'y' : '') + (pattern.unicode ? 'u' : ''));
 	    };
-
+	
 	    var _complement = function _complement(f) {
 	        return function () {
 	            return !f.apply(this, arguments);
 	        };
 	    };
-
+	
 	    /**
 	     * Private `concat` function to merge two array-like objects.
 	     *
@@ -1044,7 +1072,7 @@
 	        }
 	        return result;
 	    };
-
+	
 	    var _containsWith = function _containsWith(pred, x, list) {
 	        var idx = 0;
 	        var len = list.length;
@@ -1056,7 +1084,7 @@
 	        }
 	        return false;
 	    };
-
+	
 	    var _filter = function _filter(fn, list) {
 	        var idx = 0;
 	        var len = list.length;
@@ -1069,29 +1097,29 @@
 	        }
 	        return result;
 	    };
-
+	
 	    var _forceReduced = function _forceReduced(x) {
 	        return {
 	            '@@transducer/value': x,
 	            '@@transducer/reduced': true
 	        };
 	    };
-
+	
 	    // String(x => x) evaluates to "x => x", so the pattern may not match.
 	    var _functionName = function _functionName(f) {
 	        // String(x => x) evaluates to "x => x", so the pattern may not match.
 	        var match = String(f).match(/^function (\w*)/);
 	        return match == null ? '' : match[1];
 	    };
-
+	
 	    var _has = function _has(prop, obj) {
 	        return Object.prototype.hasOwnProperty.call(obj, prop);
 	    };
-
+	
 	    var _identity = function _identity(x) {
 	        return x;
 	    };
-
+	
 	    var _isArguments = function () {
 	        var toString = Object.prototype.toString;
 	        return toString.call(arguments) === '[object Arguments]' ? function _isArguments(x) {
@@ -1100,7 +1128,7 @@
 	            return _has('callee', x);
 	        };
 	    }();
-
+	
 	    /**
 	     * Tests whether or not an object is an array.
 	     *
@@ -1116,11 +1144,11 @@
 	    var _isArray = Array.isArray || function _isArray(val) {
 	        return val != null && val.length >= 0 && Object.prototype.toString.call(val) === '[object Array]';
 	    };
-
+	
 	    var _isFunction = function _isNumber(x) {
 	        return Object.prototype.toString.call(x) === '[object Function]';
 	    };
-
+	
 	    /**
 	     * Determine if the passed argument is an integer.
 	     *
@@ -1132,31 +1160,31 @@
 	    var _isInteger = Number.isInteger || function _isInteger(n) {
 	        return n << 0 === n;
 	    };
-
+	
 	    var _isNumber = function _isNumber(x) {
 	        return Object.prototype.toString.call(x) === '[object Number]';
 	    };
-
+	
 	    var _isObject = function _isObject(x) {
 	        return Object.prototype.toString.call(x) === '[object Object]';
 	    };
-
+	
 	    var _isPlaceholder = function _isPlaceholder(a) {
 	        return a != null && typeof a === 'object' && a['@@functional/placeholder'] === true;
 	    };
-
+	
 	    var _isRegExp = function _isRegExp(x) {
 	        return Object.prototype.toString.call(x) === '[object RegExp]';
 	    };
-
+	
 	    var _isString = function _isString(x) {
 	        return Object.prototype.toString.call(x) === '[object String]';
 	    };
-
+	
 	    var _isTransformer = function _isTransformer(obj) {
 	        return typeof obj['@@transducer/step'] === 'function';
 	    };
-
+	
 	    var _map = function _map(fn, functor) {
 	        var idx = 0;
 	        var len = functor.length;
@@ -1167,7 +1195,7 @@
 	        }
 	        return result;
 	    };
-
+	
 	    // Based on https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
 	    var _objectAssign = function _objectAssign(target) {
 	        if (target == null) {
@@ -1189,17 +1217,17 @@
 	        }
 	        return output;
 	    };
-
+	
 	    var _of = function _of(x) {
 	        return [x];
 	    };
-
+	
 	    var _pipe = function _pipe(f, g) {
 	        return function () {
 	            return g.call(this, f.apply(this, arguments));
 	        };
 	    };
-
+	
 	    var _pipeP = function _pipeP(f, g) {
 	        return function () {
 	            var ctx = this;
@@ -1208,21 +1236,21 @@
 	            });
 	        };
 	    };
-
+	
 	    // \b matches word boundary; [\b] matches backspace
 	    var _quote = function _quote(s) {
 	        var escaped = s.replace(/\\/g, '\\\\').replace(/[\b]/g, '\\b')    // \b matches word boundary; [\b] matches backspace
 	    .replace(/\f/g, '\\f').replace(/\n/g, '\\n').replace(/\r/g, '\\r').replace(/\t/g, '\\t').replace(/\v/g, '\\v').replace(/\0/g, '\\0');
 	        return '"' + escaped.replace(/"/g, '\\"') + '"';
 	    };
-
+	
 	    var _reduced = function _reduced(x) {
 	        return x && x['@@transducer/reduced'] ? x : {
 	            '@@transducer/value': x,
 	            '@@transducer/reduced': true
 	        };
 	    };
-
+	
 	    /**
 	     * An optimized, private array `slice` implementation.
 	     *
@@ -1257,7 +1285,7 @@
 	            return list;
 	        }
 	    };
-
+	
 	    /**
 	     * Polyfill from <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString>.
 	     */
@@ -1271,7 +1299,7 @@
 	            return d.getUTCFullYear() + '-' + pad(d.getUTCMonth() + 1) + '-' + pad(d.getUTCDate()) + 'T' + pad(d.getUTCHours()) + ':' + pad(d.getUTCMinutes()) + ':' + pad(d.getUTCSeconds()) + '.' + (d.getUTCMilliseconds() / 1000).toFixed(3).slice(2, 5) + 'Z';
 	        };
 	    }();
-
+	
 	    var _xfBase = {
 	        init: function () {
 	            return this.xf['@@transducer/init']();
@@ -1280,7 +1308,7 @@
 	            return this.xf['@@transducer/result'](result);
 	        }
 	    };
-
+	
 	    var _xwrap = function () {
 	        function XWrap(fn) {
 	            this.f = fn;
@@ -1298,7 +1326,7 @@
 	            return new XWrap(fn);
 	        };
 	    }();
-
+	
 	    var _aperture = function _aperture(n, list) {
 	        var idx = 0;
 	        var limit = list.length - (n - 1);
@@ -1309,9 +1337,9 @@
 	        }
 	        return acc;
 	    };
-
+	
 	    var _assign = typeof Object.assign === 'function' ? Object.assign : _objectAssign;
-
+	
 	    /**
 	     * Similar to hasMethod, this checks whether a function has a [methodname]
 	     * function. If it isn't an array it will execute that function otherwise it
@@ -1332,7 +1360,7 @@
 	            return _isArray(obj) || typeof obj[methodname] !== 'function' ? fn.apply(this, arguments) : obj[methodname].apply(obj, _slice(arguments, 0, length - 1));
 	        };
 	    };
-
+	
 	    /**
 	     * Optimized internal one-arity curry function.
 	     *
@@ -1350,7 +1378,7 @@
 	            }
 	        };
 	    };
-
+	
 	    /**
 	     * Optimized internal two-arity curry function.
 	     *
@@ -1377,7 +1405,7 @@
 	            }
 	        };
 	    };
-
+	
 	    /**
 	     * Optimized internal three-arity curry function.
 	     *
@@ -1420,7 +1448,7 @@
 	            }
 	        };
 	    };
-
+	
 	    /**
 	     * Internal curryN function.
 	     *
@@ -1454,7 +1482,7 @@
 	            return left <= 0 ? fn.apply(this, combined) : _arity(left, _curryN(length, combined, fn));
 	        };
 	    };
-
+	
 	    /**
 	     * Returns a function that dispatches with different strategies based on the
 	     * object in list position (last argument). If it is an array, executes [fn].
@@ -1489,7 +1517,7 @@
 	            return fn.apply(this, arguments);
 	        };
 	    };
-
+	
 	    var _dropLastWhile = function dropLastWhile(pred, list) {
 	        var idx = list.length - 1;
 	        while (idx >= 0 && pred(list[idx])) {
@@ -1497,7 +1525,7 @@
 	        }
 	        return _slice(list, 0, idx + 1);
 	    };
-
+	
 	    var _xall = function () {
 	        function XAll(f, xf) {
 	            this.xf = xf;
@@ -1522,7 +1550,7 @@
 	            return new XAll(f, xf);
 	        });
 	    }();
-
+	
 	    var _xany = function () {
 	        function XAny(f, xf) {
 	            this.xf = xf;
@@ -1547,7 +1575,7 @@
 	            return new XAny(f, xf);
 	        });
 	    }();
-
+	
 	    var _xaperture = function () {
 	        function XAperture(n, xf) {
 	            this.xf = xf;
@@ -1579,7 +1607,7 @@
 	            return new XAperture(n, xf);
 	        });
 	    }();
-
+	
 	    var _xdrop = function () {
 	        function XDrop(n, xf) {
 	            this.xf = xf;
@@ -1598,7 +1626,7 @@
 	            return new XDrop(n, xf);
 	        });
 	    }();
-
+	
 	    var _xdropLast = function () {
 	        function XDropLast(n, xf) {
 	            this.xf = xf;
@@ -1630,7 +1658,7 @@
 	            return new XDropLast(n, xf);
 	        });
 	    }();
-
+	
 	    var _xdropRepeatsWith = function () {
 	        function XDropRepeatsWith(pred, xf) {
 	            this.xf = xf;
@@ -1658,7 +1686,7 @@
 	            return new XDropRepeatsWith(pred, xf);
 	        });
 	    }();
-
+	
 	    var _xdropWhile = function () {
 	        function XDropWhile(f, xf) {
 	            this.xf = xf;
@@ -1679,7 +1707,7 @@
 	            return new XDropWhile(f, xf);
 	        });
 	    }();
-
+	
 	    var _xfilter = function () {
 	        function XFilter(f, xf) {
 	            this.xf = xf;
@@ -1694,7 +1722,7 @@
 	            return new XFilter(f, xf);
 	        });
 	    }();
-
+	
 	    var _xfind = function () {
 	        function XFind(f, xf) {
 	            this.xf = xf;
@@ -1719,7 +1747,7 @@
 	            return new XFind(f, xf);
 	        });
 	    }();
-
+	
 	    var _xfindIndex = function () {
 	        function XFindIndex(f, xf) {
 	            this.xf = xf;
@@ -1746,7 +1774,7 @@
 	            return new XFindIndex(f, xf);
 	        });
 	    }();
-
+	
 	    var _xfindLast = function () {
 	        function XFindLast(f, xf) {
 	            this.xf = xf;
@@ -1766,7 +1794,7 @@
 	            return new XFindLast(f, xf);
 	        });
 	    }();
-
+	
 	    var _xfindLastIndex = function () {
 	        function XFindLastIndex(f, xf) {
 	            this.xf = xf;
@@ -1789,7 +1817,7 @@
 	            return new XFindLastIndex(f, xf);
 	        });
 	    }();
-
+	
 	    var _xmap = function () {
 	        function XMap(f, xf) {
 	            this.xf = xf;
@@ -1804,7 +1832,7 @@
 	            return new XMap(f, xf);
 	        });
 	    }();
-
+	
 	    var _xtake = function () {
 	        function XTake(n, xf) {
 	            this.xf = xf;
@@ -1824,7 +1852,7 @@
 	            return new XTake(n, xf);
 	        });
 	    }();
-
+	
 	    var _xtakeWhile = function () {
 	        function XTakeWhile(f, xf) {
 	            this.xf = xf;
@@ -1839,7 +1867,7 @@
 	            return new XTakeWhile(f, xf);
 	        });
 	    }();
-
+	
 	    /**
 	     * Adds two values.
 	     *
@@ -1860,7 +1888,7 @@
 	    var add = _curry2(function add(a, b) {
 	        return Number(a) + Number(b);
 	    });
-
+	
 	    /**
 	     * Applies a function to the value at the given index of an array, returning a
 	     * new copy of the array with the element at the given index replaced with the
@@ -1894,7 +1922,7 @@
 	        _list[_idx] = fn(list[_idx]);
 	        return _list;
 	    });
-
+	
 	    /**
 	     * Returns `true` if all elements of the list match the predicate, `false` if
 	     * there are any that don't.
@@ -1930,7 +1958,7 @@
 	        }
 	        return true;
 	    }));
-
+	
 	    /**
 	     * Returns a function that always returns the given value. Note that for
 	     * non-primitives the value returned is a reference to the original value.
@@ -1955,7 +1983,7 @@
 	            return val;
 	        };
 	    });
-
+	
 	    /**
 	     * Returns `true` if both arguments are `true`; `false` otherwise.
 	     *
@@ -1978,7 +2006,7 @@
 	    var and = _curry2(function and(a, b) {
 	        return a && b;
 	    });
-
+	
 	    /**
 	     * Returns `true` if at least one of elements of the list match the predicate,
 	     * `false` otherwise.
@@ -2014,7 +2042,7 @@
 	        }
 	        return false;
 	    }));
-
+	
 	    /**
 	     * Returns a new list, composed of n-tuples of consecutive elements If `n` is
 	     * greater than the length of the list, an empty list is returned.
@@ -2039,7 +2067,7 @@
 	     *      R.aperture(7, [1, 2, 3, 4, 5]); //=> []
 	     */
 	    var aperture = _curry2(_dispatchable('aperture', _xaperture, _aperture));
-
+	
 	    /**
 	     * Returns a new list containing the contents of the given list, followed by
 	     * the given element.
@@ -2063,7 +2091,7 @@
 	    var append = _curry2(function append(el, list) {
 	        return _concat(list, [el]);
 	    });
-
+	
 	    /**
 	     * Applies function `fn` to the argument list `args`. This is useful for
 	     * creating a fixed-arity function from a variadic function. `fn` should be a
@@ -2086,7 +2114,7 @@
 	    var apply = _curry2(function apply(fn, args) {
 	        return fn.apply(this, args);
 	    });
-
+	
 	    /**
 	     * Makes a shallow clone of an object, setting or overriding the specified
 	     * property with the given value. Note that this copies and flattens prototype
@@ -2115,7 +2143,7 @@
 	        result[prop] = val;
 	        return result;
 	    });
-
+	
 	    /**
 	     * Makes a shallow clone of an object, setting or overriding the nodes required
 	     * to create the given path, and placing the specific value at the tail end of
@@ -2146,7 +2174,7 @@
 	            return assoc(path[0], assocPath(_slice(path, 1), val, Object(obj[path[0]])), obj);
 	        }
 	    });
-
+	
 	    /**
 	     * Creates a function that is bound to a context.
 	     * Note: `R.bind` does not provide the additional argument-binding capabilities of
@@ -2168,7 +2196,7 @@
 	            return fn.apply(thisObj, arguments);
 	        });
 	    });
-
+	
 	    /**
 	     * Restricts a number to be within a range.
 	     *
@@ -2195,7 +2223,7 @@
 	        }
 	        return value < min ? min : value > max ? max : value;
 	    });
-
+	
 	    /**
 	     * Makes a comparator function out of a function that reports whether the first
 	     * element is less than the second.
@@ -2220,7 +2248,7 @@
 	            return pred(a, b) ? -1 : pred(b, a) ? 1 : 0;
 	        };
 	    });
-
+	
 	    /**
 	     * Returns a curried equivalent of the provided function, with the specified
 	     * arity. The curried function has two unusual capabilities. First, its
@@ -2269,7 +2297,7 @@
 	        }
 	        return _arity(length, _curryN(length, [], fn));
 	    });
-
+	
 	    /**
 	     * Decrements its argument.
 	     *
@@ -2286,7 +2314,7 @@
 	     *      R.dec(42); //=> 41
 	     */
 	    var dec = add(-1);
-
+	
 	    /**
 	     * Returns the second argument if it is not `null`, `undefined` or `NaN`
 	     * otherwise the first argument is returned.
@@ -2311,7 +2339,7 @@
 	    var defaultTo = _curry2(function defaultTo(d, v) {
 	        return v == null || v !== v ? d : v;
 	    });
-
+	
 	    /**
 	     * Finds the set (i.e. no duplicates) of all elements in the first list not
 	     * contained in the second list. Duplication is determined according to the
@@ -2346,7 +2374,7 @@
 	        }
 	        return out;
 	    });
-
+	
 	    /**
 	     * Returns a new object that does not contain a `prop` property.
 	     *
@@ -2372,7 +2400,7 @@
 	        }
 	        return result;
 	    });
-
+	
 	    /**
 	     * Makes a shallow clone of an object, omitting the property at the given path.
 	     * Note that this copies and flattens prototype properties onto the new object
@@ -2403,7 +2431,7 @@
 	            return obj[head] == null ? obj : assoc(head, dissocPath(tail, obj[head]), obj);
 	        }
 	    });
-
+	
 	    /**
 	     * Divides two numbers. Equivalent to `a / b`.
 	     *
@@ -2429,7 +2457,7 @@
 	    var divide = _curry2(function divide(a, b) {
 	        return a / b;
 	    });
-
+	
 	    /**
 	     * Returns a new list containing the last `n` elements of a given list, passing
 	     * each value to the supplied predicate function, skipping elements while the
@@ -2463,7 +2491,7 @@
 	        }
 	        return _slice(list, idx);
 	    }));
-
+	
 	    /**
 	     * Returns the empty value of its argument's type. Ramda defines the empty
 	     * value of Array (`[]`), Object (`{}`), String (`''`), and Arguments. Other
@@ -2493,7 +2521,7 @@
 	        }() : // else
 	        void 0;
 	    });
-
+	
 	    /**
 	     * Creates a new object by recursively evolving a shallow copy of `object`,
 	     * according to the `transformation` functions. All non-primitive properties
@@ -2531,7 +2559,7 @@
 	        }
 	        return result;
 	    });
-
+	
 	    /**
 	     * Returns the first element of the list which matches the predicate, or
 	     * `undefined` if no element matches.
@@ -2566,7 +2594,7 @@
 	            idx += 1;
 	        }
 	    }));
-
+	
 	    /**
 	     * Returns the index of the first element of the list which matches the
 	     * predicate, or `-1` if no element matches.
@@ -2602,7 +2630,7 @@
 	        }
 	        return -1;
 	    }));
-
+	
 	    /**
 	     * Returns the last element of the list which matches the predicate, or
 	     * `undefined` if no element matches.
@@ -2636,7 +2664,7 @@
 	            idx -= 1;
 	        }
 	    }));
-
+	
 	    /**
 	     * Returns the index of the last element of the list which matches the
 	     * predicate, or `-1` if no element matches.
@@ -2671,7 +2699,7 @@
 	        }
 	        return -1;
 	    }));
-
+	
 	    /**
 	     * Iterate over an input `list`, calling a provided function `fn` for each
 	     * element in the list.
@@ -2714,7 +2742,7 @@
 	        }
 	        return list;
 	    }));
-
+	
 	    /**
 	     * Creates a new object out of a list key-value pairs.
 	     *
@@ -2742,7 +2770,7 @@
 	        }
 	        return out;
 	    });
-
+	
 	    /**
 	     * Takes a list and returns a list of lists where each sublist's elements are
 	     * all "equal" according to the provided equality function.
@@ -2783,7 +2811,7 @@
 	        }
 	        return res;
 	    });
-
+	
 	    /**
 	     * Returns `true` if the first argument is greater than the second; `false`
 	     * otherwise.
@@ -2808,7 +2836,7 @@
 	    var gt = _curry2(function gt(a, b) {
 	        return a > b;
 	    });
-
+	
 	    /**
 	     * Returns `true` if the first argument is greater than or equal to the second;
 	     * `false` otherwise.
@@ -2833,7 +2861,7 @@
 	    var gte = _curry2(function gte(a, b) {
 	        return a >= b;
 	    });
-
+	
 	    /**
 	     * Returns whether or not an object has an own property with the specified name
 	     *
@@ -2859,7 +2887,7 @@
 	     *      pointHas('z');  //=> false
 	     */
 	    var has = _curry2(_has);
-
+	
 	    /**
 	     * Returns whether or not an object or its prototype chain has a property with
 	     * the specified name
@@ -2889,7 +2917,7 @@
 	    var hasIn = _curry2(function hasIn(prop, obj) {
 	        return prop in obj;
 	    });
-
+	
 	    /**
 	     * Returns true if its arguments are identical, false otherwise. Values are
 	     * identical if they reference the same memory. `NaN` is identical to `NaN`;
@@ -2928,7 +2956,7 @@
 	            return a !== a && b !== b;
 	        }
 	    });
-
+	
 	    /**
 	     * A function that does nothing but return the parameter supplied to it. Good
 	     * as a default or placeholder function.
@@ -2948,7 +2976,7 @@
 	     *      R.identity(obj) === obj; //=> true
 	     */
 	    var identity = _curry1(_identity);
-
+	
 	    /**
 	     * Creates a function that will process either the `onTrue` or the `onFalse`
 	     * function depending upon the result of the `condition` predicate.
@@ -2979,7 +3007,7 @@
 	            return condition.apply(this, arguments) ? onTrue.apply(this, arguments) : onFalse.apply(this, arguments);
 	        });
 	    });
-
+	
 	    /**
 	     * Increments its argument.
 	     *
@@ -2996,7 +3024,7 @@
 	     *      R.inc(42); //=> 43
 	     */
 	    var inc = add(1);
-
+	
 	    /**
 	     * Inserts the supplied element into the list, at index `index`. _Note that
 	     * this is not destructive_: it returns a copy of the list with the changes.
@@ -3021,7 +3049,7 @@
 	        result.splice(idx, 0, elt);
 	        return result;
 	    });
-
+	
 	    /**
 	     * Inserts the sub-list into the list, at index `index`. _Note that this is not
 	     * destructive_: it returns a copy of the list with the changes.
@@ -3044,7 +3072,7 @@
 	        idx = idx < list.length && idx >= 0 ? idx : list.length;
 	        return _concat(_concat(_slice(list, 0, idx), elts), _slice(list, idx));
 	    });
-
+	
 	    /**
 	     * Creates a new list with the separator interposed between elements.
 	     *
@@ -3076,7 +3104,7 @@
 	        }
 	        return out;
 	    }));
-
+	
 	    /**
 	     * See if an object (`val`) is an instance of the supplied constructor. This
 	     * function will check up the inheritance chain, if any.
@@ -3103,7 +3131,7 @@
 	    var is = _curry2(function is(Ctor, val) {
 	        return val != null && val.constructor === Ctor || val instanceof Ctor;
 	    });
-
+	
 	    /**
 	     * Tests whether or not an object is similar to an array.
 	     *
@@ -3147,7 +3175,7 @@
 	        }
 	        return false;
 	    });
-
+	
 	    /**
 	     * Checks if the input value is `null` or `undefined`.
 	     *
@@ -3168,7 +3196,7 @@
 	    var isNil = _curry1(function isNil(x) {
 	        return x == null;
 	    });
-
+	
 	    /**
 	     * Returns a list containing the names of all the enumerable own properties of
 	     * the supplied object.
@@ -3242,7 +3270,7 @@
 	            return ks;
 	        });
 	    }();
-
+	
 	    /**
 	     * Returns a list containing the names of all the properties of the supplied
 	     * object, including prototype properties.
@@ -3271,7 +3299,7 @@
 	        }
 	        return ks;
 	    });
-
+	
 	    /**
 	     * Returns the number of elements in the array by returning `list.length`.
 	     *
@@ -3290,7 +3318,7 @@
 	    var length = _curry1(function length(list) {
 	        return list != null && is(Number, list.length) ? list.length : NaN;
 	    });
-
+	
 	    /**
 	     * Returns `true` if the first argument is less than the second; `false`
 	     * otherwise.
@@ -3315,7 +3343,7 @@
 	    var lt = _curry2(function lt(a, b) {
 	        return a < b;
 	    });
-
+	
 	    /**
 	     * Returns `true` if the first argument is less than or equal to the second;
 	     * `false` otherwise.
@@ -3340,7 +3368,7 @@
 	    var lte = _curry2(function lte(a, b) {
 	        return a <= b;
 	    });
-
+	
 	    /**
 	     * The mapAccum function behaves like a combination of map and reduce; it
 	     * applies a function to each element of a list, passing an accumulating
@@ -3382,7 +3410,7 @@
 	            result
 	        ];
 	    });
-
+	
 	    /**
 	     * The mapAccumRight function behaves like a combination of map and reduce; it
 	     * applies a function to each element of a list, passing an accumulating
@@ -3426,7 +3454,7 @@
 	            result
 	        ];
 	    });
-
+	
 	    /**
 	     * Tests a regular expression against a String. Note that this function will
 	     * return an empty array when there are no matches. This differs from
@@ -3451,7 +3479,7 @@
 	    var match = _curry2(function match(rx, str) {
 	        return str.match(rx) || [];
 	    });
-
+	
 	    /**
 	     * mathMod behaves like the modulo operator should mathematically, unlike the
 	     * `%` operator (and by extension, R.modulo). So while "-17 % 5" is -2,
@@ -3493,7 +3521,7 @@
 	        }
 	        return (m % p + p) % p;
 	    });
-
+	
 	    /**
 	     * Returns the larger of its two arguments.
 	     *
@@ -3514,7 +3542,7 @@
 	    var max = _curry2(function max(a, b) {
 	        return b > a ? b : a;
 	    });
-
+	
 	    /**
 	     * Takes a function and two values, and returns whichever value produces the
 	     * larger result when passed to the provided function.
@@ -3542,7 +3570,7 @@
 	    var maxBy = _curry3(function maxBy(f, a, b) {
 	        return f(b) > f(a) ? b : a;
 	    });
-
+	
 	    /**
 	     * Create a new object with the own properties of the first object merged with
 	     * the own properties of the second object. If a key exists in both objects,
@@ -3568,7 +3596,7 @@
 	    var merge = _curry2(function merge(l, r) {
 	        return _assign({}, l, r);
 	    });
-
+	
 	    /**
 	     * Merges a list of objects together into one object.
 	     *
@@ -3588,7 +3616,7 @@
 	    var mergeAll = _curry1(function mergeAll(list) {
 	        return _assign.apply(null, [{}].concat(list));
 	    });
-
+	
 	    /**
 	     * Creates a new object with the own properties of the two provided objects. If
 	     * a key exists in both objects, the provided function is applied to the key
@@ -3630,7 +3658,7 @@
 	        }
 	        return result;
 	    });
-
+	
 	    /**
 	     * Returns the smaller of its two arguments.
 	     *
@@ -3651,7 +3679,7 @@
 	    var min = _curry2(function min(a, b) {
 	        return b < a ? b : a;
 	    });
-
+	
 	    /**
 	     * Takes a function and two values, and returns whichever value produces the
 	     * smaller result when passed to the provided function.
@@ -3679,7 +3707,7 @@
 	    var minBy = _curry3(function minBy(f, a, b) {
 	        return f(b) < f(a) ? b : a;
 	    });
-
+	
 	    /**
 	     * Divides the second parameter by the first and returns the remainder. Note
 	     * that this function preserves the JavaScript-style behavior for modulo. For
@@ -3708,7 +3736,7 @@
 	    var modulo = _curry2(function modulo(a, b) {
 	        return a % b;
 	    });
-
+	
 	    /**
 	     * Multiplies two numbers. Equivalent to `a * b` but curried.
 	     *
@@ -3732,7 +3760,7 @@
 	    var multiply = _curry2(function multiply(a, b) {
 	        return a * b;
 	    });
-
+	
 	    /**
 	     * Wraps a function of any arity (including nullary) in a function that accepts
 	     * exactly `n` parameters. Any extraneous parameters will not be passed to the
@@ -3809,7 +3837,7 @@
 	            throw new Error('First argument to nAry must be a non-negative integer no greater than ten');
 	        }
 	    });
-
+	
 	    /**
 	     * Negates its argument.
 	     *
@@ -3827,7 +3855,7 @@
 	    var negate = _curry1(function negate(n) {
 	        return -n;
 	    });
-
+	
 	    /**
 	     * Returns `true` if no elements of the list match the predicate, `false`
 	     * otherwise.
@@ -3851,7 +3879,7 @@
 	     *      R.none(isEven, [1, 3, 5, 7, 8, 11]); //=> false
 	     */
 	    var none = _curry2(_complement(_dispatchable('any', _xany, any)));
-
+	
 	    /**
 	     * A function that returns the `!` of its argument. It will return `true` when
 	     * passed false-y value, and `false` when passed a truth-y one.
@@ -3874,7 +3902,7 @@
 	    var not = _curry1(function not(a) {
 	        return !a;
 	    });
-
+	
 	    /**
 	     * Returns the nth element of the given list or string. If n is negative the
 	     * element at index length + n is returned.
@@ -3902,7 +3930,7 @@
 	        var idx = offset < 0 ? list.length + offset : offset;
 	        return _isString(list) ? list.charAt(idx) : list[idx];
 	    });
-
+	
 	    /**
 	     * Returns a function which returns its nth argument.
 	     *
@@ -3923,7 +3951,7 @@
 	            return nth(n, arguments);
 	        };
 	    });
-
+	
 	    /**
 	     * Creates an object containing a single key:value pair.
 	     *
@@ -3949,7 +3977,7 @@
 	        obj[key] = val;
 	        return obj;
 	    });
-
+	
 	    /**
 	     * Returns a singleton array containing the value provided.
 	     *
@@ -3969,7 +3997,7 @@
 	     *      R.of([42]); //=> [[42]]
 	     */
 	    var of = _curry1(_of);
-
+	
 	    /**
 	     * Accepts a function `fn` and returns a function that guards invocation of
 	     * `fn` such that `fn` can only ever be called once, no matter how many times
@@ -4001,7 +4029,7 @@
 	            return result;
 	        });
 	    });
-
+	
 	    /**
 	     * Returns `true` if one or both of its arguments are `true`. Returns `false`
 	     * if both arguments are `false`.
@@ -4025,7 +4053,7 @@
 	    var or = _curry2(function or(a, b) {
 	        return a || b;
 	    });
-
+	
 	    /**
 	     * Returns the result of "setting" the portion of the given data structure
 	     * focused by the given lens to the result of applying the given function to
@@ -4073,7 +4101,7 @@
 	            })(x).value;
 	        });
 	    }();
-
+	
 	    /**
 	     * Takes two arguments, `fst` and `snd`, and returns `[fst, snd]`.
 	     *
@@ -4096,7 +4124,7 @@
 	            snd
 	        ];
 	    });
-
+	
 	    /**
 	     * Retrieve the value at a given path.
 	     *
@@ -4125,7 +4153,7 @@
 	        }
 	        return val;
 	    });
-
+	
 	    /**
 	     * If the given, non-null object has a value at the given path, returns the
 	     * value at that path. Otherwise returns the provided default value.
@@ -4147,7 +4175,7 @@
 	    var pathOr = _curry3(function pathOr(d, p, obj) {
 	        return defaultTo(d, path(p, obj));
 	    });
-
+	
 	    /**
 	     * Returns `true` if the specified object property at given path satisfies the
 	     * given predicate; `false` otherwise.
@@ -4169,7 +4197,7 @@
 	    var pathSatisfies = _curry3(function pathSatisfies(pred, propPath, obj) {
 	        return propPath.length > 0 && pred(path(propPath, obj));
 	    });
-
+	
 	    /**
 	     * Returns a partial copy of an object containing only the keys specified. If
 	     * the key does not exist, the property is ignored.
@@ -4199,7 +4227,7 @@
 	        }
 	        return result;
 	    });
-
+	
 	    /**
 	     * Similar to `pick` except that this one includes a `key: undefined` pair for
 	     * properties that don't exist.
@@ -4229,7 +4257,7 @@
 	        }
 	        return result;
 	    });
-
+	
 	    /**
 	     * Returns a partial copy of an object containing only the keys that satisfy
 	     * the supplied predicate.
@@ -4259,7 +4287,7 @@
 	        }
 	        return result;
 	    });
-
+	
 	    /**
 	     * Returns a new list with the given element at the front, followed by the
 	     * contents of the list.
@@ -4280,7 +4308,7 @@
 	    var prepend = _curry2(function prepend(el, list) {
 	        return _concat([el], list);
 	    });
-
+	
 	    /**
 	     * Returns a function that when supplied an object returns the indicated
 	     * property of that object, if it exists.
@@ -4301,7 +4329,7 @@
 	    var prop = _curry2(function prop(p, obj) {
 	        return obj[p];
 	    });
-
+	
 	    /**
 	     * If the given, non-null object has an own property with the specified name,
 	     * returns the value of that property. Otherwise returns the provided default
@@ -4331,7 +4359,7 @@
 	    var propOr = _curry3(function propOr(val, p, obj) {
 	        return obj != null && _has(p, obj) ? obj[p] : val;
 	    });
-
+	
 	    /**
 	     * Returns `true` if the specified object property satisfies the given
 	     * predicate; `false` otherwise.
@@ -4353,7 +4381,7 @@
 	    var propSatisfies = _curry3(function propSatisfies(pred, name, obj) {
 	        return pred(obj[name]);
 	    });
-
+	
 	    /**
 	     * Acts as multiple `prop`: array of keys in, array of values out. Preserves
 	     * order.
@@ -4384,7 +4412,7 @@
 	        }
 	        return out;
 	    });
-
+	
 	    /**
 	     * Returns a list of numbers from `from` (inclusive) to `to` (exclusive).
 	     *
@@ -4413,7 +4441,7 @@
 	        }
 	        return result;
 	    });
-
+	
 	    /**
 	     * Returns a single item by iterating through the list, successively calling
 	     * the iterator function and passing it an accumulator value and the current
@@ -4455,7 +4483,7 @@
 	        }
 	        return acc;
 	    });
-
+	
 	    /**
 	     * Returns a value wrapped to indicate that it is the final value of the reduce
 	     * and transduce functions. The returned value should be considered a black
@@ -4480,7 +4508,7 @@
 	     *        [1, 2, 3, 4, 5]) // 10
 	     */
 	    var reduced = _curry1(_reduced);
-
+	
 	    /**
 	     * Removes the sub-list of `list` starting at index `start` and containing
 	     * `count` elements. _Note that this is not destructive_: it returns a copy of
@@ -4503,7 +4531,7 @@
 	    var remove = _curry3(function remove(start, count, list) {
 	        return _concat(_slice(list, 0, Math.min(start, list.length)), _slice(list, Math.min(list.length, start + count)));
 	    });
-
+	
 	    /**
 	     * Replace a substring or regex match in a string with a replacement.
 	     *
@@ -4527,7 +4555,7 @@
 	    var replace = _curry3(function replace(regex, replacement, str) {
 	        return str.replace(regex, replacement);
 	    });
-
+	
 	    /**
 	     * Returns a new list or string with the elements or characters in reverse
 	     * order.
@@ -4555,7 +4583,7 @@
 	    var reverse = _curry1(function reverse(list) {
 	        return _isString(list) ? list.split('').reverse().join('') : _slice(list).reverse();
 	    });
-
+	
 	    /**
 	     * Scan is similar to reduce, but returns a list of successively reduced values
 	     * from the left
@@ -4586,7 +4614,7 @@
 	        }
 	        return result;
 	    });
-
+	
 	    /**
 	     * Returns the result of "setting" the portion of the given data structure
 	     * focused by the given lens to the given value.
@@ -4612,7 +4640,7 @@
 	    var set = _curry3(function set(lens, v, x) {
 	        return over(lens, always(v), x);
 	    });
-
+	
 	    /**
 	     * Returns the elements of the given list or string (or object with a `slice`
 	     * method) from `fromIndex` (inclusive) to `toIndex` (exclusive).
@@ -4640,7 +4668,7 @@
 	    var slice = _curry3(_checkForMethod('slice', function slice(fromIndex, toIndex, list) {
 	        return Array.prototype.slice.call(list, fromIndex, toIndex);
 	    }));
-
+	
 	    /**
 	     * Returns a copy of the list, sorted according to the comparator function,
 	     * which should accept two values at a time and return a negative number if the
@@ -4664,7 +4692,7 @@
 	    var sort = _curry2(function sort(comparator, list) {
 	        return _slice(list).sort(comparator);
 	    });
-
+	
 	    /**
 	     * Sorts the list according to the supplied function.
 	     *
@@ -4704,7 +4732,7 @@
 	            return aa < bb ? -1 : aa > bb ? 1 : 0;
 	        });
 	    });
-
+	
 	    /**
 	     * Splits a given list or string at a given index.
 	     *
@@ -4729,7 +4757,7 @@
 	            slice(index, length(array), array)
 	        ];
 	    });
-
+	
 	    /**
 	     * Splits a collection into slices of the specified length.
 	     *
@@ -4758,7 +4786,7 @@
 	        }
 	        return result;
 	    });
-
+	
 	    /**
 	     * Takes a list and a predicate and returns a pair of lists with the following properties:
 	     *
@@ -4791,7 +4819,7 @@
 	            _slice(list, idx)
 	        ];
 	    });
-
+	
 	    /**
 	     * Subtracts its second argument from its first argument.
 	     *
@@ -4818,7 +4846,7 @@
 	    var subtract = _curry2(function subtract(a, b) {
 	        return Number(a) - Number(b);
 	    });
-
+	
 	    /**
 	     * Returns all but the first element of the given list or string (or object
 	     * with a `tail` method).
@@ -4847,7 +4875,7 @@
 	     *      R.tail('');     //=> ''
 	     */
 	    var tail = _checkForMethod('tail', slice(1, Infinity));
-
+	
 	    /**
 	     * Returns the first `n` elements of the given list, string, or
 	     * transducer/transformer (or object with a `take` method).
@@ -4890,7 +4918,7 @@
 	    var take = _curry2(_dispatchable('take', _xtake, function take(n, xs) {
 	        return slice(0, n < 0 ? Infinity : n, xs);
 	    }));
-
+	
 	    /**
 	     * Returns a new list containing the last `n` elements of a given list, passing
 	     * each value to the supplied predicate function, and terminating when the
@@ -4920,7 +4948,7 @@
 	        }
 	        return _slice(list, idx + 1, Infinity);
 	    });
-
+	
 	    /**
 	     * Returns a new list containing the first `n` elements of a given list,
 	     * passing each value to the supplied predicate function, and terminating when
@@ -4955,7 +4983,7 @@
 	        }
 	        return _slice(list, 0, idx);
 	    }));
-
+	
 	    /**
 	     * Runs the given function with the supplied object, then returns the object.
 	     *
@@ -4977,7 +5005,7 @@
 	        fn(x);
 	        return x;
 	    });
-
+	
 	    /**
 	     * Calls an input function `n` times, returning an array containing the results
 	     * of those function calls.
@@ -5011,7 +5039,7 @@
 	        }
 	        return list;
 	    });
-
+	
 	    /**
 	     * Converts an object into an array of key, value arrays. Only the object's
 	     * own properties are used.
@@ -5042,7 +5070,7 @@
 	        }
 	        return pairs;
 	    });
-
+	
 	    /**
 	     * Converts an object into an array of key, value arrays. The object's own
 	     * properties and prototype properties are used. Note that the order of the
@@ -5074,7 +5102,7 @@
 	        }
 	        return pairs;
 	    });
-
+	
 	    /**
 	     * Transposes the rows and columns of a 2D list.
 	     * When passed a list of `n` lists of length `x`,
@@ -5114,7 +5142,7 @@
 	        }
 	        return result;
 	    });
-
+	
 	    /**
 	     * Removes (strips) whitespace from both ends of the string.
 	     *
@@ -5146,7 +5174,7 @@
 	            });
 	        }
 	    }();
-
+	
 	    /**
 	     * `tryCatch` takes two functions, a `tryer` and a `catcher`. The returned
 	     * function evaluates the `tryer`; if it does not throw, it simply returns the
@@ -5177,7 +5205,7 @@
 	            }
 	        });
 	    });
-
+	
 	    /**
 	     * Gives a single-word string description of the (native) type of a value,
 	     * returning such answers as 'Object', 'Number', 'Array', or 'Null'. Does not
@@ -5204,7 +5232,7 @@
 	    var type = _curry1(function type(val) {
 	        return val === null ? 'Null' : val === undefined ? 'Undefined' : Object.prototype.toString.call(val).slice(8, -1);
 	    });
-
+	
 	    /**
 	     * Takes a function `fn`, which takes a single array argument, and returns a
 	     * function which:
@@ -5233,7 +5261,7 @@
 	            return fn(_slice(arguments));
 	        };
 	    });
-
+	
 	    /**
 	     * Wraps a function of any arity (including nullary) in a function that accepts
 	     * exactly 1 parameter. Any extraneous parameters will not be passed to the
@@ -5263,7 +5291,7 @@
 	    var unary = _curry1(function unary(fn) {
 	        return nAry(1, fn);
 	    });
-
+	
 	    /**
 	     * Returns a function of arity `n` from a (manually) curried function.
 	     *
@@ -5298,7 +5326,7 @@
 	            return value;
 	        });
 	    });
-
+	
 	    /**
 	     * Builds a list from a seed value. Accepts an iterator function, which returns
 	     * either false to stop iteration or an array of length 2 containing the value
@@ -5332,7 +5360,7 @@
 	        }
 	        return result;
 	    });
-
+	
 	    /**
 	     * Returns a new list containing only one copy of each element in the original
 	     * list, based upon the value returned by applying the supplied predicate to
@@ -5369,7 +5397,7 @@
 	        }
 	        return result;
 	    });
-
+	
 	    /**
 	     * Tests the final argument by passing it to the given predicate function. If
 	     * the predicate is not satisfied, the function will return the result of
@@ -5398,7 +5426,7 @@
 	    var unless = _curry3(function unless(pred, whenFalseFn, x) {
 	        return pred(x) ? x : whenFalseFn(x);
 	    });
-
+	
 	    /**
 	     * Takes a predicate, a transformation function, and an initial value,
 	     * and returns a value of the same type as the initial value.
@@ -5425,7 +5453,7 @@
 	        }
 	        return val;
 	    });
-
+	
 	    /**
 	     * Returns a new copy of the array with the element at the provided index
 	     * replaced with the given value.
@@ -5448,7 +5476,7 @@
 	    var update = _curry3(function update(idx, x, list) {
 	        return adjust(always(x), idx, list);
 	    });
-
+	
 	    /**
 	     * Accepts a function `fn` and a list of transformer functions and returns a
 	     * new curried function. When the new function is invoked, it calls the
@@ -5487,7 +5515,7 @@
 	            return fn.apply(this, args.concat(_slice(arguments, transformers.length)));
 	        });
 	    });
-
+	
 	    /**
 	     * Returns a list of all the enumerable own properties of the supplied object.
 	     * Note that the order of the output array is not guaranteed across different
@@ -5515,7 +5543,7 @@
 	        }
 	        return vals;
 	    });
-
+	
 	    /**
 	     * Returns a list of all the properties, including prototype properties, of the
 	     * supplied object.
@@ -5544,7 +5572,7 @@
 	        }
 	        return vs;
 	    });
-
+	
 	    /**
 	     * Returns a "view" of the given data structure, determined by the given lens.
 	     * The lens's focus determines which portion of the data structure is visible.
@@ -5585,7 +5613,7 @@
 	            return lens(Const)(x).value;
 	        });
 	    }();
-
+	
 	    /**
 	     * Tests the final argument by passing it to the given predicate function. If
 	     * the predicate is satisfied, the function will return the result of calling
@@ -5617,7 +5645,7 @@
 	    var when = _curry3(function when(pred, whenTrueFn, x) {
 	        return pred(x) ? whenTrueFn(x) : x;
 	    });
-
+	
 	    /**
 	     * Takes a spec object and a test object; returns true if the test satisfies
 	     * the spec. Each of the spec's own properties must be a predicate function.
@@ -5660,7 +5688,7 @@
 	        }
 	        return true;
 	    });
-
+	
 	    /**
 	     * Wrap a function inside another to allow you to make adjustments to the
 	     * parameters, or do other processing either before the internal function is
@@ -5692,7 +5720,7 @@
 	            return wrapper.apply(this, _concat([fn], arguments));
 	        });
 	    });
-
+	
 	    /**
 	     * Creates a new list out of the two supplied by creating each possible pair
 	     * from the lists.
@@ -5731,7 +5759,7 @@
 	        }
 	        return result;
 	    });
-
+	
 	    /**
 	     * Creates a new list out of the two supplied by pairing up equally-positioned
 	     * items from both lists. The returned list is truncated to the length of the
@@ -5763,7 +5791,7 @@
 	        }
 	        return rv;
 	    });
-
+	
 	    /**
 	     * Creates a new object out of a list of keys and a list of values.
 	     * Key/value pairing is truncated to the length of the shorter of the two lists.
@@ -5791,7 +5819,7 @@
 	        }
 	        return out;
 	    });
-
+	
 	    /**
 	     * Creates a new list out of the two supplied by applying the function to each
 	     * equally-positioned pair in the lists. The returned list is truncated to the
@@ -5825,7 +5853,7 @@
 	        }
 	        return rv;
 	    });
-
+	
 	    /**
 	     * A function that always returns `false`. Any passed in parameters are ignored.
 	     *
@@ -5842,7 +5870,7 @@
 	     *      R.F(); //=> false
 	     */
 	    var F = always(false);
-
+	
 	    /**
 	     * A function that always returns `true`. Any passed in parameters are ignored.
 	     *
@@ -5859,7 +5887,7 @@
 	     *      R.T(); //=> true
 	     */
 	    var T = always(true);
-
+	
 	    /**
 	     * Copies an object.
 	     *
@@ -5900,7 +5928,7 @@
 	            return value;
 	        }
 	    };
-
+	
 	    var _createPartialApplicator = function _createPartialApplicator(concat) {
 	        return _curry2(function (fn, args) {
 	            return _arity(Math.max(0, fn.length - args.length), function () {
@@ -5908,11 +5936,11 @@
 	            });
 	        });
 	    };
-
+	
 	    var _dropLast = function dropLast(n, xs) {
 	        return take(n < xs.length ? xs.length - n : 0, xs);
 	    };
-
+	
 	    // Values of other types are only equal if identical.
 	    var _equals = function _equals(a, b, stackA, stackB) {
 	        if (identical(a, b)) {
@@ -6001,7 +6029,7 @@
 	        stackB.pop();
 	        return true;
 	    };
-
+	
 	    /**
 	     * `_makeFlat` is a helper function that returns a one-level or fully recursive
 	     * function based on the flag passed in.
@@ -6031,7 +6059,7 @@
 	            return result;
 	        };
 	    };
-
+	
 	    var _reduce = function () {
 	        function _arrayReduce(xf, acc, list) {
 	            var idx = 0;
@@ -6081,7 +6109,7 @@
 	            throw new TypeError('reduce: list must be array or iterable');
 	        };
 	    }();
-
+	
 	    var _stepCat = function () {
 	        var _stepCatArray = {
 	            '@@transducer/init': Array,
@@ -6121,7 +6149,7 @@
 	            throw new Error('Cannot create transformer for ' + obj);
 	        };
 	    }();
-
+	
 	    var _xdropLastWhile = function () {
 	        function XDropLastWhile(fn, xf) {
 	            this.f = fn;
@@ -6149,7 +6177,7 @@
 	            return new XDropLastWhile(fn, xf);
 	        });
 	    }();
-
+	
 	    var _xgroupBy = function () {
 	        function XGroupBy(f, xf) {
 	            this.xf = xf;
@@ -6184,7 +6212,7 @@
 	            return new XGroupBy(f, xf);
 	        });
 	    }();
-
+	
 	    /**
 	     * Creates a new list iteration function from an existing one by adding two new
 	     * parameters to its callback function: the current index, and the entire list.
@@ -6226,7 +6254,7 @@
 	            return fn.apply(this, args);
 	        });
 	    });
-
+	
 	    /**
 	     * Wraps a function of any arity (including nullary) in a function that accepts
 	     * exactly 2 parameters. Any extraneous parameters will not be passed to the
@@ -6256,7 +6284,7 @@
 	    var binary = _curry1(function binary(fn) {
 	        return nAry(2, fn);
 	    });
-
+	
 	    /**
 	     * Creates a deep copy of the value which may contain (nested) `Array`s and
 	     * `Object`s, `Number`s, `String`s, `Boolean`s and `Date`s. `Function`s are not
@@ -6280,7 +6308,7 @@
 	    var clone = _curry1(function clone(value) {
 	        return value != null && typeof value.clone === 'function' ? value.clone() : _clone(value, [], [], true);
 	    });
-
+	
 	    /**
 	     * Returns a curried equivalent of the provided function. The curried function
 	     * has two unusual capabilities. First, its arguments needn't be provided one
@@ -6325,7 +6353,7 @@
 	    var curry = _curry1(function curry(fn) {
 	        return curryN(fn.length, fn);
 	    });
-
+	
 	    /**
 	     * Returns all but the first `n` elements of the given list, string, or
 	     * transducer/transformer (or object with a `drop` method).
@@ -6353,7 +6381,7 @@
 	    var drop = _curry2(_dispatchable('drop', _xdrop, function drop(n, xs) {
 	        return slice(Math.max(0, n), Infinity, xs);
 	    }));
-
+	
 	    /**
 	     * Returns a list containing all but the last `n` elements of the given `list`.
 	     *
@@ -6376,7 +6404,7 @@
 	     *      R.dropLast(3, 'ramda');               //=> 'ra'
 	     */
 	    var dropLast = _curry2(_dispatchable('dropLast', _xdropLast, _dropLast));
-
+	
 	    /**
 	     * Returns a new list containing all but last the`n` elements of a given list,
 	     * passing each value from the right to the supplied predicate function,
@@ -6399,7 +6427,7 @@
 	     *      R.dropLastWhile(lteThree, [1, 2, 3, 4, 3, 2, 1]); //=> [1, 2, 3, 4]
 	     */
 	    var dropLastWhile = _curry2(_dispatchable('dropLastWhile', _xdropLastWhile, _dropLastWhile));
-
+	
 	    /**
 	     * Returns `true` if its arguments are equivalent, `false` otherwise. Handles
 	     * cyclical data structures.
@@ -6428,7 +6456,7 @@
 	    var equals = _curry2(function equals(a, b) {
 	        return _equals(a, b, [], []);
 	    });
-
+	
 	    /**
 	     * Takes a predicate and a "filterable", and returns a new filterable of the
 	     * same type containing the members of the given filterable which satisfy the
@@ -6465,7 +6493,7 @@
 	        }, {}, keys(filterable)) : // else
 	        _filter(pred, filterable);
 	    }));
-
+	
 	    /**
 	     * Returns a new list by pulling every item out of it (and all its sub-arrays)
 	     * and putting them in a new array, depth-first.
@@ -6484,7 +6512,7 @@
 	     *      //=> [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 	     */
 	    var flatten = _curry1(_makeFlat(true));
-
+	
 	    /**
 	     * Returns a new function much like the supplied one, except that the first two
 	     * arguments' order is reversed.
@@ -6512,7 +6540,7 @@
 	            return fn.apply(this, args);
 	        });
 	    });
-
+	
 	    /**
 	     * Returns the first element of the given list or string. In some libraries
 	     * this function is named `first`.
@@ -6535,7 +6563,7 @@
 	     *      R.head(''); //=> ''
 	     */
 	    var head = nth(0);
-
+	
 	    /**
 	     * Returns all but the last element of the given list or string.
 	     *
@@ -6561,7 +6589,7 @@
 	     *      R.init('');     //=> ''
 	     */
 	    var init = slice(0, -1);
-
+	
 	    /**
 	     * Combines two lists into a set (i.e. no duplicates) composed of those
 	     * elements common to both lists. Duplication is determined according to the
@@ -6616,7 +6644,7 @@
 	        }
 	        return uniqWith(pred, results);
 	    });
-
+	
 	    /**
 	     * Transforms the items of the list with the transducer and appends the
 	     * transformed items to the accumulator using an appropriate iterator function
@@ -6657,7 +6685,7 @@
 	    var into = _curry3(function into(acc, xf, list) {
 	        return _isTransformer(acc) ? _reduce(xf(acc), acc['@@transducer/init'](), list) : _reduce(xf(_stepCat(acc)), _clone(acc, [], [], false), list);
 	    });
-
+	
 	    /**
 	     * Same as R.invertObj, however this accounts for objects with duplicate values
 	     * by putting the values into an array.
@@ -6694,7 +6722,7 @@
 	        }
 	        return out;
 	    });
-
+	
 	    /**
 	     * Returns a new object with the keys of the given object as values, and the
 	     * values of the given object, which are coerced to strings, as keys. Note
@@ -6733,7 +6761,7 @@
 	        }
 	        return out;
 	    });
-
+	
 	    /**
 	     * Returns `true` if the given value is its type's empty value; `false`
 	     * otherwise.
@@ -6758,7 +6786,7 @@
 	    var isEmpty = _curry1(function isEmpty(x) {
 	        return x != null && equals(x, empty(x));
 	    });
-
+	
 	    /**
 	     * Returns the last element of the given list or string.
 	     *
@@ -6780,7 +6808,7 @@
 	     *      R.last(''); //=> ''
 	     */
 	    var last = nth(-1);
-
+	
 	    /**
 	     * Returns the position of the last occurrence of an item in an array, or -1 if
 	     * the item is not included in the array. `R.equals` is used to determine
@@ -6814,7 +6842,7 @@
 	            return -1;
 	        }
 	    });
-
+	
 	    /**
 	     * Takes a function and
 	     * a [functor](https://github.com/fantasyland/fantasy-land#functor),
@@ -6862,7 +6890,7 @@
 	            return _map(fn, functor);
 	        }
 	    }));
-
+	
 	    /**
 	     * An Object-specific version of `map`. The function is applied to three
 	     * arguments: *(value, key, obj)*. If only the value is significant, use
@@ -6890,7 +6918,7 @@
 	            return acc;
 	        }, {}, keys(obj));
 	    });
-
+	
 	    /**
 	     * Creates a new object with the own properties of the two provided objects. If
 	     * a key exists in both objects, the provided function is applied to the values
@@ -6920,7 +6948,7 @@
 	            return fn(_l, _r);
 	        }, l, r);
 	    });
-
+	
 	    /**
 	     * Takes a function `f` and a list of arguments, and returns a function `g`.
 	     * When applied, `g` returns the result of applying `f` to the arguments
@@ -6949,7 +6977,7 @@
 	     *      sayHelloToMs('Jane', 'Jones'); //=> 'Hello, Ms. Jane Jones!'
 	     */
 	    var partial = _createPartialApplicator(_concat);
-
+	
 	    /**
 	     * Takes a function `f` and a list of arguments, and returns a function `g`.
 	     * When applied, `g` returns the result of applying `f` to the arguments
@@ -6974,7 +7002,7 @@
 	     *      greetMsJaneJones('Hello'); //=> 'Hello, Ms. Jane Jones!'
 	     */
 	    var partialRight = _createPartialApplicator(flip(_concat));
-
+	
 	    /**
 	     * Determines whether a nested path on an object has a specific value, in
 	     * `R.equals` terms. Most likely used to filter a list.
@@ -7001,7 +7029,7 @@
 	    var pathEq = _curry3(function pathEq(_path, val, obj) {
 	        return equals(path(_path, obj), val);
 	    });
-
+	
 	    /**
 	     * Returns a new list by plucking the same named property off all objects in
 	     * the list supplied.
@@ -7023,7 +7051,7 @@
 	    var pluck = _curry2(function pluck(p, list) {
 	        return map(prop(p), list);
 	    });
-
+	
 	    /**
 	     * Reasonable analog to SQL `select` statement.
 	     *
@@ -7048,7 +7076,7 @@
 	        pickAll,
 	        identity
 	    ]);
-
+	
 	    /**
 	     * Returns `true` if the specified object property is equal, in `R.equals`
 	     * terms, to the given value; `false` otherwise.
@@ -7076,7 +7104,7 @@
 	    var propEq = _curry3(function propEq(name, val, obj) {
 	        return propSatisfies(equals(val), name, obj);
 	    });
-
+	
 	    /**
 	     * Returns `true` if the specified object property is of the given type;
 	     * `false` otherwise.
@@ -7100,7 +7128,7 @@
 	    var propIs = _curry3(function propIs(type, name, obj) {
 	        return propSatisfies(is(type), name, obj);
 	    });
-
+	
 	    /**
 	     * Returns a single item by iterating through the list, successively calling
 	     * the iterator function and passing it an accumulator value and the current
@@ -7135,7 +7163,7 @@
 	     *      R.reduce(add, 10, numbers); //=> 16
 	     */
 	    var reduce = _curry3(_reduce);
-
+	
 	    /**
 	     * Groups the elements of the list according to the result of calling
 	     * the String-returning function `keyFn` on each element and reduces the elements
@@ -7185,7 +7213,7 @@
 	            return acc;
 	        }, {}, list);
 	    });
-
+	
 	    /**
 	     * The complement of `filter`.
 	     *
@@ -7211,7 +7239,7 @@
 	    var reject = _curry2(function reject(pred, filterable) {
 	        return filter(_complement(pred), filterable);
 	    });
-
+	
 	    /**
 	     * Returns a fixed list of size `n` containing a specified identical value.
 	     *
@@ -7234,7 +7262,7 @@
 	    var repeat = _curry2(function repeat(value, n) {
 	        return times(always(value), n);
 	    });
-
+	
 	    /**
 	     * Adds together all the elements of a list.
 	     *
@@ -7251,7 +7279,7 @@
 	     *      R.sum([2,4,6,8,100,1]); //=> 121
 	     */
 	    var sum = reduce(add, 0);
-
+	
 	    /**
 	     * Returns a new list containing the last `n` elements of the given list.
 	     * If `n > list.length`, returns a list of `list.length` elements.
@@ -7277,7 +7305,7 @@
 	    var takeLast = _curry2(function takeLast(n, xs) {
 	        return drop(n >= 0 ? xs.length - n : 0, xs);
 	    });
-
+	
 	    /**
 	     * Initializes a transducer using supplied iterator function. Returns a single
 	     * item by iterating through the list, successively calling the transformed
@@ -7325,7 +7353,7 @@
 	    var transduce = curryN(4, function transduce(xf, fn, acc, list) {
 	        return _reduce(xf(typeof fn === 'function' ? _xwrap(fn) : fn), acc, list);
 	    });
-
+	
 	    /**
 	     * Combines two lists into a set (i.e. no duplicates) composed of the elements
 	     * of each list. Duplication is determined according to the value returned by
@@ -7351,7 +7379,7 @@
 	    var unionWith = _curry3(function unionWith(pred, list1, list2) {
 	        return uniqWith(pred, _concat(list1, list2));
 	    });
-
+	
 	    /**
 	     * Takes a spec object and a test object; returns true if the test satisfies
 	     * the spec, false otherwise. An object satisfies the spec if, for each of the
@@ -7382,7 +7410,7 @@
 	    var whereEq = _curry2(function whereEq(spec, testObj) {
 	        return where(map(equals, spec), testObj);
 	    });
-
+	
 	    var _flatCat = function () {
 	        var preservingReduced = function (xf) {
 	            return {
@@ -7409,7 +7437,7 @@
 	            };
 	        };
 	    }();
-
+	
 	    // Array.prototype.indexOf doesn't exist below IE9
 	    // manually crawl the list to distinguish between +0 and -0
 	    // NaN
@@ -7469,11 +7497,11 @@
 	        }
 	        return -1;
 	    };
-
+	
 	    var _xchain = _curry2(function _xchain(f, xf) {
 	        return map(f, _flatCat(xf));
 	    });
-
+	
 	    /**
 	     * Takes a list of predicates and returns a predicate that returns true for a
 	     * given list of arguments if every one of the provided predicates is satisfied
@@ -7512,7 +7540,7 @@
 	            return true;
 	        });
 	    });
-
+	
 	    /**
 	     * Returns `true` if all elements are unique, in `R.equals` terms, otherwise
 	     * `false`.
@@ -7542,7 +7570,7 @@
 	        }
 	        return true;
 	    });
-
+	
 	    /**
 	     * Takes a list of predicates and returns a predicate that returns true for a
 	     * given list of arguments if at least one of the provided predicates is
@@ -7580,7 +7608,7 @@
 	            return false;
 	        });
 	    });
-
+	
 	    /**
 	     * ap applies a list of functions to a list of values.
 	     *
@@ -7608,7 +7636,7 @@
 	            return _concat(acc, map(f, fn));
 	        }, [], applicative);
 	    });
-
+	
 	    /**
 	     * Given a spec object recursively mapping properties to functions, creates a
 	     * function producing an object of the same structure, by mapping each property
@@ -7644,7 +7672,7 @@
 	            }, spec);
 	        });
 	    });
-
+	
 	    /**
 	     * Returns the result of calling its first argument with the remaining
 	     * arguments. This is occasionally useful as a converging function for
@@ -7676,7 +7704,7 @@
 	    var call = curry(function call(fn) {
 	        return fn.apply(this, _slice(arguments, 1));
 	    });
-
+	
 	    /**
 	     * `chain` maps a function over a list and concatenates the results. `chain`
 	     * is also known as `flatMap` in some libraries
@@ -7704,7 +7732,7 @@
 	        }
 	        return _makeFlat(false)(map(fn, monad));
 	    }));
-
+	
 	    /**
 	     * Returns a function, `fn`, which encapsulates if/else-if/else logic.
 	     * `R.cond` takes a list of [predicate, transform] pairs. All of the arguments
@@ -7745,7 +7773,7 @@
 	            }
 	        });
 	    });
-
+	
 	    /**
 	     * Wraps a constructor function inside a curried function that can be called
 	     * with the same arguments and returns the same type. The arity of the function
@@ -7808,7 +7836,7 @@
 	            }
 	        }));
 	    });
-
+	
 	    /**
 	     * Accepts a converging function and a list of branching functions and returns
 	     * a new function. When invoked, this new function is applied to some
@@ -7846,7 +7874,7 @@
 	            }, fns));
 	        });
 	    });
-
+	
 	    /**
 	     * Counts the elements of a list according to how many match each value of a
 	     * key generated by the supplied function. Returns an object mapping the keys
@@ -7871,7 +7899,7 @@
 	    var countBy = reduceBy(function (acc, elem) {
 	        return acc + 1;
 	    }, 0);
-
+	
 	    /**
 	     * Returns a new list without any consecutively repeating elements. Equality is
 	     * determined by applying the supplied predicate two consecutive elements. The
@@ -7910,7 +7938,7 @@
 	        }
 	        return result;
 	    }));
-
+	
 	    /**
 	     * Takes a function and two values in its domain and returns `true` if the
 	     * values map to the same value in the codomain; `false` otherwise.
@@ -7931,7 +7959,7 @@
 	    var eqBy = _curry3(function eqBy(f, x, y) {
 	        return equals(f(x), f(y));
 	    });
-
+	
 	    /**
 	     * Reports whether two objects have the same value, in `R.equals` terms, for
 	     * the specified property. Useful as a curried predicate.
@@ -7956,7 +7984,7 @@
 	    var eqProps = _curry3(function eqProps(prop, obj1, obj2) {
 	        return equals(obj1[prop], obj2[prop]);
 	    });
-
+	
 	    /**
 	     * Splits a list into sub-lists stored in an object, based on the result of
 	     * calling a String-returning function on each element, and grouping the
@@ -8004,7 +8032,7 @@
 	        acc.push(item);
 	        return acc;
 	    }, null)));
-
+	
 	    /**
 	     * Given a function that generates a key, turns a list of objects into an
 	     * object indexing the objects by the given key. Note that if multiple
@@ -8028,7 +8056,7 @@
 	    var indexBy = reduceBy(function (acc, elem) {
 	        return elem;
 	    }, null);
-
+	
 	    /**
 	     * Returns the position of the first occurrence of an item in an array, or -1
 	     * if the item is not included in the array. `R.equals` is used to determine
@@ -8051,7 +8079,7 @@
 	    var indexOf = _curry2(function indexOf(target, xs) {
 	        return typeof xs.indexOf === 'function' && !_isArray(xs) ? xs.indexOf(target) : _indexOf(xs, target, 0);
 	    });
-
+	
 	    /**
 	     * juxt applies a list of functions to a list of values.
 	     *
@@ -8071,7 +8099,7 @@
 	    var juxt = _curry1(function juxt(fns) {
 	        return converge(_arrayOf, fns);
 	    });
-
+	
 	    /**
 	     * Returns a lens for the given getter and setter functions. The getter "gets"
 	     * the value of the focus; the setter "sets" the value of the focus. The setter
@@ -8104,7 +8132,7 @@
 	            };
 	        };
 	    });
-
+	
 	    /**
 	     * Returns a lens whose focus is the specified index.
 	     *
@@ -8128,7 +8156,7 @@
 	    var lensIndex = _curry1(function lensIndex(n) {
 	        return lens(nth(n), update(n));
 	    });
-
+	
 	    /**
 	     * Returns a lens whose focus is the specified path.
 	     *
@@ -8152,7 +8180,7 @@
 	    var lensPath = _curry1(function lensPath(p) {
 	        return lens(path(p), assocPath(p));
 	    });
-
+	
 	    /**
 	     * Returns a lens whose focus is the specified property.
 	     *
@@ -8176,7 +8204,7 @@
 	    var lensProp = _curry1(function lensProp(k) {
 	        return lens(prop(k), assoc(k));
 	    });
-
+	
 	    /**
 	     * "lifts" a function to be the specified arity, so that it may "map over" that
 	     * many lists, Functions or other objects that satisfy the [FantasyLand Apply spec](https://github.com/fantasyland/fantasy-land#apply).
@@ -8200,7 +8228,7 @@
 	            return _reduce(ap, map(lifted, arguments[0]), _slice(arguments, 1));
 	        });
 	    });
-
+	
 	    /**
 	     * Returns the mean of the given list of numbers.
 	     *
@@ -8219,7 +8247,7 @@
 	    var mean = _curry1(function mean(list) {
 	        return sum(list) / list.length;
 	    });
-
+	
 	    /**
 	     * Returns the median of the given list of numbers.
 	     *
@@ -8247,7 +8275,7 @@
 	            return a < b ? -1 : a > b ? 1 : 0;
 	        }).slice(idx, idx + width));
 	    });
-
+	
 	    /**
 	     * Takes a predicate and a list or other "filterable" object and returns the
 	     * pair of filterable objects of the same type of elements which do and do not
@@ -8275,7 +8303,7 @@
 	        filter,
 	        reject
 	    ]);
-
+	
 	    /**
 	     * Performs left-to-right function composition. The leftmost function may have
 	     * any arity; the remaining functions must be unary.
@@ -8304,7 +8332,7 @@
 	        }
 	        return _arity(arguments[0].length, reduce(_pipe, arguments[0], tail(arguments)));
 	    };
-
+	
 	    /**
 	     * Performs left-to-right composition of one or more Promise-returning
 	     * functions. The leftmost function may have any arity; the remaining functions
@@ -8329,7 +8357,7 @@
 	        }
 	        return _arity(arguments[0].length, reduce(_pipeP, arguments[0], tail(arguments)));
 	    };
-
+	
 	    /**
 	     * Multiplies together all the elements of a list.
 	     *
@@ -8346,7 +8374,7 @@
 	     *      R.product([2,4,6,8,100,1]); //=> 38400
 	     */
 	    var product = reduce(multiply, 1);
-
+	
 	    /**
 	     * Transforms a [Traversable](https://github.com/fantasyland/fantasy-land#traversable)
 	     * of [Applicative](https://github.com/fantasyland/fantasy-land#applicative) into an
@@ -8376,7 +8404,7 @@
 	            return ap(map(prepend, x), acc);
 	        }, of([]), traversable);
 	    });
-
+	
 	    /**
 	     * Maps an [Applicative](https://github.com/fantasyland/fantasy-land#applicative)-returning
 	     * function over a [Traversable](https://github.com/fantasyland/fantasy-land#traversable),
@@ -8406,7 +8434,7 @@
 	    var traverse = _curry3(function traverse(of, f, traversable) {
 	        return sequence(of, map(f, traversable));
 	    });
-
+	
 	    /**
 	     * Shorthand for `R.chain(R.identity)`, which removes one level of nesting from
 	     * any [Chain](https://github.com/fantasyland/fantasy-land#chain).
@@ -8425,11 +8453,11 @@
 	     *      R.unnest([[1, 2], [3, 4], [5, 6]]); //=> [1, 2, 3, 4, 5, 6]
 	     */
 	    var unnest = chain(_identity);
-
+	
 	    var _contains = function _contains(a, list) {
 	        return _indexOf(list, a, 0) >= 0;
 	    };
-
+	
 	    //  mapPairs :: (Object, [String]) -> [String]
 	    var _toString = function _toString(x, seen) {
 	        var recur = function recur(y) {
@@ -8471,7 +8499,7 @@
 	            return '{' + mapPairs(x, keys(x)).join(', ') + '}';
 	        }
 	    };
-
+	
 	    /**
 	     * Performs right-to-left function composition. The rightmost function may have
 	     * any arity; the remaining functions must be unary.
@@ -8498,7 +8526,7 @@
 	        }
 	        return pipe.apply(this, reverse(arguments));
 	    };
-
+	
 	    /**
 	     * Returns the right-to-left Kleisli composition of the provided functions,
 	     * each of which must return a value of a type supported by [`chain`](#chain).
@@ -8535,7 +8563,7 @@
 	    var composeK = function composeK() {
 	        return compose.apply(this, prepend(identity, map(chain, arguments)));
 	    };
-
+	
 	    /**
 	     * Performs right-to-left composition of one or more Promise-returning
 	     * functions. The rightmost function may have any arity; the remaining
@@ -8560,7 +8588,7 @@
 	        }
 	        return pipeP.apply(this, reverse(arguments));
 	    };
-
+	
 	    /**
 	     * Wraps a constructor function inside a curried function that can be called
 	     * with the same arguments and returns the same type.
@@ -8589,7 +8617,7 @@
 	    var construct = _curry1(function construct(Fn) {
 	        return constructN(Fn.length, Fn);
 	    });
-
+	
 	    /**
 	     * Returns `true` if the specified value is equal, in `R.equals` terms, to at
 	     * least one element of the given list; `false` otherwise.
@@ -8610,7 +8638,7 @@
 	     *      R.contains([42], [[42]]); //=> true
 	     */
 	    var contains = _curry2(_contains);
-
+	
 	    /**
 	     * Finds the set (i.e. no duplicates) of all elements in the first list not
 	     * contained in the second list.
@@ -8641,7 +8669,7 @@
 	        }
 	        return out;
 	    });
-
+	
 	    /**
 	     * Returns a new list without any consecutively repeating elements. `R.equals`
 	     * is used to determine equality.
@@ -8663,7 +8691,7 @@
 	     *     R.dropRepeats([1, 1, 1, 2, 3, 4, 4, 2, 2]); //=> [1, 2, 3, 4, 2]
 	     */
 	    var dropRepeats = _curry1(_dispatchable('dropRepeats', _xdropRepeatsWith(equals), dropRepeatsWith(equals)));
-
+	
 	    /**
 	     * "lifts" a function of arity > 1 so that it may "map over" a list, Function or other
 	     * object that satisfies the [FantasyLand Apply spec](https://github.com/fantasyland/fantasy-land#apply).
@@ -8689,7 +8717,7 @@
 	    var lift = _curry1(function lift(fn) {
 	        return liftN(fn.length, fn);
 	    });
-
+	
 	    /**
 	     * Returns a partial copy of an object omitting the keys specified.
 	     *
@@ -8715,7 +8743,7 @@
 	        }
 	        return result;
 	    });
-
+	
 	    /**
 	     * Returns the left-to-right Kleisli composition of the provided functions,
 	     * each of which must return a value of a type supported by [`chain`](#chain).
@@ -8752,7 +8780,7 @@
 	    var pipeK = function pipeK() {
 	        return composeK.apply(this, reverse(arguments));
 	    };
-
+	
 	    /**
 	     * Returns the string representation of the given value. `eval`'ing the output
 	     * should result in a value equivalent to the input value. Many of the built-in
@@ -8792,7 +8820,7 @@
 	    var toString = _curry1(function toString(val) {
 	        return _toString(val, []);
 	    });
-
+	
 	    /**
 	     * Returns a new list without values in the first argument.
 	     * `R.equals` is used to determine equality.
@@ -8815,7 +8843,7 @@
 	    var without = _curry2(function (xs, list) {
 	        return reject(flip(_contains)(xs), list);
 	    });
-
+	
 	    // A simple Set type that honours R.equals semantics
 	    /* globals Set */
 	    /**
@@ -8997,7 +9025,7 @@
 	        }
 	        return _Set;
 	    }();
-
+	
 	    /**
 	     * A function wrapping calls to the two functions in an `&&` operation,
 	     * returning the result of the first function if it is false-y and the result
@@ -9030,7 +9058,7 @@
 	            return f.apply(this, arguments) && g.apply(this, arguments);
 	        } : lift(and)(f, g);
 	    });
-
+	
 	    /**
 	     * Takes a function `f` and returns a function `g` such that:
 	     *
@@ -9058,7 +9086,7 @@
 	     *      isOdd(42); //=> false
 	     */
 	    var complement = lift(not);
-
+	
 	    /**
 	     * A function wrapping calls to the two functions in an `||` operation,
 	     * returning the result of the first function if it is truth-y and the result
@@ -9091,7 +9119,7 @@
 	            return f.apply(this, arguments) || g.apply(this, arguments);
 	        } : lift(or)(f, g);
 	    });
-
+	
 	    /**
 	     * Turns a named method with a specified arity into a function that can be
 	     * called directly supplied with arguments and a target object.
@@ -9124,7 +9152,7 @@
 	            throw new TypeError(toString(target) + ' does not have a method named "' + method + '"');
 	        });
 	    });
-
+	
 	    /**
 	     * Returns a string made by inserting the `separator` between each element and
 	     * concatenating all the elements into a single string.
@@ -9145,7 +9173,7 @@
 	     *      R.join('|', [1, 2, 3]);    //=> '1|2|3'
 	     */
 	    var join = invoker(1, 'join');
-
+	
 	    /**
 	     * Creates a new function that, when invoked, caches the result of calling `fn`
 	     * for a given argument set and returns the result. Subsequent calls to the
@@ -9182,7 +9210,7 @@
 	            return cache[key];
 	        });
 	    });
-
+	
 	    /**
 	     * Splits a string into an array of strings based on the given
 	     * separator.
@@ -9204,7 +9232,7 @@
 	     *      R.split('.', 'a.b.c.xyz.d'); //=> ['a', 'b', 'c', 'xyz', 'd']
 	     */
 	    var split = invoker(1, 'split');
-
+	
 	    /**
 	     * Determines whether a given string matches a given regular expression.
 	     *
@@ -9228,7 +9256,7 @@
 	        }
 	        return _cloneRegExp(pattern).test(str);
 	    });
-
+	
 	    /**
 	     * The lower case version of a string.
 	     *
@@ -9245,7 +9273,7 @@
 	     *      R.toLower('XYZ'); //=> 'xyz'
 	     */
 	    var toLower = invoker(0, 'toLowerCase');
-
+	
 	    /**
 	     * The upper case version of a string.
 	     *
@@ -9262,7 +9290,7 @@
 	     *      R.toUpper('abc'); //=> 'ABC'
 	     */
 	    var toUpper = invoker(0, 'toUpperCase');
-
+	
 	    /**
 	     * Returns a new list containing only one copy of each element in the original
 	     * list, based upon the value returned by applying the supplied function to
@@ -9296,7 +9324,7 @@
 	        }
 	        return result;
 	    });
-
+	
 	    /**
 	     * Returns the result of concatenating the given lists or strings.
 	     *
@@ -9319,7 +9347,7 @@
 	     *      R.concat('ABC', 'DEF'); // 'ABCDEF'
 	     */
 	    var concat = flip(invoker(1, 'concat'));
-
+	
 	    /**
 	     * Finds the set (i.e. no duplicates) of all elements contained in the first or
 	     * second list, but not both.
@@ -9341,7 +9369,7 @@
 	    var symmetricDifference = _curry2(function symmetricDifference(list1, list2) {
 	        return concat(difference(list1, list2), difference(list2, list1));
 	    });
-
+	
 	    /**
 	     * Finds the set (i.e. no duplicates) of all elements contained in the first or
 	     * second list, but not both. Duplication is determined according to the value
@@ -9367,7 +9395,7 @@
 	    var symmetricDifferenceWith = _curry3(function symmetricDifferenceWith(pred, list1, list2) {
 	        return concat(differenceWith(pred, list1, list2), differenceWith(pred, list2, list1));
 	    });
-
+	
 	    /**
 	     * Returns a new list containing only one copy of each element in the original
 	     * list. `R.equals` is used to determine equality.
@@ -9386,7 +9414,7 @@
 	     *      R.uniq([[42], [42]]); //=> [[42]]
 	     */
 	    var uniq = uniqBy(identity);
-
+	
 	    /**
 	     * Combines two lists into a set (i.e. no duplicates) composed of those
 	     * elements common to both lists.
@@ -9415,7 +9443,7 @@
 	        }
 	        return uniq(_filter(flip(_contains)(lookupList), filteredList));
 	    });
-
+	
 	    /**
 	     * Combines two lists into a set (i.e. no duplicates) composed of the elements
 	     * of each list.
@@ -9434,7 +9462,7 @@
 	     *      R.union([1, 2, 3], [2, 3, 4]); //=> [1, 2, 3, 4]
 	     */
 	    var union = _curry2(compose(uniq, _concat));
-
+	
 	    var R = {
 	        F: F,
 	        T: T,
@@ -9673,9 +9701,9 @@
 	        zipWith: zipWith
 	    };
 	  /* eslint-env amd */
-
+	
 	  /* TEST_ENTRY_POINT */
-
+	
 	  if (true) {
 	    module.exports = R;
 	  } else if (typeof define === 'function' && define.amd) {
@@ -9683,37 +9711,37 @@
 	  } else {
 	    this.R = R;
 	  }
-
+	
 	}.call(this));
+
+
+/***/ },
+/* 16 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var R = __webpack_require__(17)
+	
+	module.exports = R.mergeAll([
+	  __webpack_require__(18),
+	  __webpack_require__(23),
+	  __webpack_require__(25),
+	  __webpack_require__(26)
+	])
 
 
 /***/ },
 /* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var R = __webpack_require__(18)
-
-	module.exports = R.mergeAll([
-	  __webpack_require__(19),
-	  __webpack_require__(24),
-	  __webpack_require__(26),
-	  __webpack_require__(27)
-	])
-
-
-/***/ },
-/* 18 */
-/***/ function(module, exports, __webpack_require__) {
-
 	//  Ramda v0.19.1
 	//  https://github.com/ramda/ramda
 	//  (c) 2013-2016 Scott Sauyet, Michael Hurley, and David Chambers
 	//  Ramda may be freely distributed under the MIT license.
-
+	
 	;(function() {
-
+	
 	  'use strict';
-
+	
 	  /**
 	     * A special placeholder value used to specify "gaps" within curried functions,
 	     * allowing partial application of any combination of arguments, regardless of
@@ -9741,7 +9769,7 @@
 	     *      greet('Alice'); //=> 'Hello, Alice!'
 	     */
 	    var __ = { '@@functional/placeholder': true };
-
+	
 	    /* eslint-disable no-unused-vars */
 	    var _arity = function _arity(n, fn) {
 	        /* eslint-disable no-unused-vars */
@@ -9794,7 +9822,7 @@
 	            throw new Error('First argument to _arity must be a non-negative integer no greater than ten');
 	        }
 	    };
-
+	
 	    var _arrayFromIterator = function _arrayFromIterator(iter) {
 	        var list = [];
 	        var next;
@@ -9803,17 +9831,17 @@
 	        }
 	        return list;
 	    };
-
+	
 	    var _cloneRegExp = function _cloneRegExp(pattern) {
 	        return new RegExp(pattern.source, (pattern.global ? 'g' : '') + (pattern.ignoreCase ? 'i' : '') + (pattern.multiline ? 'm' : '') + (pattern.sticky ? 'y' : '') + (pattern.unicode ? 'u' : ''));
 	    };
-
+	
 	    var _complement = function _complement(f) {
 	        return function () {
 	            return !f.apply(this, arguments);
 	        };
 	    };
-
+	
 	    /**
 	     * Private `concat` function to merge two array-like objects.
 	     *
@@ -9844,7 +9872,7 @@
 	        }
 	        return result;
 	    };
-
+	
 	    var _containsWith = function _containsWith(pred, x, list) {
 	        var idx = 0;
 	        var len = list.length;
@@ -9856,7 +9884,7 @@
 	        }
 	        return false;
 	    };
-
+	
 	    var _filter = function _filter(fn, list) {
 	        var idx = 0;
 	        var len = list.length;
@@ -9869,22 +9897,22 @@
 	        }
 	        return result;
 	    };
-
+	
 	    var _forceReduced = function _forceReduced(x) {
 	        return {
 	            '@@transducer/value': x,
 	            '@@transducer/reduced': true
 	        };
 	    };
-
+	
 	    var _has = function _has(prop, obj) {
 	        return Object.prototype.hasOwnProperty.call(obj, prop);
 	    };
-
+	
 	    var _identity = function _identity(x) {
 	        return x;
 	    };
-
+	
 	    var _isArguments = function () {
 	        var toString = Object.prototype.toString;
 	        return toString.call(arguments) === '[object Arguments]' ? function _isArguments(x) {
@@ -9893,7 +9921,7 @@
 	            return _has('callee', x);
 	        };
 	    }();
-
+	
 	    /**
 	     * Tests whether or not an object is an array.
 	     *
@@ -9909,7 +9937,7 @@
 	    var _isArray = Array.isArray || function _isArray(val) {
 	        return val != null && val.length >= 0 && Object.prototype.toString.call(val) === '[object Array]';
 	    };
-
+	
 	    /**
 	     * Determine if the passed argument is an integer.
 	     *
@@ -9921,31 +9949,31 @@
 	    var _isInteger = Number.isInteger || function _isInteger(n) {
 	        return n << 0 === n;
 	    };
-
+	
 	    var _isNumber = function _isNumber(x) {
 	        return Object.prototype.toString.call(x) === '[object Number]';
 	    };
-
+	
 	    var _isObject = function _isObject(x) {
 	        return Object.prototype.toString.call(x) === '[object Object]';
 	    };
-
+	
 	    var _isPlaceholder = function _isPlaceholder(a) {
 	        return a != null && typeof a === 'object' && a['@@functional/placeholder'] === true;
 	    };
-
+	
 	    var _isRegExp = function _isRegExp(x) {
 	        return Object.prototype.toString.call(x) === '[object RegExp]';
 	    };
-
+	
 	    var _isString = function _isString(x) {
 	        return Object.prototype.toString.call(x) === '[object String]';
 	    };
-
+	
 	    var _isTransformer = function _isTransformer(obj) {
 	        return typeof obj['@@transducer/step'] === 'function';
 	    };
-
+	
 	    var _map = function _map(fn, functor) {
 	        var idx = 0;
 	        var len = functor.length;
@@ -9956,17 +9984,17 @@
 	        }
 	        return result;
 	    };
-
+	
 	    var _of = function _of(x) {
 	        return [x];
 	    };
-
+	
 	    var _pipe = function _pipe(f, g) {
 	        return function () {
 	            return g.call(this, f.apply(this, arguments));
 	        };
 	    };
-
+	
 	    var _pipeP = function _pipeP(f, g) {
 	        return function () {
 	            var ctx = this;
@@ -9975,21 +10003,21 @@
 	            });
 	        };
 	    };
-
+	
 	    // \b matches word boundary; [\b] matches backspace
 	    var _quote = function _quote(s) {
 	        var escaped = s.replace(/\\/g, '\\\\').replace(/[\b]/g, '\\b')    // \b matches word boundary; [\b] matches backspace
 	    .replace(/\f/g, '\\f').replace(/\n/g, '\\n').replace(/\r/g, '\\r').replace(/\t/g, '\\t').replace(/\v/g, '\\v').replace(/\0/g, '\\0');
 	        return '"' + escaped.replace(/"/g, '\\"') + '"';
 	    };
-
+	
 	    var _reduced = function _reduced(x) {
 	        return x && x['@@transducer/reduced'] ? x : {
 	            '@@transducer/value': x,
 	            '@@transducer/reduced': true
 	        };
 	    };
-
+	
 	    /**
 	     * An optimized, private array `slice` implementation.
 	     *
@@ -10024,7 +10052,7 @@
 	            return list;
 	        }
 	    };
-
+	
 	    /**
 	     * Polyfill from <https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString>.
 	     */
@@ -10038,7 +10066,7 @@
 	            return d.getUTCFullYear() + '-' + pad(d.getUTCMonth() + 1) + '-' + pad(d.getUTCDate()) + 'T' + pad(d.getUTCHours()) + ':' + pad(d.getUTCMinutes()) + ':' + pad(d.getUTCSeconds()) + '.' + (d.getUTCMilliseconds() / 1000).toFixed(3).slice(2, 5) + 'Z';
 	        };
 	    }();
-
+	
 	    var _xfBase = {
 	        init: function () {
 	            return this.xf['@@transducer/init']();
@@ -10047,7 +10075,7 @@
 	            return this.xf['@@transducer/result'](result);
 	        }
 	    };
-
+	
 	    var _xwrap = function () {
 	        function XWrap(fn) {
 	            this.f = fn;
@@ -10065,7 +10093,7 @@
 	            return new XWrap(fn);
 	        };
 	    }();
-
+	
 	    var _aperture = function _aperture(n, list) {
 	        var idx = 0;
 	        var limit = list.length - (n - 1);
@@ -10076,7 +10104,7 @@
 	        }
 	        return acc;
 	    };
-
+	
 	    /**
 	     * Similar to hasMethod, this checks whether a function has a [methodname]
 	     * function. If it isn't an array it will execute that function otherwise it
@@ -10097,7 +10125,7 @@
 	            return _isArray(obj) || typeof obj[methodname] !== 'function' ? fn.apply(this, arguments) : obj[methodname].apply(obj, _slice(arguments, 0, length - 1));
 	        };
 	    };
-
+	
 	    /**
 	     * Optimized internal one-arity curry function.
 	     *
@@ -10115,7 +10143,7 @@
 	            }
 	        };
 	    };
-
+	
 	    /**
 	     * Optimized internal two-arity curry function.
 	     *
@@ -10142,7 +10170,7 @@
 	            }
 	        };
 	    };
-
+	
 	    /**
 	     * Optimized internal three-arity curry function.
 	     *
@@ -10185,7 +10213,7 @@
 	            }
 	        };
 	    };
-
+	
 	    /**
 	     * Internal curryN function.
 	     *
@@ -10219,7 +10247,7 @@
 	            return left <= 0 ? fn.apply(this, combined) : _arity(left, _curryN(length, combined, fn));
 	        };
 	    };
-
+	
 	    /**
 	     * Returns a function that dispatches with different strategies based on the
 	     * object in list position (last argument). If it is an array, executes [fn].
@@ -10254,7 +10282,7 @@
 	            return fn.apply(this, arguments);
 	        };
 	    };
-
+	
 	    var _dropLastWhile = function dropLastWhile(pred, list) {
 	        var idx = list.length - 1;
 	        while (idx >= 0 && pred(list[idx])) {
@@ -10262,7 +10290,7 @@
 	        }
 	        return _slice(list, 0, idx + 1);
 	    };
-
+	
 	    var _xall = function () {
 	        function XAll(f, xf) {
 	            this.xf = xf;
@@ -10287,7 +10315,7 @@
 	            return new XAll(f, xf);
 	        });
 	    }();
-
+	
 	    var _xany = function () {
 	        function XAny(f, xf) {
 	            this.xf = xf;
@@ -10312,7 +10340,7 @@
 	            return new XAny(f, xf);
 	        });
 	    }();
-
+	
 	    var _xaperture = function () {
 	        function XAperture(n, xf) {
 	            this.xf = xf;
@@ -10344,7 +10372,7 @@
 	            return new XAperture(n, xf);
 	        });
 	    }();
-
+	
 	    var _xdrop = function () {
 	        function XDrop(n, xf) {
 	            this.xf = xf;
@@ -10363,7 +10391,7 @@
 	            return new XDrop(n, xf);
 	        });
 	    }();
-
+	
 	    var _xdropLast = function () {
 	        function XDropLast(n, xf) {
 	            this.xf = xf;
@@ -10395,7 +10423,7 @@
 	            return new XDropLast(n, xf);
 	        });
 	    }();
-
+	
 	    var _xdropRepeatsWith = function () {
 	        function XDropRepeatsWith(pred, xf) {
 	            this.xf = xf;
@@ -10423,7 +10451,7 @@
 	            return new XDropRepeatsWith(pred, xf);
 	        });
 	    }();
-
+	
 	    var _xdropWhile = function () {
 	        function XDropWhile(f, xf) {
 	            this.xf = xf;
@@ -10444,7 +10472,7 @@
 	            return new XDropWhile(f, xf);
 	        });
 	    }();
-
+	
 	    var _xfilter = function () {
 	        function XFilter(f, xf) {
 	            this.xf = xf;
@@ -10459,7 +10487,7 @@
 	            return new XFilter(f, xf);
 	        });
 	    }();
-
+	
 	    var _xfind = function () {
 	        function XFind(f, xf) {
 	            this.xf = xf;
@@ -10484,7 +10512,7 @@
 	            return new XFind(f, xf);
 	        });
 	    }();
-
+	
 	    var _xfindIndex = function () {
 	        function XFindIndex(f, xf) {
 	            this.xf = xf;
@@ -10511,7 +10539,7 @@
 	            return new XFindIndex(f, xf);
 	        });
 	    }();
-
+	
 	    var _xfindLast = function () {
 	        function XFindLast(f, xf) {
 	            this.xf = xf;
@@ -10531,7 +10559,7 @@
 	            return new XFindLast(f, xf);
 	        });
 	    }();
-
+	
 	    var _xfindLastIndex = function () {
 	        function XFindLastIndex(f, xf) {
 	            this.xf = xf;
@@ -10554,7 +10582,7 @@
 	            return new XFindLastIndex(f, xf);
 	        });
 	    }();
-
+	
 	    var _xmap = function () {
 	        function XMap(f, xf) {
 	            this.xf = xf;
@@ -10569,7 +10597,7 @@
 	            return new XMap(f, xf);
 	        });
 	    }();
-
+	
 	    var _xtake = function () {
 	        function XTake(n, xf) {
 	            this.xf = xf;
@@ -10589,7 +10617,7 @@
 	            return new XTake(n, xf);
 	        });
 	    }();
-
+	
 	    var _xtakeWhile = function () {
 	        function XTakeWhile(f, xf) {
 	            this.xf = xf;
@@ -10604,7 +10632,7 @@
 	            return new XTakeWhile(f, xf);
 	        });
 	    }();
-
+	
 	    /**
 	     * Adds two numbers. Equivalent to `a + b` but curried.
 	     *
@@ -10625,7 +10653,7 @@
 	    var add = _curry2(function add(a, b) {
 	        return a + b;
 	    });
-
+	
 	    /**
 	     * Applies a function to the value at the given index of an array, returning a
 	     * new copy of the array with the element at the given index replaced with the
@@ -10659,7 +10687,7 @@
 	        _list[_idx] = fn(list[_idx]);
 	        return _list;
 	    });
-
+	
 	    /**
 	     * Returns `true` if all elements of the list match the predicate, `false` if
 	     * there are any that don't.
@@ -10695,7 +10723,7 @@
 	        }
 	        return true;
 	    }));
-
+	
 	    /**
 	     * Returns a function that always returns the given value. Note that for
 	     * non-primitives the value returned is a reference to the original value.
@@ -10720,7 +10748,7 @@
 	            return val;
 	        };
 	    });
-
+	
 	    /**
 	     * Returns `true` if both arguments are `true`; `false` otherwise.
 	     *
@@ -10743,7 +10771,7 @@
 	    var and = _curry2(function and(a, b) {
 	        return a && b;
 	    });
-
+	
 	    /**
 	     * Returns `true` if at least one of elements of the list match the predicate,
 	     * `false` otherwise.
@@ -10779,7 +10807,7 @@
 	        }
 	        return false;
 	    }));
-
+	
 	    /**
 	     * Returns a new list, composed of n-tuples of consecutive elements If `n` is
 	     * greater than the length of the list, an empty list is returned.
@@ -10804,7 +10832,7 @@
 	     *      R.aperture(7, [1, 2, 3, 4, 5]); //=> []
 	     */
 	    var aperture = _curry2(_dispatchable('aperture', _xaperture, _aperture));
-
+	
 	    /**
 	     * Returns a new list containing the contents of the given list, followed by
 	     * the given element.
@@ -10828,7 +10856,7 @@
 	    var append = _curry2(function append(el, list) {
 	        return _concat(list, [el]);
 	    });
-
+	
 	    /**
 	     * Applies function `fn` to the argument list `args`. This is useful for
 	     * creating a fixed-arity function from a variadic function. `fn` should be a
@@ -10851,7 +10879,7 @@
 	    var apply = _curry2(function apply(fn, args) {
 	        return fn.apply(this, args);
 	    });
-
+	
 	    /**
 	     * Makes a shallow clone of an object, setting or overriding the specified
 	     * property with the given value. Note that this copies and flattens prototype
@@ -10880,7 +10908,7 @@
 	        result[prop] = val;
 	        return result;
 	    });
-
+	
 	    /**
 	     * Makes a shallow clone of an object, setting or overriding the nodes required
 	     * to create the given path, and placing the specific value at the tail end of
@@ -10911,7 +10939,7 @@
 	            return assoc(path[0], assocPath(_slice(path, 1), val, Object(obj[path[0]])), obj);
 	        }
 	    });
-
+	
 	    /**
 	     * Creates a function that is bound to a context.
 	     * Note: `R.bind` does not provide the additional argument-binding capabilities of
@@ -10933,7 +10961,7 @@
 	            return fn.apply(thisObj, arguments);
 	        });
 	    });
-
+	
 	    /**
 	     * A function wrapping calls to the two functions in an `&&` operation,
 	     * returning the result of the first function if it is false-y and the result
@@ -10963,7 +10991,7 @@
 	            return f.apply(this, arguments) && g.apply(this, arguments);
 	        };
 	    });
-
+	
 	    /**
 	     * Makes a comparator function out of a function that reports whether the first
 	     * element is less than the second.
@@ -10988,7 +11016,7 @@
 	            return pred(a, b) ? -1 : pred(b, a) ? 1 : 0;
 	        };
 	    });
-
+	
 	    /**
 	     * Returns a function, `fn`, which encapsulates if/else-if/else logic.
 	     * `R.cond` takes a list of [predicate, transform] pairs. All of the arguments
@@ -11026,7 +11054,7 @@
 	            }
 	        };
 	    });
-
+	
 	    /**
 	     * Counts the elements of a list according to how many match each value of a
 	     * key generated by the supplied function. Returns an object mapping the keys
@@ -11059,7 +11087,7 @@
 	        }
 	        return counts;
 	    });
-
+	
 	    /**
 	     * Returns a curried equivalent of the provided function, with the specified
 	     * arity. The curried function has two unusual capabilities. First, its
@@ -11108,7 +11136,7 @@
 	        }
 	        return _arity(length, _curryN(length, [], fn));
 	    });
-
+	
 	    /**
 	     * Decrements its argument.
 	     *
@@ -11125,7 +11153,7 @@
 	     *      R.dec(42); //=> 41
 	     */
 	    var dec = add(-1);
-
+	
 	    /**
 	     * Returns the second argument if it is not `null`, `undefined` or `NaN`
 	     * otherwise the first argument is returned.
@@ -11150,7 +11178,7 @@
 	    var defaultTo = _curry2(function defaultTo(d, v) {
 	        return v == null || v !== v ? d : v;
 	    });
-
+	
 	    /**
 	     * Finds the set (i.e. no duplicates) of all elements in the first list not
 	     * contained in the second list. Duplication is determined according to the
@@ -11185,7 +11213,7 @@
 	        }
 	        return out;
 	    });
-
+	
 	    /**
 	     * Returns a new object that does not contain a `prop` property.
 	     *
@@ -11211,7 +11239,7 @@
 	        }
 	        return result;
 	    });
-
+	
 	    /**
 	     * Makes a shallow clone of an object, omitting the property at the given path.
 	     * Note that this copies and flattens prototype properties onto the new object
@@ -11242,7 +11270,7 @@
 	            return obj[head] == null ? obj : assoc(head, dissocPath(tail, obj[head]), obj);
 	        }
 	    });
-
+	
 	    /**
 	     * Divides two numbers. Equivalent to `a / b`.
 	     *
@@ -11268,7 +11296,7 @@
 	    var divide = _curry2(function divide(a, b) {
 	        return a / b;
 	    });
-
+	
 	    /**
 	     * Returns a new list containing the last `n` elements of a given list, passing
 	     * each value to the supplied predicate function, skipping elements while the
@@ -11302,7 +11330,7 @@
 	        }
 	        return _slice(list, idx);
 	    }));
-
+	
 	    /**
 	     * A function wrapping calls to the two functions in an `||` operation,
 	     * returning the result of the first function if it is truth-y and the result
@@ -11332,7 +11360,7 @@
 	            return f.apply(this, arguments) || g.apply(this, arguments);
 	        };
 	    });
-
+	
 	    /**
 	     * Returns the empty value of its argument's type. Ramda defines the empty
 	     * value of Array (`[]`), Object (`{}`), String (`''`), and Arguments. Other
@@ -11362,7 +11390,7 @@
 	        }() : // else
 	        void 0;
 	    });
-
+	
 	    /**
 	     * Creates a new object by recursively evolving a shallow copy of `object`,
 	     * according to the `transformation` functions. All non-primitive properties
@@ -11400,7 +11428,7 @@
 	        }
 	        return result;
 	    });
-
+	
 	    /**
 	     * Returns the first element of the list which matches the predicate, or
 	     * `undefined` if no element matches.
@@ -11435,7 +11463,7 @@
 	            idx += 1;
 	        }
 	    }));
-
+	
 	    /**
 	     * Returns the index of the first element of the list which matches the
 	     * predicate, or `-1` if no element matches.
@@ -11471,7 +11499,7 @@
 	        }
 	        return -1;
 	    }));
-
+	
 	    /**
 	     * Returns the last element of the list which matches the predicate, or
 	     * `undefined` if no element matches.
@@ -11505,7 +11533,7 @@
 	            idx -= 1;
 	        }
 	    }));
-
+	
 	    /**
 	     * Returns the index of the last element of the list which matches the
 	     * predicate, or `-1` if no element matches.
@@ -11540,7 +11568,7 @@
 	        }
 	        return -1;
 	    }));
-
+	
 	    /**
 	     * Iterate over an input `list`, calling a provided function `fn` for each
 	     * element in the list.
@@ -11583,7 +11611,7 @@
 	        }
 	        return list;
 	    }));
-
+	
 	    /**
 	     * Creates a new object out of a list key-value pairs.
 	     *
@@ -11611,7 +11639,7 @@
 	        }
 	        return out;
 	    });
-
+	
 	    /**
 	     * Returns `true` if the first argument is greater than the second; `false`
 	     * otherwise.
@@ -11636,7 +11664,7 @@
 	    var gt = _curry2(function gt(a, b) {
 	        return a > b;
 	    });
-
+	
 	    /**
 	     * Returns `true` if the first argument is greater than or equal to the second;
 	     * `false` otherwise.
@@ -11661,7 +11689,7 @@
 	    var gte = _curry2(function gte(a, b) {
 	        return a >= b;
 	    });
-
+	
 	    /**
 	     * Returns whether or not an object has an own property with the specified name
 	     *
@@ -11687,7 +11715,7 @@
 	     *      pointHas('z');  //=> false
 	     */
 	    var has = _curry2(_has);
-
+	
 	    /**
 	     * Returns whether or not an object or its prototype chain has a property with
 	     * the specified name
@@ -11717,7 +11745,7 @@
 	    var hasIn = _curry2(function hasIn(prop, obj) {
 	        return prop in obj;
 	    });
-
+	
 	    /**
 	     * Returns true if its arguments are identical, false otherwise. Values are
 	     * identical if they reference the same memory. `NaN` is identical to `NaN`;
@@ -11756,7 +11784,7 @@
 	            return a !== a && b !== b;
 	        }
 	    });
-
+	
 	    /**
 	     * A function that does nothing but return the parameter supplied to it. Good
 	     * as a default or placeholder function.
@@ -11776,7 +11804,7 @@
 	     *      R.identity(obj) === obj; //=> true
 	     */
 	    var identity = _curry1(_identity);
-
+	
 	    /**
 	     * Creates a function that will process either the `onTrue` or the `onFalse`
 	     * function depending upon the result of the `condition` predicate.
@@ -11807,7 +11835,7 @@
 	            return condition.apply(this, arguments) ? onTrue.apply(this, arguments) : onFalse.apply(this, arguments);
 	        });
 	    });
-
+	
 	    /**
 	     * Increments its argument.
 	     *
@@ -11824,7 +11852,7 @@
 	     *      R.inc(42); //=> 43
 	     */
 	    var inc = add(1);
-
+	
 	    /**
 	     * Inserts the supplied element into the list, at index `index`. _Note that
 	     * this is not destructive_: it returns a copy of the list with the changes.
@@ -11849,7 +11877,7 @@
 	        result.splice(idx, 0, elt);
 	        return result;
 	    });
-
+	
 	    /**
 	     * Inserts the sub-list into the list, at index `index`. _Note that this is not
 	     * destructive_: it returns a copy of the list with the changes.
@@ -11872,7 +11900,7 @@
 	        idx = idx < list.length && idx >= 0 ? idx : list.length;
 	        return _concat(_concat(_slice(list, 0, idx), elts), _slice(list, idx));
 	    });
-
+	
 	    /**
 	     * Creates a new list with the separator interposed between elements.
 	     *
@@ -11904,7 +11932,7 @@
 	        }
 	        return out;
 	    }));
-
+	
 	    /**
 	     * See if an object (`val`) is an instance of the supplied constructor. This
 	     * function will check up the inheritance chain, if any.
@@ -11931,7 +11959,7 @@
 	    var is = _curry2(function is(Ctor, val) {
 	        return val != null && val.constructor === Ctor || val instanceof Ctor;
 	    });
-
+	
 	    /**
 	     * Tests whether or not an object is similar to an array.
 	     *
@@ -11975,7 +12003,7 @@
 	        }
 	        return false;
 	    });
-
+	
 	    /**
 	     * Checks if the input value is `null` or `undefined`.
 	     *
@@ -11996,7 +12024,7 @@
 	    var isNil = _curry1(function isNil(x) {
 	        return x == null;
 	    });
-
+	
 	    /**
 	     * Returns a list containing the names of all the enumerable own properties of
 	     * the supplied object.
@@ -12070,7 +12098,7 @@
 	            return ks;
 	        });
 	    }();
-
+	
 	    /**
 	     * Returns a list containing the names of all the properties of the supplied
 	     * object, including prototype properties.
@@ -12099,7 +12127,7 @@
 	        }
 	        return ks;
 	    });
-
+	
 	    /**
 	     * Returns the number of elements in the array by returning `list.length`.
 	     *
@@ -12118,7 +12146,7 @@
 	    var length = _curry1(function length(list) {
 	        return list != null && is(Number, list.length) ? list.length : NaN;
 	    });
-
+	
 	    /**
 	     * Returns `true` if the first argument is less than the second; `false`
 	     * otherwise.
@@ -12143,7 +12171,7 @@
 	    var lt = _curry2(function lt(a, b) {
 	        return a < b;
 	    });
-
+	
 	    /**
 	     * Returns `true` if the first argument is less than or equal to the second;
 	     * `false` otherwise.
@@ -12168,7 +12196,7 @@
 	    var lte = _curry2(function lte(a, b) {
 	        return a <= b;
 	    });
-
+	
 	    /**
 	     * The mapAccum function behaves like a combination of map and reduce; it
 	     * applies a function to each element of a list, passing an accumulating
@@ -12210,7 +12238,7 @@
 	            result
 	        ];
 	    });
-
+	
 	    /**
 	     * The mapAccumRight function behaves like a combination of map and reduce; it
 	     * applies a function to each element of a list, passing an accumulating
@@ -12254,7 +12282,7 @@
 	            result
 	        ];
 	    });
-
+	
 	    /**
 	     * Tests a regular expression against a String. Note that this function will
 	     * return an empty array when there are no matches. This differs from
@@ -12279,7 +12307,7 @@
 	    var match = _curry2(function match(rx, str) {
 	        return str.match(rx) || [];
 	    });
-
+	
 	    /**
 	     * mathMod behaves like the modulo operator should mathematically, unlike the
 	     * `%` operator (and by extension, R.modulo). So while "-17 % 5" is -2,
@@ -12321,7 +12349,7 @@
 	        }
 	        return (m % p + p) % p;
 	    });
-
+	
 	    /**
 	     * Returns the larger of its two arguments.
 	     *
@@ -12342,7 +12370,7 @@
 	    var max = _curry2(function max(a, b) {
 	        return b > a ? b : a;
 	    });
-
+	
 	    /**
 	     * Takes a function and two values, and returns whichever value produces the
 	     * larger result when passed to the provided function.
@@ -12370,7 +12398,7 @@
 	    var maxBy = _curry3(function maxBy(f, a, b) {
 	        return f(b) > f(a) ? b : a;
 	    });
-
+	
 	    /**
 	     * Creates a new object with the own properties of the two provided objects. If
 	     * a key exists in both objects, the provided function is applied to the key
@@ -12413,7 +12441,7 @@
 	        }
 	        return result;
 	    });
-
+	
 	    /**
 	     * Returns the smaller of its two arguments.
 	     *
@@ -12434,7 +12462,7 @@
 	    var min = _curry2(function min(a, b) {
 	        return b < a ? b : a;
 	    });
-
+	
 	    /**
 	     * Takes a function and two values, and returns whichever value produces the
 	     * smaller result when passed to the provided function.
@@ -12462,7 +12490,7 @@
 	    var minBy = _curry3(function minBy(f, a, b) {
 	        return f(b) < f(a) ? b : a;
 	    });
-
+	
 	    /**
 	     * Divides the second parameter by the first and returns the remainder. Note
 	     * that this function preserves the JavaScript-style behavior for modulo. For
@@ -12491,7 +12519,7 @@
 	    var modulo = _curry2(function modulo(a, b) {
 	        return a % b;
 	    });
-
+	
 	    /**
 	     * Multiplies two numbers. Equivalent to `a * b` but curried.
 	     *
@@ -12515,7 +12543,7 @@
 	    var multiply = _curry2(function multiply(a, b) {
 	        return a * b;
 	    });
-
+	
 	    /**
 	     * Wraps a function of any arity (including nullary) in a function that accepts
 	     * exactly `n` parameters. Any extraneous parameters will not be passed to the
@@ -12592,7 +12620,7 @@
 	            throw new Error('First argument to nAry must be a non-negative integer no greater than ten');
 	        }
 	    });
-
+	
 	    /**
 	     * Negates its argument.
 	     *
@@ -12610,7 +12638,7 @@
 	    var negate = _curry1(function negate(n) {
 	        return -n;
 	    });
-
+	
 	    /**
 	     * Returns `true` if no elements of the list match the predicate, `false`
 	     * otherwise.
@@ -12634,7 +12662,7 @@
 	     *      R.none(isEven, [1, 3, 5, 7, 8, 11]); //=> false
 	     */
 	    var none = _curry2(_complement(_dispatchable('any', _xany, any)));
-
+	
 	    /**
 	     * A function that returns the `!` of its argument. It will return `true` when
 	     * passed false-y value, and `false` when passed a truth-y one.
@@ -12657,7 +12685,7 @@
 	    var not = _curry1(function not(a) {
 	        return !a;
 	    });
-
+	
 	    /**
 	     * Returns the nth element of the given list or string. If n is negative the
 	     * element at index length + n is returned.
@@ -12685,7 +12713,7 @@
 	        var idx = offset < 0 ? list.length + offset : offset;
 	        return _isString(list) ? list.charAt(idx) : list[idx];
 	    });
-
+	
 	    /**
 	     * Returns a function which returns its nth argument.
 	     *
@@ -12706,7 +12734,7 @@
 	            return nth(n, arguments);
 	        };
 	    });
-
+	
 	    /**
 	     * Creates an object containing a single key:value pair.
 	     *
@@ -12732,7 +12760,7 @@
 	        obj[key] = val;
 	        return obj;
 	    });
-
+	
 	    /**
 	     * Returns a singleton array containing the value provided.
 	     *
@@ -12752,7 +12780,7 @@
 	     *      R.of([42]); //=> [[42]]
 	     */
 	    var of = _curry1(_of);
-
+	
 	    /**
 	     * Accepts a function `fn` and returns a function that guards invocation of
 	     * `fn` such that `fn` can only ever be called once, no matter how many times
@@ -12784,7 +12812,7 @@
 	            return result;
 	        });
 	    });
-
+	
 	    /**
 	     * Returns `true` if one or both of its arguments are `true`. Returns `false`
 	     * if both arguments are `false`.
@@ -12808,7 +12836,7 @@
 	    var or = _curry2(function or(a, b) {
 	        return a || b;
 	    });
-
+	
 	    /**
 	     * Returns the result of "setting" the portion of the given data structure
 	     * focused by the given lens to the result of applying the given function to
@@ -12846,7 +12874,7 @@
 	            })(x).value;
 	        });
 	    }();
-
+	
 	    /**
 	     * Takes two arguments, `fst` and `snd`, and returns `[fst, snd]`.
 	     *
@@ -12869,7 +12897,7 @@
 	            snd
 	        ];
 	    });
-
+	
 	    /**
 	     * Retrieve the value at a given path.
 	     *
@@ -12898,7 +12926,7 @@
 	        }
 	        return val;
 	    });
-
+	
 	    /**
 	     * If the given, non-null object has a value at the given path, returns the
 	     * value at that path. Otherwise returns the provided default value.
@@ -12920,7 +12948,7 @@
 	    var pathOr = _curry3(function pathOr(d, p, obj) {
 	        return defaultTo(d, path(p, obj));
 	    });
-
+	
 	    /**
 	     * Returns `true` if the specified object property at given path satisfies the
 	     * given predicate; `false` otherwise.
@@ -12943,7 +12971,7 @@
 	    var pathSatisfies = _curry3(function pathSatisfies(pred, propPath, obj) {
 	        return propPath.length > 0 && pred(path(propPath, obj));
 	    });
-
+	
 	    /**
 	     * Returns a partial copy of an object containing only the keys specified. If
 	     * the key does not exist, the property is ignored.
@@ -12973,7 +13001,7 @@
 	        }
 	        return result;
 	    });
-
+	
 	    /**
 	     * Similar to `pick` except that this one includes a `key: undefined` pair for
 	     * properties that don't exist.
@@ -13003,7 +13031,7 @@
 	        }
 	        return result;
 	    });
-
+	
 	    /**
 	     * Returns a partial copy of an object containing only the keys that satisfy
 	     * the supplied predicate.
@@ -13033,7 +13061,7 @@
 	        }
 	        return result;
 	    });
-
+	
 	    /**
 	     * Returns a new list with the given element at the front, followed by the
 	     * contents of the list.
@@ -13054,7 +13082,7 @@
 	    var prepend = _curry2(function prepend(el, list) {
 	        return _concat([el], list);
 	    });
-
+	
 	    /**
 	     * Returns a function that when supplied an object returns the indicated
 	     * property of that object, if it exists.
@@ -13075,7 +13103,7 @@
 	    var prop = _curry2(function prop(p, obj) {
 	        return obj[p];
 	    });
-
+	
 	    /**
 	     * If the given, non-null object has an own property with the specified name,
 	     * returns the value of that property. Otherwise returns the provided default
@@ -13105,7 +13133,7 @@
 	    var propOr = _curry3(function propOr(val, p, obj) {
 	        return obj != null && _has(p, obj) ? obj[p] : val;
 	    });
-
+	
 	    /**
 	     * Returns `true` if the specified object property satisfies the given
 	     * predicate; `false` otherwise.
@@ -13127,7 +13155,7 @@
 	    var propSatisfies = _curry3(function propSatisfies(pred, name, obj) {
 	        return pred(obj[name]);
 	    });
-
+	
 	    /**
 	     * Acts as multiple `prop`: array of keys in, array of values out. Preserves
 	     * order.
@@ -13158,7 +13186,7 @@
 	        }
 	        return out;
 	    });
-
+	
 	    /**
 	     * Returns a list of numbers from `from` (inclusive) to `to` (exclusive).
 	     *
@@ -13187,7 +13215,7 @@
 	        }
 	        return result;
 	    });
-
+	
 	    /**
 	     * Returns a single item by iterating through the list, successively calling
 	     * the iterator function and passing it an accumulator value and the current
@@ -13229,7 +13257,7 @@
 	        }
 	        return acc;
 	    });
-
+	
 	    /**
 	     * Returns a value wrapped to indicate that it is the final value of the reduce
 	     * and transduce functions. The returned value should be considered a black
@@ -13254,7 +13282,7 @@
 	     *        [1, 2, 3, 4, 5]) // 10
 	     */
 	    var reduced = _curry1(_reduced);
-
+	
 	    /**
 	     * Removes the sub-list of `list` starting at index `start` and containing
 	     * `count` elements. _Note that this is not destructive_: it returns a copy of
@@ -13277,7 +13305,7 @@
 	    var remove = _curry3(function remove(start, count, list) {
 	        return _concat(_slice(list, 0, Math.min(start, list.length)), _slice(list, Math.min(list.length, start + count)));
 	    });
-
+	
 	    /**
 	     * Replace a substring or regex match in a string with a replacement.
 	     *
@@ -13301,7 +13329,7 @@
 	    var replace = _curry3(function replace(regex, replacement, str) {
 	        return str.replace(regex, replacement);
 	    });
-
+	
 	    /**
 	     * Returns a new list or string with the elements or characters in reverse
 	     * order.
@@ -13329,7 +13357,7 @@
 	    var reverse = _curry1(function reverse(list) {
 	        return _isString(list) ? list.split('').reverse().join('') : _slice(list).reverse();
 	    });
-
+	
 	    /**
 	     * Scan is similar to reduce, but returns a list of successively reduced values
 	     * from the left
@@ -13360,7 +13388,7 @@
 	        }
 	        return result;
 	    });
-
+	
 	    /**
 	     * Returns the result of "setting" the portion of the given data structure
 	     * focused by the given lens to the given value.
@@ -13386,7 +13414,7 @@
 	    var set = _curry3(function set(lens, v, x) {
 	        return over(lens, always(v), x);
 	    });
-
+	
 	    /**
 	     * Returns the elements of the given list or string (or object with a `slice`
 	     * method) from `fromIndex` (inclusive) to `toIndex` (exclusive).
@@ -13414,7 +13442,7 @@
 	    var slice = _curry3(_checkForMethod('slice', function slice(fromIndex, toIndex, list) {
 	        return Array.prototype.slice.call(list, fromIndex, toIndex);
 	    }));
-
+	
 	    /**
 	     * Returns a copy of the list, sorted according to the comparator function,
 	     * which should accept two values at a time and return a negative number if the
@@ -13438,7 +13466,7 @@
 	    var sort = _curry2(function sort(comparator, list) {
 	        return _slice(list).sort(comparator);
 	    });
-
+	
 	    /**
 	     * Sorts the list according to the supplied function.
 	     *
@@ -13478,7 +13506,7 @@
 	            return aa < bb ? -1 : aa > bb ? 1 : 0;
 	        });
 	    });
-
+	
 	    /**
 	     * Splits a given list or string at a given index.
 	     *
@@ -13504,7 +13532,7 @@
 	            slice(index, length(array), array)
 	        ];
 	    });
-
+	
 	    /**
 	     * Splits a collection into slices of the specified length.
 	     *
@@ -13533,7 +13561,7 @@
 	        }
 	        return result;
 	    });
-
+	
 	    /**
 	     * Takes a list and a predicate and returns a pair of lists with the following properties:
 	     *
@@ -13567,7 +13595,7 @@
 	            _slice(list, idx)
 	        ];
 	    });
-
+	
 	    /**
 	     * Subtracts two numbers. Equivalent to `a - b` but curried.
 	     *
@@ -13594,7 +13622,7 @@
 	    var subtract = _curry2(function subtract(a, b) {
 	        return a - b;
 	    });
-
+	
 	    /**
 	     * Returns all but the first element of the given list or string (or object
 	     * with a `tail` method).
@@ -13623,7 +13651,7 @@
 	     *      R.tail('');     //=> ''
 	     */
 	    var tail = _checkForMethod('tail', slice(1, Infinity));
-
+	
 	    /**
 	     * Returns the first `n` elements of the given list, string, or
 	     * transducer/transformer (or object with a `take` method).
@@ -13666,7 +13694,7 @@
 	    var take = _curry2(_dispatchable('take', _xtake, function take(n, xs) {
 	        return slice(0, n < 0 ? Infinity : n, xs);
 	    }));
-
+	
 	    /**
 	     * Returns a new list containing the last `n` elements of a given list, passing
 	     * each value to the supplied predicate function, and terminating when the
@@ -13696,7 +13724,7 @@
 	        }
 	        return _slice(list, idx + 1, Infinity);
 	    });
-
+	
 	    /**
 	     * Returns a new list containing the first `n` elements of a given list,
 	     * passing each value to the supplied predicate function, and terminating when
@@ -13731,7 +13759,7 @@
 	        }
 	        return _slice(list, 0, idx);
 	    }));
-
+	
 	    /**
 	     * Runs the given function with the supplied object, then returns the object.
 	     *
@@ -13753,7 +13781,7 @@
 	        fn(x);
 	        return x;
 	    });
-
+	
 	    /**
 	     * Calls an input function `n` times, returning an array containing the results
 	     * of those function calls.
@@ -13787,7 +13815,7 @@
 	        }
 	        return list;
 	    });
-
+	
 	    /**
 	     * Converts an object into an array of key, value arrays. Only the object's
 	     * own properties are used.
@@ -13818,7 +13846,7 @@
 	        }
 	        return pairs;
 	    });
-
+	
 	    /**
 	     * Converts an object into an array of key, value arrays. The object's own
 	     * properties and prototype properties are used. Note that the order of the
@@ -13850,7 +13878,7 @@
 	        }
 	        return pairs;
 	    });
-
+	
 	    /**
 	     * Transposes the rows and columns of a 2D list.
 	     * When passed a list of `n` lists of length `x`,
@@ -13891,7 +13919,7 @@
 	        }
 	        return result;
 	    });
-
+	
 	    /**
 	     * Removes (strips) whitespace from both ends of the string.
 	     *
@@ -13923,7 +13951,7 @@
 	            });
 	        }
 	    }();
-
+	
 	    /**
 	     * Gives a single-word string description of the (native) type of a value,
 	     * returning such answers as 'Object', 'Number', 'Array', or 'Null'. Does not
@@ -13950,7 +13978,7 @@
 	    var type = _curry1(function type(val) {
 	        return val === null ? 'Null' : val === undefined ? 'Undefined' : Object.prototype.toString.call(val).slice(8, -1);
 	    });
-
+	
 	    /**
 	     * Takes a function `fn`, which takes a single array argument, and returns a
 	     * function which:
@@ -13979,7 +14007,7 @@
 	            return fn(_slice(arguments));
 	        };
 	    });
-
+	
 	    /**
 	     * Wraps a function of any arity (including nullary) in a function that accepts
 	     * exactly 1 parameter. Any extraneous parameters will not be passed to the
@@ -14009,7 +14037,7 @@
 	    var unary = _curry1(function unary(fn) {
 	        return nAry(1, fn);
 	    });
-
+	
 	    /**
 	     * Returns a function of arity `n` from a (manually) curried function.
 	     *
@@ -14044,7 +14072,7 @@
 	            return value;
 	        });
 	    });
-
+	
 	    /**
 	     * Builds a list from a seed value. Accepts an iterator function, which returns
 	     * either false to stop iteration or an array of length 2 containing the value
@@ -14078,7 +14106,7 @@
 	        }
 	        return result;
 	    });
-
+	
 	    /**
 	     * Returns a new list containing only one copy of each element in the original
 	     * list, based upon the value returned by applying the supplied predicate to
@@ -14115,7 +14143,7 @@
 	        }
 	        return result;
 	    });
-
+	
 	    /**
 	     * Tests the final argument by passing it to the given predicate function. If
 	     * the predicate is not satisfied, the function will return the result of
@@ -14144,7 +14172,7 @@
 	    var unless = _curry3(function unless(pred, whenFalseFn, x) {
 	        return pred(x) ? x : whenFalseFn(x);
 	    });
-
+	
 	    /**
 	     * Returns a new copy of the array with the element at the provided index
 	     * replaced with the given value.
@@ -14167,7 +14195,7 @@
 	    var update = _curry3(function update(idx, x, list) {
 	        return adjust(always(x), idx, list);
 	    });
-
+	
 	    /**
 	     * Accepts a function `fn` and a list of transformer functions and returns a
 	     * new curried function. When the new function is invoked, it calls the
@@ -14206,7 +14234,7 @@
 	            return fn.apply(this, args.concat(_slice(arguments, transformers.length)));
 	        });
 	    });
-
+	
 	    /**
 	     * Returns a list of all the enumerable own properties of the supplied object.
 	     * Note that the order of the output array is not guaranteed across different
@@ -14234,7 +14262,7 @@
 	        }
 	        return vals;
 	    });
-
+	
 	    /**
 	     * Returns a list of all the properties, including prototype properties, of the
 	     * supplied object.
@@ -14263,7 +14291,7 @@
 	        }
 	        return vs;
 	    });
-
+	
 	    /**
 	     * Returns a "view" of the given data structure, determined by the given lens.
 	     * The lens's focus determines which portion of the data structure is visible.
@@ -14298,7 +14326,7 @@
 	            return lens(Const)(x).value;
 	        });
 	    }();
-
+	
 	    /**
 	     * Tests the final argument by passing it to the given predicate function. If
 	     * the predicate is satisfied, the function will return the result of calling
@@ -14330,7 +14358,7 @@
 	    var when = _curry3(function when(pred, whenTrueFn, x) {
 	        return pred(x) ? whenTrueFn(x) : x;
 	    });
-
+	
 	    /**
 	     * Takes a spec object and a test object; returns true if the test satisfies
 	     * the spec. Each of the spec's own properties must be a predicate function.
@@ -14373,7 +14401,7 @@
 	        }
 	        return true;
 	    });
-
+	
 	    /**
 	     * Wrap a function inside another to allow you to make adjustments to the
 	     * parameters, or do other processing either before the internal function is
@@ -14405,7 +14433,7 @@
 	            return wrapper.apply(this, _concat([fn], arguments));
 	        });
 	    });
-
+	
 	    /**
 	     * Creates a new list out of the two supplied by creating each possible pair
 	     * from the lists.
@@ -14444,7 +14472,7 @@
 	        }
 	        return result;
 	    });
-
+	
 	    /**
 	     * Creates a new list out of the two supplied by pairing up equally-positioned
 	     * items from both lists. The returned list is truncated to the length of the
@@ -14476,7 +14504,7 @@
 	        }
 	        return rv;
 	    });
-
+	
 	    /**
 	     * Creates a new object out of a list of keys and a list of values.
 	     *
@@ -14502,7 +14530,7 @@
 	        }
 	        return out;
 	    });
-
+	
 	    /**
 	     * Creates a new list out of the two supplied by applying the function to each
 	     * equally-positioned pair in the lists. The returned list is truncated to the
@@ -14536,7 +14564,7 @@
 	        }
 	        return rv;
 	    });
-
+	
 	    /**
 	     * A function that always returns `false`. Any passed in parameters are ignored.
 	     *
@@ -14553,7 +14581,7 @@
 	     *      R.F(); //=> false
 	     */
 	    var F = always(false);
-
+	
 	    /**
 	     * A function that always returns `true`. Any passed in parameters are ignored.
 	     *
@@ -14570,7 +14598,7 @@
 	     *      R.T(); //=> true
 	     */
 	    var T = always(true);
-
+	
 	    /**
 	     * Copies an object.
 	     *
@@ -14610,7 +14638,7 @@
 	            return value;
 	        }
 	    };
-
+	
 	    var _createPartialApplicator = function _createPartialApplicator(concat) {
 	        return _curry2(function (fn, args) {
 	            return _arity(Math.max(0, fn.length - args.length), function () {
@@ -14618,11 +14646,11 @@
 	            });
 	        });
 	    };
-
+	
 	    var _dropLast = function dropLast(n, xs) {
 	        return take(n < xs.length ? xs.length - n : 0, xs);
 	    };
-
+	
 	    // Values of other types are only equal if identical.
 	    var _equals = function _equals(a, b, stackA, stackB) {
 	        if (identical(a, b)) {
@@ -14708,7 +14736,7 @@
 	        stackB.pop();
 	        return true;
 	    };
-
+	
 	    /**
 	     * `_makeFlat` is a helper function that returns a one-level or fully recursive
 	     * function based on the flag passed in.
@@ -14738,7 +14766,7 @@
 	            return result;
 	        };
 	    };
-
+	
 	    var _reduce = function () {
 	        function _arrayReduce(xf, acc, list) {
 	            var idx = 0;
@@ -14788,7 +14816,7 @@
 	            throw new TypeError('reduce: list must be array or iterable');
 	        };
 	    }();
-
+	
 	    var _xdropLastWhile = function () {
 	        function XDropLastWhile(fn, xf) {
 	            this.f = fn;
@@ -14816,7 +14844,7 @@
 	            return new XDropLastWhile(fn, xf);
 	        });
 	    }();
-
+	
 	    var _xgroupBy = function () {
 	        function XGroupBy(f, xf) {
 	            this.xf = xf;
@@ -14851,7 +14879,7 @@
 	            return new XGroupBy(f, xf);
 	        });
 	    }();
-
+	
 	    /**
 	     * Creates a new list iteration function from an existing one by adding two new
 	     * parameters to its callback function: the current index, and the entire list.
@@ -14893,7 +14921,7 @@
 	            return fn.apply(this, args);
 	        });
 	    });
-
+	
 	    /**
 	     * Wraps a function of any arity (including nullary) in a function that accepts
 	     * exactly 2 parameters. Any extraneous parameters will not be passed to the
@@ -14923,7 +14951,7 @@
 	    var binary = _curry1(function binary(fn) {
 	        return nAry(2, fn);
 	    });
-
+	
 	    /**
 	     * Creates a deep copy of the value which may contain (nested) `Array`s and
 	     * `Object`s, `Number`s, `String`s, `Boolean`s and `Date`s. `Function`s are not
@@ -14947,7 +14975,7 @@
 	    var clone = _curry1(function clone(value) {
 	        return value != null && typeof value.clone === 'function' ? value.clone() : _clone(value, [], []);
 	    });
-
+	
 	    /**
 	     * Returns a curried equivalent of the provided function. The curried function
 	     * has two unusual capabilities. First, its arguments needn't be provided one
@@ -14992,7 +15020,7 @@
 	    var curry = _curry1(function curry(fn) {
 	        return curryN(fn.length, fn);
 	    });
-
+	
 	    /**
 	     * Returns all but the first `n` elements of the given list, string, or
 	     * transducer/transformer (or object with a `drop` method).
@@ -15020,7 +15048,7 @@
 	    var drop = _curry2(_dispatchable('drop', _xdrop, function drop(n, xs) {
 	        return slice(Math.max(0, n), Infinity, xs);
 	    }));
-
+	
 	    /**
 	     * Returns a list containing all but the last `n` elements of the given `list`.
 	     *
@@ -15043,7 +15071,7 @@
 	     *      R.dropLast(3, 'ramda');               //=> 'ra'
 	     */
 	    var dropLast = _curry2(_dispatchable('dropLast', _xdropLast, _dropLast));
-
+	
 	    /**
 	     * Returns a new list containing all but last the`n` elements of a given list,
 	     * passing each value from the right to the supplied predicate function,
@@ -15066,7 +15094,7 @@
 	     *      R.dropLastWhile(lteThree, [1, 2, 3, 4, 3, 2, 1]); //=> [1, 2, 3, 4]
 	     */
 	    var dropLastWhile = _curry2(_dispatchable('dropLastWhile', _xdropLastWhile, _dropLastWhile));
-
+	
 	    /**
 	     * Returns `true` if its arguments are equivalent, `false` otherwise. Handles
 	     * cyclical data structures.
@@ -15095,7 +15123,7 @@
 	    var equals = _curry2(function equals(a, b) {
 	        return _equals(a, b, [], []);
 	    });
-
+	
 	    /**
 	     * Takes a predicate and a "filterable", and returns a new filterable of the
 	     * same type containing the members of the given filterable which satisfy the
@@ -15132,7 +15160,7 @@
 	        }, {}, keys(filterable)) : // else
 	        _filter(pred, filterable);
 	    }));
-
+	
 	    /**
 	     * Returns a new list by pulling every item out of it (and all its sub-arrays)
 	     * and putting them in a new array, depth-first.
@@ -15151,7 +15179,7 @@
 	     *      //=> [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 	     */
 	    var flatten = _curry1(_makeFlat(true));
-
+	
 	    /**
 	     * Returns a new function much like the supplied one, except that the first two
 	     * arguments' order is reversed.
@@ -15179,7 +15207,7 @@
 	            return fn.apply(this, args);
 	        });
 	    });
-
+	
 	    /**
 	     * Splits a list into sub-lists stored in an object, based on the result of
 	     * calling a String-returning function on each element, and grouping the
@@ -15227,7 +15255,7 @@
 	            return acc;
 	        }, {}, list);
 	    }));
-
+	
 	    /**
 	     * Returns the first element of the given list or string. In some libraries
 	     * this function is named `first`.
@@ -15250,7 +15278,7 @@
 	     *      R.head(''); //=> ''
 	     */
 	    var head = nth(0);
-
+	
 	    /**
 	     * Given a function that generates a key, turns a list of objects into an
 	     * object indexing the objects by the given key. Note that if multiple
@@ -15279,7 +15307,7 @@
 	            return acc;
 	        }, {}, list);
 	    });
-
+	
 	    /**
 	     * Returns all but the last element of the given list or string.
 	     *
@@ -15305,7 +15333,7 @@
 	     *      R.init('');     //=> ''
 	     */
 	    var init = slice(0, -1);
-
+	
 	    /**
 	     * Combines two lists into a set (i.e. no duplicates) composed of those
 	     * elements common to both lists. Duplication is determined according to the
@@ -15352,7 +15380,7 @@
 	        }
 	        return uniqWith(pred, results);
 	    });
-
+	
 	    /**
 	     * Same as R.invertObj, however this accounts for objects with duplicate values
 	     * by putting the values into an array.
@@ -15389,7 +15417,7 @@
 	        }
 	        return out;
 	    });
-
+	
 	    /**
 	     * Returns a new object with the keys of the given object as values, and the
 	     * values of the given object, which are coerced to strings, as keys. Note
@@ -15428,7 +15456,7 @@
 	        }
 	        return out;
 	    });
-
+	
 	    /**
 	     * Returns `true` if the given value is its type's empty value; `false`
 	     * otherwise.
@@ -15453,7 +15481,7 @@
 	    var isEmpty = _curry1(function isEmpty(x) {
 	        return x != null && equals(x, empty(x));
 	    });
-
+	
 	    /**
 	     * Returns the last element of the given list or string.
 	     *
@@ -15475,7 +15503,7 @@
 	     *      R.last(''); //=> ''
 	     */
 	    var last = nth(-1);
-
+	
 	    /**
 	     * Returns the position of the last occurrence of an item in an array, or -1 if
 	     * the item is not included in the array. `R.equals` is used to determine
@@ -15509,7 +15537,7 @@
 	            return -1;
 	        }
 	    });
-
+	
 	    /**
 	     * Takes a function and
 	     * a [functor](https://github.com/fantasyland/fantasy-land#functor),
@@ -15557,7 +15585,7 @@
 	            return _map(fn, functor);
 	        }
 	    }));
-
+	
 	    /**
 	     * An Object-specific version of `map`. The function is applied to three
 	     * arguments: *(value, key, obj)*. If only the value is significant, use
@@ -15585,7 +15613,7 @@
 	            return acc;
 	        }, {}, keys(obj));
 	    });
-
+	
 	    /**
 	     * Creates a new object with the own properties of the two provided objects. If
 	     * a key exists in both objects, the provided function is applied to the values
@@ -15616,7 +15644,7 @@
 	            return fn(_l, _r);
 	        }, l, r);
 	    });
-
+	
 	    /**
 	     * Takes a function `f` and a list of arguments, and returns a function `g`.
 	     * When applied, `g` returns the result of applying `f` to the arguments
@@ -15645,7 +15673,7 @@
 	     *      sayHelloToMs('Jane', 'Jones'); //=> 'Hello, Ms. Jane Jones!'
 	     */
 	    var partial = _createPartialApplicator(_concat);
-
+	
 	    /**
 	     * Takes a function `f` and a list of arguments, and returns a function `g`.
 	     * When applied, `g` returns the result of applying `f` to the arguments
@@ -15670,7 +15698,7 @@
 	     *      greetMsJaneJones('Hello'); //=> 'Hello, Ms. Jane Jones!'
 	     */
 	    var partialRight = _createPartialApplicator(flip(_concat));
-
+	
 	    /**
 	     * Takes a predicate and a list and returns the pair of lists of elements which
 	     * do and do not satisfy the predicate, respectively.
@@ -15700,7 +15728,7 @@
 	            []
 	        ], list);
 	    });
-
+	
 	    /**
 	     * Determines whether a nested path on an object has a specific value, in
 	     * `R.equals` terms. Most likely used to filter a list.
@@ -15727,7 +15755,7 @@
 	    var pathEq = _curry3(function pathEq(_path, val, obj) {
 	        return equals(path(_path, obj), val);
 	    });
-
+	
 	    /**
 	     * Returns a new list by plucking the same named property off all objects in
 	     * the list supplied.
@@ -15749,7 +15777,7 @@
 	    var pluck = _curry2(function pluck(p, list) {
 	        return map(prop(p), list);
 	    });
-
+	
 	    /**
 	     * Reasonable analog to SQL `select` statement.
 	     *
@@ -15774,7 +15802,7 @@
 	        pickAll,
 	        identity
 	    ]);
-
+	
 	    /**
 	     * Returns `true` if the specified object property is equal, in `R.equals`
 	     * terms, to the given value; `false` otherwise.
@@ -15802,7 +15830,7 @@
 	    var propEq = _curry3(function propEq(name, val, obj) {
 	        return propSatisfies(equals(val), name, obj);
 	    });
-
+	
 	    /**
 	     * Returns `true` if the specified object property is of the given type;
 	     * `false` otherwise.
@@ -15826,7 +15854,7 @@
 	    var propIs = _curry3(function propIs(type, name, obj) {
 	        return propSatisfies(is(type), name, obj);
 	    });
-
+	
 	    /**
 	     * Returns a single item by iterating through the list, successively calling
 	     * the iterator function and passing it an accumulator value and the current
@@ -15861,7 +15889,7 @@
 	     *      R.reduce(add, 10, numbers); //=> 16
 	     */
 	    var reduce = _curry3(_reduce);
-
+	
 	    /**
 	     * The complement of `filter`.
 	     *
@@ -15887,7 +15915,7 @@
 	    var reject = _curry2(function reject(pred, filterable) {
 	        return filter(_complement(pred), filterable);
 	    });
-
+	
 	    /**
 	     * Returns a fixed list of size `n` containing a specified identical value.
 	     *
@@ -15910,7 +15938,7 @@
 	    var repeat = _curry2(function repeat(value, n) {
 	        return times(always(value), n);
 	    });
-
+	
 	    /**
 	     * Adds together all the elements of a list.
 	     *
@@ -15927,7 +15955,7 @@
 	     *      R.sum([2,4,6,8,100,1]); //=> 121
 	     */
 	    var sum = reduce(add, 0);
-
+	
 	    /**
 	     * Returns a new list containing the last `n` elements of the given list.
 	     * If `n > list.length`, returns a list of `list.length` elements.
@@ -15953,7 +15981,7 @@
 	    var takeLast = _curry2(function takeLast(n, xs) {
 	        return drop(n >= 0 ? xs.length - n : 0, xs);
 	    });
-
+	
 	    /**
 	     * Initializes a transducer using supplied iterator function. Returns a single
 	     * item by iterating through the list, successively calling the transformed
@@ -16001,7 +16029,7 @@
 	    var transduce = curryN(4, function transduce(xf, fn, acc, list) {
 	        return _reduce(xf(typeof fn === 'function' ? _xwrap(fn) : fn), acc, list);
 	    });
-
+	
 	    /**
 	     * Combines two lists into a set (i.e. no duplicates) composed of the elements
 	     * of each list. Duplication is determined according to the value returned by
@@ -16027,7 +16055,7 @@
 	    var unionWith = _curry3(function unionWith(pred, list1, list2) {
 	        return uniqWith(pred, _concat(list1, list2));
 	    });
-
+	
 	    /**
 	     * Takes a spec object and a test object; returns true if the test satisfies
 	     * the spec, false otherwise. An object satisfies the spec if, for each of the
@@ -16058,7 +16086,7 @@
 	    var whereEq = _curry2(function whereEq(spec, testObj) {
 	        return where(map(equals, spec), testObj);
 	    });
-
+	
 	    var _flatCat = function () {
 	        var preservingReduced = function (xf) {
 	            return {
@@ -16085,7 +16113,7 @@
 	            };
 	        };
 	    }();
-
+	
 	    // Array.prototype.indexOf doesn't exist below IE9
 	    // manually crawl the list to distinguish between +0 and -0
 	    // NaN
@@ -16145,11 +16173,11 @@
 	        }
 	        return -1;
 	    };
-
+	
 	    var _xchain = _curry2(function _xchain(f, xf) {
 	        return map(f, _flatCat(xf));
 	    });
-
+	
 	    /**
 	     * Takes a list of predicates and returns a predicate that returns true for a
 	     * given list of arguments if every one of the provided predicates is satisfied
@@ -16188,7 +16216,7 @@
 	            return true;
 	        });
 	    });
-
+	
 	    /**
 	     * Returns `true` if all elements are unique, in `R.equals` terms, otherwise
 	     * `false`.
@@ -16217,7 +16245,7 @@
 	        }
 	        return true;
 	    });
-
+	
 	    /**
 	     * Takes a list of predicates and returns a predicate that returns true for a
 	     * given list of arguments if at least one of the provided predicates is
@@ -16255,7 +16283,7 @@
 	            return false;
 	        });
 	    });
-
+	
 	    /**
 	     * ap applies a list of functions to a list of values.
 	     *
@@ -16283,7 +16311,7 @@
 	            return _concat(acc, map(f, fn));
 	        }, [], applicative);
 	    });
-
+	
 	    /**
 	     * Returns the result of calling its first argument with the remaining
 	     * arguments. This is occasionally useful as a converging function for
@@ -16315,7 +16343,7 @@
 	    var call = curry(function call(fn) {
 	        return fn.apply(this, _slice(arguments, 1));
 	    });
-
+	
 	    /**
 	     * `chain` maps a function over a list and concatenates the results. `chain`
 	     * is also known as `flatMap` in some libraries
@@ -16343,7 +16371,7 @@
 	        }
 	        return _makeFlat(false)(map(fn, monad));
 	    }));
-
+	
 	    /**
 	     * Turns a list of Functors into a Functor of a list, applying a mapping
 	     * function to the elements of the list along the way.
@@ -16380,7 +16408,7 @@
 	        }
 	        return reduceRight(consF, of([]), list);
 	    });
-
+	
 	    /**
 	     * Wraps a constructor function inside a curried function that can be called
 	     * with the same arguments and returns the same type. The arity of the function
@@ -16443,7 +16471,7 @@
 	            }
 	        }));
 	    });
-
+	
 	    /**
 	     * Accepts a converging function and a list of branching functions and returns
 	     * a new function. When invoked, this new function is applied to some
@@ -16481,7 +16509,7 @@
 	            }, fns));
 	        });
 	    });
-
+	
 	    /**
 	     * Returns a new list without any consecutively repeating elements. Equality is
 	     * determined by applying the supplied predicate two consecutive elements. The
@@ -16521,7 +16549,7 @@
 	        }
 	        return result;
 	    }));
-
+	
 	    /**
 	     * Takes a function and two values in its domain and returns `true` if the
 	     * values map to the same value in the codomain; `false` otherwise.
@@ -16542,7 +16570,7 @@
 	    var eqBy = _curry3(function eqBy(f, x, y) {
 	        return equals(f(x), f(y));
 	    });
-
+	
 	    /**
 	     * Reports whether two objects have the same value, in `R.equals` terms, for
 	     * the specified property. Useful as a curried predicate.
@@ -16567,7 +16595,7 @@
 	    var eqProps = _curry3(function eqProps(prop, obj1, obj2) {
 	        return equals(obj1[prop], obj2[prop]);
 	    });
-
+	
 	    /**
 	     * Returns the position of the first occurrence of an item in an array, or -1
 	     * if the item is not included in the array. `R.equals` is used to determine
@@ -16590,7 +16618,7 @@
 	    var indexOf = _curry2(function indexOf(target, xs) {
 	        return typeof xs.indexOf === 'function' && !_isArray(xs) ? xs.indexOf(target) : _indexOf(xs, target, 0);
 	    });
-
+	
 	    /**
 	     * juxt applies a list of functions to a list of values.
 	     *
@@ -16612,7 +16640,7 @@
 	            return map(apply(__, arguments), fns);
 	        };
 	    });
-
+	
 	    /**
 	     * Returns a lens for the given getter and setter functions. The getter "gets"
 	     * the value of the focus; the setter "sets" the value of the focus. The setter
@@ -16645,7 +16673,7 @@
 	            };
 	        };
 	    });
-
+	
 	    /**
 	     * Returns a lens whose focus is the specified index.
 	     *
@@ -16669,7 +16697,7 @@
 	    var lensIndex = _curry1(function lensIndex(n) {
 	        return lens(nth(n), update(n));
 	    });
-
+	
 	    /**
 	     * Returns a lens whose focus is the specified path.
 	     *
@@ -16694,7 +16722,7 @@
 	    var lensPath = _curry1(function lensPath(p) {
 	        return lens(path(p), assocPath(p));
 	    });
-
+	
 	    /**
 	     * Returns a lens whose focus is the specified property.
 	     *
@@ -16718,7 +16746,7 @@
 	    var lensProp = _curry1(function lensProp(k) {
 	        return lens(prop(k), assoc(k));
 	    });
-
+	
 	    /**
 	     * "lifts" a function to be the specified arity, so that it may "map over" that
 	     * many lists (or other objects that satisfies the [FantasyLand Apply spec](https://github.com/fantasyland/fantasy-land#apply)).
@@ -16742,7 +16770,7 @@
 	            return _reduce(ap, map(lifted, arguments[0]), _slice(arguments, 1));
 	        });
 	    });
-
+	
 	    /**
 	     * Returns the mean of the given list of numbers.
 	     *
@@ -16761,7 +16789,7 @@
 	    var mean = _curry1(function mean(list) {
 	        return sum(list) / list.length;
 	    });
-
+	
 	    /**
 	     * Returns the median of the given list of numbers.
 	     *
@@ -16789,7 +16817,7 @@
 	            return a < b ? -1 : a > b ? 1 : 0;
 	        }).slice(idx, idx + width));
 	    });
-
+	
 	    /**
 	     * Create a new object with the own properties of the first object merged with
 	     * the own properties of the second object. If a key exists in both objects,
@@ -16815,7 +16843,7 @@
 	    var merge = mergeWith(function (l, r) {
 	        return r;
 	    });
-
+	
 	    /**
 	     * Merges a list of objects together into one object.
 	     *
@@ -16835,7 +16863,7 @@
 	    var mergeAll = _curry1(function mergeAll(list) {
 	        return reduce(merge, {}, list);
 	    });
-
+	
 	    /**
 	     * Performs left-to-right function composition. The leftmost function may have
 	     * any arity; the remaining functions must be unary.
@@ -16862,7 +16890,7 @@
 	        }
 	        return _arity(arguments[0].length, reduce(_pipe, arguments[0], tail(arguments)));
 	    };
-
+	
 	    /**
 	     * Performs left-to-right composition of one or more Promise-returning
 	     * functions. The leftmost function may have any arity; the remaining functions
@@ -16887,7 +16915,7 @@
 	        }
 	        return _arity(arguments[0].length, reduce(_pipeP, arguments[0], tail(arguments)));
 	    };
-
+	
 	    /**
 	     * Multiplies together all the elements of a list.
 	     *
@@ -16904,7 +16932,7 @@
 	     *      R.product([2,4,6,8,100,1]); //=> 38400
 	     */
 	    var product = reduce(multiply, 1);
-
+	
 	    /**
 	     * Transforms a [Traversable](https://github.com/fantasyland/fantasy-land#traversable)
 	     * of [Applicative](https://github.com/fantasyland/fantasy-land#applicative) into an
@@ -16935,7 +16963,7 @@
 	            return ap(map(prepend, x), acc);
 	        }, of([]), traversable);
 	    });
-
+	
 	    /**
 	     * Maps an [Applicative](https://github.com/fantasyland/fantasy-land#applicative)-returning
 	     * function over a [Traversable](https://github.com/fantasyland/fantasy-land#traversable),
@@ -16966,7 +16994,7 @@
 	    var traverse = _curry3(function traverse(of, f, traversable) {
 	        return sequence(of, map(f, traversable));
 	    });
-
+	
 	    /**
 	     * Shorthand for `R.chain(R.identity)`, which removes one level of nesting from
 	     * any [Chain](https://github.com/fantasyland/fantasy-land#chain).
@@ -16985,11 +17013,11 @@
 	     *      R.unnest([[1, 2], [3, 4], [5, 6]]); //=> [1, 2, 3, 4, 5, 6]
 	     */
 	    var unnest = chain(_identity);
-
+	
 	    var _contains = function _contains(a, list) {
 	        return _indexOf(list, a, 0) >= 0;
 	    };
-
+	
 	    var _stepCat = function () {
 	        var _stepCatArray = {
 	            '@@transducer/init': Array,
@@ -17028,7 +17056,7 @@
 	            throw new Error('Cannot create transformer for ' + obj);
 	        };
 	    }();
-
+	
 	    //  mapPairs :: (Object, [String]) -> [String]
 	    var _toString = function _toString(x, seen) {
 	        var recur = function recur(y) {
@@ -17070,7 +17098,7 @@
 	            return '{' + mapPairs(x, keys(x)).join(', ') + '}';
 	        }
 	    };
-
+	
 	    /**
 	     * Turns a list of Functors into a Functor of a list.
 	     *
@@ -17093,7 +17121,7 @@
 	     *      R.commute(Maybe.of, [Just(1), Just(2), Nothing()]); //=> Nothing()
 	     */
 	    var commute = commuteMap(identity);
-
+	
 	    /**
 	     * Performs right-to-left function composition. The rightmost function may have
 	     * any arity; the remaining functions must be unary.
@@ -17118,7 +17146,7 @@
 	        }
 	        return pipe.apply(this, reverse(arguments));
 	    };
-
+	
 	    /**
 	     * Returns the right-to-left Kleisli composition of the provided functions,
 	     * each of which must return a value of a type supported by [`chain`](#chain).
@@ -17155,7 +17183,7 @@
 	    var composeK = function composeK() {
 	        return compose.apply(this, prepend(identity, map(chain, arguments)));
 	    };
-
+	
 	    /**
 	     * Performs right-to-left composition of one or more Promise-returning
 	     * functions. The rightmost function may have any arity; the remaining
@@ -17180,7 +17208,7 @@
 	        }
 	        return pipeP.apply(this, reverse(arguments));
 	    };
-
+	
 	    /**
 	     * Wraps a constructor function inside a curried function that can be called
 	     * with the same arguments and returns the same type.
@@ -17209,7 +17237,7 @@
 	    var construct = _curry1(function construct(Fn) {
 	        return constructN(Fn.length, Fn);
 	    });
-
+	
 	    /**
 	     * Returns `true` if the specified value is equal, in `R.equals` terms, to at
 	     * least one element of the given list; `false` otherwise.
@@ -17230,7 +17258,7 @@
 	     *      R.contains([42], [[42]]); //=> true
 	     */
 	    var contains = _curry2(_contains);
-
+	
 	    /**
 	     * Finds the set (i.e. no duplicates) of all elements in the first list not
 	     * contained in the second list.
@@ -17261,7 +17289,7 @@
 	        }
 	        return out;
 	    });
-
+	
 	    /**
 	     * Returns a new list without any consecutively repeating elements. `R.equals`
 	     * is used to determine equality.
@@ -17283,7 +17311,7 @@
 	     *     R.dropRepeats([1, 1, 1, 2, 3, 4, 4, 2, 2]); //=> [1, 2, 3, 4, 2]
 	     */
 	    var dropRepeats = _curry1(_dispatchable('dropRepeats', _xdropRepeatsWith(equals), dropRepeatsWith(equals)));
-
+	
 	    /**
 	     * Transforms the items of the list with the transducer and appends the
 	     * transformed items to the accumulator using an appropriate iterator function
@@ -17324,7 +17352,7 @@
 	    var into = _curry3(function into(acc, xf, list) {
 	        return _isTransformer(acc) ? _reduce(xf(acc), acc['@@transducer/init'](), list) : _reduce(xf(_stepCat(acc)), acc, list);
 	    });
-
+	
 	    /**
 	     * "lifts" a function of arity > 1 so that it may "map over" an Array or other
 	     * object that satisfies the [FantasyLand Apply spec](https://github.com/fantasyland/fantasy-land#apply).
@@ -17350,7 +17378,7 @@
 	    var lift = _curry1(function lift(fn) {
 	        return liftN(fn.length, fn);
 	    });
-
+	
 	    /**
 	     * Returns a partial copy of an object omitting the keys specified.
 	     *
@@ -17376,7 +17404,7 @@
 	        }
 	        return result;
 	    });
-
+	
 	    /**
 	     * Returns the left-to-right Kleisli composition of the provided functions,
 	     * each of which must return a value of a type supported by [`chain`](#chain).
@@ -17413,7 +17441,7 @@
 	    var pipeK = function pipeK() {
 	        return composeK.apply(this, reverse(arguments));
 	    };
-
+	
 	    /**
 	     * Returns the string representation of the given value. `eval`'ing the output
 	     * should result in a value equivalent to the input value. Many of the built-in
@@ -17453,7 +17481,7 @@
 	    var toString = _curry1(function toString(val) {
 	        return _toString(val, []);
 	    });
-
+	
 	    /**
 	     * Returns a new list containing only one copy of each element in the original
 	     * list, based upon the value returned by applying the supplied function to
@@ -17549,7 +17577,7 @@
 	        }
 	        return result;
 	    });
-
+	
 	    /**
 	     * Returns a new list without values in the first argument.
 	     * `R.equals` is used to determine equality.
@@ -17573,7 +17601,7 @@
 	    var without = _curry2(function (xs, list) {
 	        return reject(flip(_contains)(xs), list);
 	    });
-
+	
 	    /**
 	     * Takes a function `f` and returns a function `g` such that:
 	     *
@@ -17601,7 +17629,7 @@
 	     *      isOdd(42); //=> false
 	     */
 	    var complement = lift(not);
-
+	
 	    /**
 	     * Turns a named method with a specified arity into a function that can be
 	     * called directly supplied with arguments and a target object.
@@ -17634,7 +17662,7 @@
 	            throw new TypeError(toString(target) + ' does not have a method named "' + method + '"');
 	        });
 	    });
-
+	
 	    /**
 	     * Returns a string made by inserting the `separator` between each element and
 	     * concatenating all the elements into a single string.
@@ -17655,7 +17683,7 @@
 	     *      R.join('|', [1, 2, 3]);    //=> '1|2|3'
 	     */
 	    var join = invoker(1, 'join');
-
+	
 	    /**
 	     * Creates a new function that, when invoked, caches the result of calling `fn`
 	     * for a given argument set and returns the result. Subsequent calls to the
@@ -17692,7 +17720,7 @@
 	            return cache[key];
 	        });
 	    });
-
+	
 	    /**
 	     * Splits a string into an array of strings based on the given
 	     * separator.
@@ -17714,7 +17742,7 @@
 	     *      R.split('.', 'a.b.c.xyz.d'); //=> ['a', 'b', 'c', 'xyz', 'd']
 	     */
 	    var split = invoker(1, 'split');
-
+	
 	    /**
 	     * Determines whether a given string matches a given regular expression.
 	     *
@@ -17738,7 +17766,7 @@
 	        }
 	        return _cloneRegExp(pattern).test(str);
 	    });
-
+	
 	    /**
 	     * The lower case version of a string.
 	     *
@@ -17755,7 +17783,7 @@
 	     *      R.toLower('XYZ'); //=> 'xyz'
 	     */
 	    var toLower = invoker(0, 'toLowerCase');
-
+	
 	    /**
 	     * The upper case version of a string.
 	     *
@@ -17772,7 +17800,7 @@
 	     *      R.toUpper('abc'); //=> 'ABC'
 	     */
 	    var toUpper = invoker(0, 'toUpperCase');
-
+	
 	    /**
 	     * Returns a new list containing only one copy of each element in the original
 	     * list. `R.equals` is used to determine equality.
@@ -17791,7 +17819,7 @@
 	     *      R.uniq([[42], [42]]); //=> [[42]]
 	     */
 	    var uniq = uniqBy(identity);
-
+	
 	    /**
 	     * Returns the result of concatenating the given lists or strings.
 	     *
@@ -17814,7 +17842,7 @@
 	     *      R.concat('ABC', 'DEF'); // 'ABCDEF'
 	     */
 	    var concat = flip(invoker(1, 'concat'));
-
+	
 	    /**
 	     * Combines two lists into a set (i.e. no duplicates) composed of those
 	     * elements common to both lists.
@@ -17835,7 +17863,7 @@
 	    var intersection = _curry2(function intersection(list1, list2) {
 	        return uniq(_filter(flip(_contains)(list1), list2));
 	    });
-
+	
 	    /**
 	     * Finds the set (i.e. no duplicates) of all elements contained in the first or
 	     * second list, but not both.
@@ -17858,7 +17886,7 @@
 	    var symmetricDifference = _curry2(function symmetricDifference(list1, list2) {
 	        return concat(difference(list1, list2), difference(list2, list1));
 	    });
-
+	
 	    /**
 	     * Finds the set (i.e. no duplicates) of all elements contained in the first or
 	     * second list, but not both. Duplication is determined according to the value
@@ -17885,7 +17913,7 @@
 	    var symmetricDifferenceWith = _curry3(function symmetricDifferenceWith(pred, list1, list2) {
 	        return concat(differenceWith(pred, list1, list2), differenceWith(pred, list2, list1));
 	    });
-
+	
 	    /**
 	     * Combines two lists into a set (i.e. no duplicates) composed of the elements
 	     * of each list.
@@ -17904,7 +17932,7 @@
 	     *      R.union([1, 2, 3], [2, 3, 4]); //=> [1, 2, 3, 4]
 	     */
 	    var union = _curry2(compose(uniq, _concat));
-
+	
 	    var R = {
 	        F: F,
 	        T: T,
@@ -18139,9 +18167,9 @@
 	        zipWith: zipWith
 	    };
 	  /* eslint-env amd */
-
+	
 	  /* TEST_ENTRY_POINT */
-
+	
 	  if (true) {
 	    module.exports = R;
 	  } else if (typeof define === 'function' && define.amd) {
@@ -18149,37 +18177,37 @@
 	  } else {
 	    this.R = R;
 	  }
-
+	
 	}.call(this));
+
+
+/***/ },
+/* 18 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var R = __webpack_require__(17)
+	var set = R.set
+	var lens = R.lens
+	
+	
+	module.exports = {
+	  lens: lens,
+	  set: set,
+	  view: __webpack_require__(19),
+	  over: __webpack_require__(21)
+	}
 
 
 /***/ },
 /* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var R = __webpack_require__(18)
-	var set = R.set
-	var lens = R.lens
-
-
-	module.exports = {
-	  lens: lens,
-	  set: set,
-	  view: __webpack_require__(20),
-	  over: __webpack_require__(22)
-	}
-
-
-/***/ },
-/* 20 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var R = __webpack_require__(18)
+	var R = __webpack_require__(17)
 	var curry = R.curry
-
-	var Const = __webpack_require__(21)
-
-
+	
+	var Const = __webpack_require__(20)
+	
+	
 	/**
 	 * Returns a "view" of the given data structure, determined by the given lens.
 	 * The lens's focus determines which portion of the data structure is visible.
@@ -18207,7 +18235,7 @@
 
 
 /***/ },
-/* 21 */
+/* 20 */
 /***/ function(module, exports) {
 
 	module.exports = function Const(x) {
@@ -18218,18 +18246,18 @@
 	    ap: function(other) { return Const(x.concat(other.value)) }
 	  }
 	}
-
+	
 
 
 /***/ },
-/* 22 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var R = __webpack_require__(18)
+	var R = __webpack_require__(17)
 	var curry = R.curry
-	var Identity = __webpack_require__(23)
-
-
+	var Identity = __webpack_require__(22)
+	
+	
 	/**
 	 * Returns the result of "setting" the portion of the given data structure
 	 * focused by the given lens to the result of applying the given function to
@@ -18260,7 +18288,7 @@
 
 
 /***/ },
-/* 23 */
+/* 22 */
 /***/ function(module, exports) {
 
 	module.exports = function Identity(x) {
@@ -18277,17 +18305,17 @@
 
 
 /***/ },
-/* 24 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var R = __webpack_require__(18)
+	var R = __webpack_require__(17)
 	var curry = R.curry
 	var compose = R.compose
-	var Const = __webpack_require__(21)
-	var monoids = __webpack_require__(25)
-
+	var Const = __webpack_require__(20)
+	var monoids = __webpack_require__(24)
+	
 	var _getValue = function(x) { return x.value }
-
+	
 	var foldMap = curry(function(f, fldable) {
 	  return fldable.reduce(function(acc, x) {
 	    var r = f(x)
@@ -18295,24 +18323,24 @@
 	    return acc.concat(r)
 	  }, null)
 	})
-
+	
 	var folded = curry(function(f, x) {
 	  return compose(Const, foldMap(compose(_getValue, f)))(x)
 	})
-
+	
 	var foldMapOf = curry(function(l, f, x) {
 	  return compose(_getValue, l(compose(Const, f)))(x)
 	})
-
+	
 	// Example folds. Needs monoidal types. Ramda fantasy?
 	var anyOf = curry(function(l, f, xs) {
 	  return compose(_getValue, foldMapOf(l, compose(monoids.Any, f)))(xs)
 	})
-
+	
 	var sumOf = curry(function(l, xs) {
 	  return compose(_getValue, foldMapOf(l, monoids.Sum))(xs)
 	})
-
+	
 	module.exports = {
 	  folded: folded,
 	  foldMapOf: foldMapOf,
@@ -18322,7 +18350,7 @@
 
 
 /***/ },
-/* 25 */
+/* 24 */
 /***/ function(module, exports) {
 
 	function Sum(x) {
@@ -18333,7 +18361,7 @@
 	    empty: function() {return Sum(0) }
 	  }
 	}
-
+	
 	function Any(x) {
 	  return {
 	    type: 'Any',
@@ -18342,28 +18370,28 @@
 	    empty: function() {return Any(false) }
 	  }
 	}
-
+	
 	module.exports = {Sum: Sum, Any: Any}
 
 
 /***/ },
-/* 26 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var R = __webpack_require__(18)
+	var R = __webpack_require__(17)
 	var curry = R.curry
 	var map = R.map
-
+	
 	var isomorphic = function(f, g) {
 	  var fun = function(x) { return f(x) }
 	  fun.from = g;
 	  return fun;
 	}
-
+	
 	var from = curry(function(i, x) {
 	  return i.from(x)
 	})
-
+	
 	var isos = function(ac, ca, bd, db) {
 	  return isomorphic(curry(function(cfd, a) {
 	    return map(db, cfd(ac(a)))
@@ -18371,12 +18399,12 @@
 	    return map(bd, afb(ca(c)))
 	  }))
 	}
-
+	
 	var iso = curry(function(ab, ba) {
 	  return isos(ab, ba, ab, ba)
 	})
-
-
+	
+	
 	// Helpful Isos:
 	// ================
 	var objIpair = iso(function(pairs) {
@@ -18388,7 +18416,7 @@
 	function(o) {
 	  return Object.keys(o).map(function(k){ return [k, o[k]] })
 	})
-
+	
 	module.exports = {
 	  iso: iso,
 	  from: from,
@@ -18397,25 +18425,25 @@
 
 
 /***/ },
-/* 27 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var R = __webpack_require__(18)
+	var R = __webpack_require__(17)
 	var curry = R.curry
 	var compose = R.compose
 	var traverse = R.traverse
 	var map = R.map
-	var Identity = __webpack_require__(23)
-
+	var Identity = __webpack_require__(22)
+	
 	var _getValue = function(x) { return x.value; }
-
+	
 	var mapped = curry(function(f, x) {
 	  return Identity(map(compose(_getValue, f), x));
 	})
 	var traversed = curry(function(of, f, x) {
 	  return Identity(traverse(of, compose(_getValue, f), x));
 	})
-
+	
 	module.exports = {
 	  mapped: mapped,
 	  traversed: traversed
@@ -18423,29 +18451,1093 @@
 
 
 /***/ },
-/* 28 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-
+	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-
+	
+	var _snabbdomJsx = __webpack_require__(12);
+	
+	var _snabbdomJsx2 = _interopRequireDefault(_snabbdomJsx);
+	
+	var _TextField = __webpack_require__(28);
+	
+	var _TextField2 = _interopRequireDefault(_TextField);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var NEW_TODO = {
+	  className: 'new-todo',
+	  placeholder: 'What needs to be done?',
+	  value: '',
+	  autofocus: true
+	};
+	
 	exports.default = function () {
-	  return (0, _ramdaLens.view)(todo, store);
+	  return _snabbdomJsx2.default.html(
+	    'header',
+	    null,
+	    _snabbdomJsx2.default.html(
+	      'h1',
+	      null,
+	      'todos'
+	    ),
+	    _snabbdomJsx2.default.html(_TextField2.default, NEW_TODO)
+	  );
 	};
 
-	var _ramda = __webpack_require__(16);
+/***/ },
+/* 28 */
+/***/ function(module, exports, __webpack_require__) {
 
-	var _ramdaLens = __webpack_require__(17);
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _snabbdomJsx = __webpack_require__(12);
+	
+	var _snabbdomJsx2 = _interopRequireDefault(_snabbdomJsx);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = function (props) {
+	  return _snabbdomJsx2.default.html("input", props);
+	};
 
-	var store = { todo: [{ complete: false }, { complete: true }] };
-	var todo = (0, _ramda.lensProp)('todo');
+/***/ },
+/* 29 */
+/***/ function(module, exports, __webpack_require__) {
 
-	setTimeout(function () {
-	  return store = (0, _ramdaLens.over)(todo, (0, _ramda.compose)((0, _ramda.concat)([{ complete: false }])), store);
-	}, 500);
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _snabbdomJsx = __webpack_require__(12);
+	
+	var _snabbdomJsx2 = _interopRequireDefault(_snabbdomJsx);
+	
+	var _todo = __webpack_require__(14);
+	
+	var _todo2 = _interopRequireDefault(_todo);
+	
+	var _ramda = __webpack_require__(15);
+	
+	var _Item = __webpack_require__(30);
+	
+	var _Item2 = _interopRequireDefault(_Item);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var getTodos = (0, _ramda.curry)((0, _ramda.map)(_Item2.default));
+	
+	exports.default = function () {
+	  return _snabbdomJsx2.default.html(
+	    'section',
+	    { className: 'main' },
+	    _snabbdomJsx2.default.html('input', { className: 'toggle-all', type: 'checkbox' }),
+	    _snabbdomJsx2.default.html(
+	      'ul',
+	      { className: 'todo-list' },
+	      getTodos((0, _todo2.default)())
+	    )
+	  );
+	};
+
+/***/ },
+/* 30 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _slicedToArray2 = __webpack_require__(31);
+	
+	var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
+	
+	var _snabbdomJsx = __webpack_require__(12);
+	
+	var _snabbdomJsx2 = _interopRequireDefault(_snabbdomJsx);
+	
+	var _TextField = __webpack_require__(28);
+	
+	var _TextField2 = _interopRequireDefault(_TextField);
+	
+	var _ramda = __webpack_require__(15);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var getClassName = (0, _ramda.compose)((0, _ramda.map)(function (_ref) {
+	  var _ref2 = (0, _slicedToArray3.default)(_ref, 1);
+	
+	  var key = _ref2[0];
+	  return key;
+	}), (0, _ramda.filter)(function (_ref3) {
+	  var _ref4 = (0, _slicedToArray3.default)(_ref3, 2);
+	
+	  var value = _ref4[1];
+	  return value;
+	}), _ramda.toPairs);
+	
+	exports.default = function (_ref5) {
+	  var text = _ref5.text;
+	  var completed = _ref5.completed;
+	  var editing = _ref5.editing;
+	  return _snabbdomJsx2.default.html(
+	    'li',
+	    { className: getClassName({ completed: completed, editing: editing }) },
+	    _snabbdomJsx2.default.html(
+	      'div',
+	      { className: 'view' },
+	      _snabbdomJsx2.default.html('input', { className: 'toggle', type: 'checkbox', checked: completed }),
+	      _snabbdomJsx2.default.html(
+	        'label',
+	        null,
+	        text
+	      ),
+	      _snabbdomJsx2.default.html('button', { className: 'destroy' })
+	    ),
+	    _snabbdomJsx2.default.html(_TextField2.default, { value: text, className: 'edit' })
+	  );
+	};
+
+/***/ },
+/* 31 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	exports.__esModule = true;
+	
+	var _isIterable2 = __webpack_require__(32);
+	
+	var _isIterable3 = _interopRequireDefault(_isIterable2);
+	
+	var _getIterator2 = __webpack_require__(84);
+	
+	var _getIterator3 = _interopRequireDefault(_getIterator2);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = function () {
+	  function sliceIterator(arr, i) {
+	    var _arr = [];
+	    var _n = true;
+	    var _d = false;
+	    var _e = undefined;
+	
+	    try {
+	      for (var _i = (0, _getIterator3.default)(arr), _s; !(_n = (_s = _i.next()).done); _n = true) {
+	        _arr.push(_s.value);
+	
+	        if (i && _arr.length === i) break;
+	      }
+	    } catch (err) {
+	      _d = true;
+	      _e = err;
+	    } finally {
+	      try {
+	        if (!_n && _i["return"]) _i["return"]();
+	      } finally {
+	        if (_d) throw _e;
+	      }
+	    }
+	
+	    return _arr;
+	  }
+	
+	  return function (arr, i) {
+	    if (Array.isArray(arr)) {
+	      return arr;
+	    } else if ((0, _isIterable3.default)(Object(arr))) {
+	      return sliceIterator(arr, i);
+	    } else {
+	      throw new TypeError("Invalid attempt to destructure non-iterable instance");
+	    }
+	  };
+	}();
+
+/***/ },
+/* 32 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(33), __esModule: true };
+
+/***/ },
+/* 33 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(34);
+	__webpack_require__(80);
+	module.exports = __webpack_require__(82);
+
+/***/ },
+/* 34 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(35);
+	var global        = __webpack_require__(46)
+	  , hide          = __webpack_require__(50)
+	  , Iterators     = __webpack_require__(38)
+	  , TO_STRING_TAG = __webpack_require__(77)('toStringTag');
+	
+	for(var collections = ['NodeList', 'DOMTokenList', 'MediaList', 'StyleSheetList', 'CSSRuleList'], i = 0; i < 5; i++){
+	  var NAME       = collections[i]
+	    , Collection = global[NAME]
+	    , proto      = Collection && Collection.prototype;
+	  if(proto && !proto[TO_STRING_TAG])hide(proto, TO_STRING_TAG, NAME);
+	  Iterators[NAME] = Iterators.Array;
+	}
+
+/***/ },
+/* 35 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	var addToUnscopables = __webpack_require__(36)
+	  , step             = __webpack_require__(37)
+	  , Iterators        = __webpack_require__(38)
+	  , toIObject        = __webpack_require__(39);
+	
+	// 22.1.3.4 Array.prototype.entries()
+	// 22.1.3.13 Array.prototype.keys()
+	// 22.1.3.29 Array.prototype.values()
+	// 22.1.3.30 Array.prototype[@@iterator]()
+	module.exports = __webpack_require__(43)(Array, 'Array', function(iterated, kind){
+	  this._t = toIObject(iterated); // target
+	  this._i = 0;                   // next index
+	  this._k = kind;                // kind
+	// 22.1.5.2.1 %ArrayIteratorPrototype%.next()
+	}, function(){
+	  var O     = this._t
+	    , kind  = this._k
+	    , index = this._i++;
+	  if(!O || index >= O.length){
+	    this._t = undefined;
+	    return step(1);
+	  }
+	  if(kind == 'keys'  )return step(0, index);
+	  if(kind == 'values')return step(0, O[index]);
+	  return step(0, [index, O[index]]);
+	}, 'values');
+	
+	// argumentsList[@@iterator] is %ArrayProto_values% (9.4.4.6, 9.4.4.7)
+	Iterators.Arguments = Iterators.Array;
+	
+	addToUnscopables('keys');
+	addToUnscopables('values');
+	addToUnscopables('entries');
+
+/***/ },
+/* 36 */
+/***/ function(module, exports) {
+
+	module.exports = function(){ /* empty */ };
+
+/***/ },
+/* 37 */
+/***/ function(module, exports) {
+
+	module.exports = function(done, value){
+	  return {value: value, done: !!done};
+	};
+
+/***/ },
+/* 38 */
+/***/ function(module, exports) {
+
+	module.exports = {};
+
+/***/ },
+/* 39 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// to indexed object, toObject with fallback for non-array-like ES3 strings
+	var IObject = __webpack_require__(40)
+	  , defined = __webpack_require__(42);
+	module.exports = function(it){
+	  return IObject(defined(it));
+	};
+
+/***/ },
+/* 40 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// fallback for non-array-like ES3 and non-enumerable old V8 strings
+	var cof = __webpack_require__(41);
+	module.exports = Object('z').propertyIsEnumerable(0) ? Object : function(it){
+	  return cof(it) == 'String' ? it.split('') : Object(it);
+	};
+
+/***/ },
+/* 41 */
+/***/ function(module, exports) {
+
+	var toString = {}.toString;
+	
+	module.exports = function(it){
+	  return toString.call(it).slice(8, -1);
+	};
+
+/***/ },
+/* 42 */
+/***/ function(module, exports) {
+
+	// 7.2.1 RequireObjectCoercible(argument)
+	module.exports = function(it){
+	  if(it == undefined)throw TypeError("Can't call method on  " + it);
+	  return it;
+	};
+
+/***/ },
+/* 43 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	var LIBRARY        = __webpack_require__(44)
+	  , $export        = __webpack_require__(45)
+	  , redefine       = __webpack_require__(60)
+	  , hide           = __webpack_require__(50)
+	  , has            = __webpack_require__(61)
+	  , Iterators      = __webpack_require__(38)
+	  , $iterCreate    = __webpack_require__(62)
+	  , setToStringTag = __webpack_require__(76)
+	  , getPrototypeOf = __webpack_require__(78)
+	  , ITERATOR       = __webpack_require__(77)('iterator')
+	  , BUGGY          = !([].keys && 'next' in [].keys()) // Safari has buggy iterators w/o `next`
+	  , FF_ITERATOR    = '@@iterator'
+	  , KEYS           = 'keys'
+	  , VALUES         = 'values';
+	
+	var returnThis = function(){ return this; };
+	
+	module.exports = function(Base, NAME, Constructor, next, DEFAULT, IS_SET, FORCED){
+	  $iterCreate(Constructor, NAME, next);
+	  var getMethod = function(kind){
+	    if(!BUGGY && kind in proto)return proto[kind];
+	    switch(kind){
+	      case KEYS: return function keys(){ return new Constructor(this, kind); };
+	      case VALUES: return function values(){ return new Constructor(this, kind); };
+	    } return function entries(){ return new Constructor(this, kind); };
+	  };
+	  var TAG        = NAME + ' Iterator'
+	    , DEF_VALUES = DEFAULT == VALUES
+	    , VALUES_BUG = false
+	    , proto      = Base.prototype
+	    , $native    = proto[ITERATOR] || proto[FF_ITERATOR] || DEFAULT && proto[DEFAULT]
+	    , $default   = $native || getMethod(DEFAULT)
+	    , $entries   = DEFAULT ? !DEF_VALUES ? $default : getMethod('entries') : undefined
+	    , $anyNative = NAME == 'Array' ? proto.entries || $native : $native
+	    , methods, key, IteratorPrototype;
+	  // Fix native
+	  if($anyNative){
+	    IteratorPrototype = getPrototypeOf($anyNative.call(new Base));
+	    if(IteratorPrototype !== Object.prototype){
+	      // Set @@toStringTag to native iterators
+	      setToStringTag(IteratorPrototype, TAG, true);
+	      // fix for some old engines
+	      if(!LIBRARY && !has(IteratorPrototype, ITERATOR))hide(IteratorPrototype, ITERATOR, returnThis);
+	    }
+	  }
+	  // fix Array#{values, @@iterator}.name in V8 / FF
+	  if(DEF_VALUES && $native && $native.name !== VALUES){
+	    VALUES_BUG = true;
+	    $default = function values(){ return $native.call(this); };
+	  }
+	  // Define iterator
+	  if((!LIBRARY || FORCED) && (BUGGY || VALUES_BUG || !proto[ITERATOR])){
+	    hide(proto, ITERATOR, $default);
+	  }
+	  // Plug for library
+	  Iterators[NAME] = $default;
+	  Iterators[TAG]  = returnThis;
+	  if(DEFAULT){
+	    methods = {
+	      values:  DEF_VALUES ? $default : getMethod(VALUES),
+	      keys:    IS_SET     ? $default : getMethod(KEYS),
+	      entries: $entries
+	    };
+	    if(FORCED)for(key in methods){
+	      if(!(key in proto))redefine(proto, key, methods[key]);
+	    } else $export($export.P + $export.F * (BUGGY || VALUES_BUG), NAME, methods);
+	  }
+	  return methods;
+	};
+
+/***/ },
+/* 44 */
+/***/ function(module, exports) {
+
+	module.exports = true;
+
+/***/ },
+/* 45 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var global    = __webpack_require__(46)
+	  , core      = __webpack_require__(47)
+	  , ctx       = __webpack_require__(48)
+	  , hide      = __webpack_require__(50)
+	  , PROTOTYPE = 'prototype';
+	
+	var $export = function(type, name, source){
+	  var IS_FORCED = type & $export.F
+	    , IS_GLOBAL = type & $export.G
+	    , IS_STATIC = type & $export.S
+	    , IS_PROTO  = type & $export.P
+	    , IS_BIND   = type & $export.B
+	    , IS_WRAP   = type & $export.W
+	    , exports   = IS_GLOBAL ? core : core[name] || (core[name] = {})
+	    , expProto  = exports[PROTOTYPE]
+	    , target    = IS_GLOBAL ? global : IS_STATIC ? global[name] : (global[name] || {})[PROTOTYPE]
+	    , key, own, out;
+	  if(IS_GLOBAL)source = name;
+	  for(key in source){
+	    // contains in native
+	    own = !IS_FORCED && target && target[key] !== undefined;
+	    if(own && key in exports)continue;
+	    // export native or passed
+	    out = own ? target[key] : source[key];
+	    // prevent global pollution for namespaces
+	    exports[key] = IS_GLOBAL && typeof target[key] != 'function' ? source[key]
+	    // bind timers to global for call from export context
+	    : IS_BIND && own ? ctx(out, global)
+	    // wrap global constructors for prevent change them in library
+	    : IS_WRAP && target[key] == out ? (function(C){
+	      var F = function(a, b, c){
+	        if(this instanceof C){
+	          switch(arguments.length){
+	            case 0: return new C;
+	            case 1: return new C(a);
+	            case 2: return new C(a, b);
+	          } return new C(a, b, c);
+	        } return C.apply(this, arguments);
+	      };
+	      F[PROTOTYPE] = C[PROTOTYPE];
+	      return F;
+	    // make static versions for prototype methods
+	    })(out) : IS_PROTO && typeof out == 'function' ? ctx(Function.call, out) : out;
+	    // export proto methods to core.%CONSTRUCTOR%.methods.%NAME%
+	    if(IS_PROTO){
+	      (exports.virtual || (exports.virtual = {}))[key] = out;
+	      // export proto methods to core.%CONSTRUCTOR%.prototype.%NAME%
+	      if(type & $export.R && expProto && !expProto[key])hide(expProto, key, out);
+	    }
+	  }
+	};
+	// type bitmap
+	$export.F = 1;   // forced
+	$export.G = 2;   // global
+	$export.S = 4;   // static
+	$export.P = 8;   // proto
+	$export.B = 16;  // bind
+	$export.W = 32;  // wrap
+	$export.U = 64;  // safe
+	$export.R = 128; // real proto method for `library` 
+	module.exports = $export;
+
+/***/ },
+/* 46 */
+/***/ function(module, exports) {
+
+	// https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
+	var global = module.exports = typeof window != 'undefined' && window.Math == Math
+	  ? window : typeof self != 'undefined' && self.Math == Math ? self : Function('return this')();
+	if(typeof __g == 'number')__g = global; // eslint-disable-line no-undef
+
+/***/ },
+/* 47 */
+/***/ function(module, exports) {
+
+	var core = module.exports = {version: '2.4.0'};
+	if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
+
+/***/ },
+/* 48 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// optional / simple context binding
+	var aFunction = __webpack_require__(49);
+	module.exports = function(fn, that, length){
+	  aFunction(fn);
+	  if(that === undefined)return fn;
+	  switch(length){
+	    case 1: return function(a){
+	      return fn.call(that, a);
+	    };
+	    case 2: return function(a, b){
+	      return fn.call(that, a, b);
+	    };
+	    case 3: return function(a, b, c){
+	      return fn.call(that, a, b, c);
+	    };
+	  }
+	  return function(/* ...args */){
+	    return fn.apply(that, arguments);
+	  };
+	};
+
+/***/ },
+/* 49 */
+/***/ function(module, exports) {
+
+	module.exports = function(it){
+	  if(typeof it != 'function')throw TypeError(it + ' is not a function!');
+	  return it;
+	};
+
+/***/ },
+/* 50 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var dP         = __webpack_require__(51)
+	  , createDesc = __webpack_require__(59);
+	module.exports = __webpack_require__(55) ? function(object, key, value){
+	  return dP.f(object, key, createDesc(1, value));
+	} : function(object, key, value){
+	  object[key] = value;
+	  return object;
+	};
+
+/***/ },
+/* 51 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var anObject       = __webpack_require__(52)
+	  , IE8_DOM_DEFINE = __webpack_require__(54)
+	  , toPrimitive    = __webpack_require__(58)
+	  , dP             = Object.defineProperty;
+	
+	exports.f = __webpack_require__(55) ? Object.defineProperty : function defineProperty(O, P, Attributes){
+	  anObject(O);
+	  P = toPrimitive(P, true);
+	  anObject(Attributes);
+	  if(IE8_DOM_DEFINE)try {
+	    return dP(O, P, Attributes);
+	  } catch(e){ /* empty */ }
+	  if('get' in Attributes || 'set' in Attributes)throw TypeError('Accessors not supported!');
+	  if('value' in Attributes)O[P] = Attributes.value;
+	  return O;
+	};
+
+/***/ },
+/* 52 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var isObject = __webpack_require__(53);
+	module.exports = function(it){
+	  if(!isObject(it))throw TypeError(it + ' is not an object!');
+	  return it;
+	};
+
+/***/ },
+/* 53 */
+/***/ function(module, exports) {
+
+	module.exports = function(it){
+	  return typeof it === 'object' ? it !== null : typeof it === 'function';
+	};
+
+/***/ },
+/* 54 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = !__webpack_require__(55) && !__webpack_require__(56)(function(){
+	  return Object.defineProperty(__webpack_require__(57)('div'), 'a', {get: function(){ return 7; }}).a != 7;
+	});
+
+/***/ },
+/* 55 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// Thank's IE8 for his funny defineProperty
+	module.exports = !__webpack_require__(56)(function(){
+	  return Object.defineProperty({}, 'a', {get: function(){ return 7; }}).a != 7;
+	});
+
+/***/ },
+/* 56 */
+/***/ function(module, exports) {
+
+	module.exports = function(exec){
+	  try {
+	    return !!exec();
+	  } catch(e){
+	    return true;
+	  }
+	};
+
+/***/ },
+/* 57 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var isObject = __webpack_require__(53)
+	  , document = __webpack_require__(46).document
+	  // in old IE typeof document.createElement is 'object'
+	  , is = isObject(document) && isObject(document.createElement);
+	module.exports = function(it){
+	  return is ? document.createElement(it) : {};
+	};
+
+/***/ },
+/* 58 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// 7.1.1 ToPrimitive(input [, PreferredType])
+	var isObject = __webpack_require__(53);
+	// instead of the ES6 spec version, we didn't implement @@toPrimitive case
+	// and the second argument - flag - preferred type is a string
+	module.exports = function(it, S){
+	  if(!isObject(it))return it;
+	  var fn, val;
+	  if(S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it)))return val;
+	  if(typeof (fn = it.valueOf) == 'function' && !isObject(val = fn.call(it)))return val;
+	  if(!S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it)))return val;
+	  throw TypeError("Can't convert object to primitive value");
+	};
+
+/***/ },
+/* 59 */
+/***/ function(module, exports) {
+
+	module.exports = function(bitmap, value){
+	  return {
+	    enumerable  : !(bitmap & 1),
+	    configurable: !(bitmap & 2),
+	    writable    : !(bitmap & 4),
+	    value       : value
+	  };
+	};
+
+/***/ },
+/* 60 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(50);
+
+/***/ },
+/* 61 */
+/***/ function(module, exports) {
+
+	var hasOwnProperty = {}.hasOwnProperty;
+	module.exports = function(it, key){
+	  return hasOwnProperty.call(it, key);
+	};
+
+/***/ },
+/* 62 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	var create         = __webpack_require__(63)
+	  , descriptor     = __webpack_require__(59)
+	  , setToStringTag = __webpack_require__(76)
+	  , IteratorPrototype = {};
+	
+	// 25.1.2.1.1 %IteratorPrototype%[@@iterator]()
+	__webpack_require__(50)(IteratorPrototype, __webpack_require__(77)('iterator'), function(){ return this; });
+	
+	module.exports = function(Constructor, NAME, next){
+	  Constructor.prototype = create(IteratorPrototype, {next: descriptor(1, next)});
+	  setToStringTag(Constructor, NAME + ' Iterator');
+	};
+
+/***/ },
+/* 63 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// 19.1.2.2 / 15.2.3.5 Object.create(O [, Properties])
+	var anObject    = __webpack_require__(52)
+	  , dPs         = __webpack_require__(64)
+	  , enumBugKeys = __webpack_require__(74)
+	  , IE_PROTO    = __webpack_require__(71)('IE_PROTO')
+	  , Empty       = function(){ /* empty */ }
+	  , PROTOTYPE   = 'prototype';
+	
+	// Create object with fake `null` prototype: use iframe Object with cleared prototype
+	var createDict = function(){
+	  // Thrash, waste and sodomy: IE GC bug
+	  var iframe = __webpack_require__(57)('iframe')
+	    , i      = enumBugKeys.length
+	    , lt     = '<'
+	    , gt     = '>'
+	    , iframeDocument;
+	  iframe.style.display = 'none';
+	  __webpack_require__(75).appendChild(iframe);
+	  iframe.src = 'javascript:'; // eslint-disable-line no-script-url
+	  // createDict = iframe.contentWindow.Object;
+	  // html.removeChild(iframe);
+	  iframeDocument = iframe.contentWindow.document;
+	  iframeDocument.open();
+	  iframeDocument.write(lt + 'script' + gt + 'document.F=Object' + lt + '/script' + gt);
+	  iframeDocument.close();
+	  createDict = iframeDocument.F;
+	  while(i--)delete createDict[PROTOTYPE][enumBugKeys[i]];
+	  return createDict();
+	};
+	
+	module.exports = Object.create || function create(O, Properties){
+	  var result;
+	  if(O !== null){
+	    Empty[PROTOTYPE] = anObject(O);
+	    result = new Empty;
+	    Empty[PROTOTYPE] = null;
+	    // add "__proto__" for Object.getPrototypeOf polyfill
+	    result[IE_PROTO] = O;
+	  } else result = createDict();
+	  return Properties === undefined ? result : dPs(result, Properties);
+	};
+
+
+/***/ },
+/* 64 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var dP       = __webpack_require__(51)
+	  , anObject = __webpack_require__(52)
+	  , getKeys  = __webpack_require__(65);
+	
+	module.exports = __webpack_require__(55) ? Object.defineProperties : function defineProperties(O, Properties){
+	  anObject(O);
+	  var keys   = getKeys(Properties)
+	    , length = keys.length
+	    , i = 0
+	    , P;
+	  while(length > i)dP.f(O, P = keys[i++], Properties[P]);
+	  return O;
+	};
+
+/***/ },
+/* 65 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// 19.1.2.14 / 15.2.3.14 Object.keys(O)
+	var $keys       = __webpack_require__(66)
+	  , enumBugKeys = __webpack_require__(74);
+	
+	module.exports = Object.keys || function keys(O){
+	  return $keys(O, enumBugKeys);
+	};
+
+/***/ },
+/* 66 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var has          = __webpack_require__(61)
+	  , toIObject    = __webpack_require__(39)
+	  , arrayIndexOf = __webpack_require__(67)(false)
+	  , IE_PROTO     = __webpack_require__(71)('IE_PROTO');
+	
+	module.exports = function(object, names){
+	  var O      = toIObject(object)
+	    , i      = 0
+	    , result = []
+	    , key;
+	  for(key in O)if(key != IE_PROTO)has(O, key) && result.push(key);
+	  // Don't enum bug & hidden keys
+	  while(names.length > i)if(has(O, key = names[i++])){
+	    ~arrayIndexOf(result, key) || result.push(key);
+	  }
+	  return result;
+	};
+
+/***/ },
+/* 67 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// false -> Array#indexOf
+	// true  -> Array#includes
+	var toIObject = __webpack_require__(39)
+	  , toLength  = __webpack_require__(68)
+	  , toIndex   = __webpack_require__(70);
+	module.exports = function(IS_INCLUDES){
+	  return function($this, el, fromIndex){
+	    var O      = toIObject($this)
+	      , length = toLength(O.length)
+	      , index  = toIndex(fromIndex, length)
+	      , value;
+	    // Array#includes uses SameValueZero equality algorithm
+	    if(IS_INCLUDES && el != el)while(length > index){
+	      value = O[index++];
+	      if(value != value)return true;
+	    // Array#toIndex ignores holes, Array#includes - not
+	    } else for(;length > index; index++)if(IS_INCLUDES || index in O){
+	      if(O[index] === el)return IS_INCLUDES || index || 0;
+	    } return !IS_INCLUDES && -1;
+	  };
+	};
+
+/***/ },
+/* 68 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// 7.1.15 ToLength
+	var toInteger = __webpack_require__(69)
+	  , min       = Math.min;
+	module.exports = function(it){
+	  return it > 0 ? min(toInteger(it), 0x1fffffffffffff) : 0; // pow(2, 53) - 1 == 9007199254740991
+	};
+
+/***/ },
+/* 69 */
+/***/ function(module, exports) {
+
+	// 7.1.4 ToInteger
+	var ceil  = Math.ceil
+	  , floor = Math.floor;
+	module.exports = function(it){
+	  return isNaN(it = +it) ? 0 : (it > 0 ? floor : ceil)(it);
+	};
+
+/***/ },
+/* 70 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var toInteger = __webpack_require__(69)
+	  , max       = Math.max
+	  , min       = Math.min;
+	module.exports = function(index, length){
+	  index = toInteger(index);
+	  return index < 0 ? max(index + length, 0) : min(index, length);
+	};
+
+/***/ },
+/* 71 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var shared = __webpack_require__(72)('keys')
+	  , uid    = __webpack_require__(73);
+	module.exports = function(key){
+	  return shared[key] || (shared[key] = uid(key));
+	};
+
+/***/ },
+/* 72 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var global = __webpack_require__(46)
+	  , SHARED = '__core-js_shared__'
+	  , store  = global[SHARED] || (global[SHARED] = {});
+	module.exports = function(key){
+	  return store[key] || (store[key] = {});
+	};
+
+/***/ },
+/* 73 */
+/***/ function(module, exports) {
+
+	var id = 0
+	  , px = Math.random();
+	module.exports = function(key){
+	  return 'Symbol('.concat(key === undefined ? '' : key, ')_', (++id + px).toString(36));
+	};
+
+/***/ },
+/* 74 */
+/***/ function(module, exports) {
+
+	// IE 8- don't enum bug keys
+	module.exports = (
+	  'constructor,hasOwnProperty,isPrototypeOf,propertyIsEnumerable,toLocaleString,toString,valueOf'
+	).split(',');
+
+/***/ },
+/* 75 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(46).document && document.documentElement;
+
+/***/ },
+/* 76 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var def = __webpack_require__(51).f
+	  , has = __webpack_require__(61)
+	  , TAG = __webpack_require__(77)('toStringTag');
+	
+	module.exports = function(it, tag, stat){
+	  if(it && !has(it = stat ? it : it.prototype, TAG))def(it, TAG, {configurable: true, value: tag});
+	};
+
+/***/ },
+/* 77 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var store      = __webpack_require__(72)('wks')
+	  , uid        = __webpack_require__(73)
+	  , Symbol     = __webpack_require__(46).Symbol
+	  , USE_SYMBOL = typeof Symbol == 'function';
+	
+	var $exports = module.exports = function(name){
+	  return store[name] || (store[name] =
+	    USE_SYMBOL && Symbol[name] || (USE_SYMBOL ? Symbol : uid)('Symbol.' + name));
+	};
+	
+	$exports.store = store;
+
+/***/ },
+/* 78 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// 19.1.2.9 / 15.2.3.2 Object.getPrototypeOf(O)
+	var has         = __webpack_require__(61)
+	  , toObject    = __webpack_require__(79)
+	  , IE_PROTO    = __webpack_require__(71)('IE_PROTO')
+	  , ObjectProto = Object.prototype;
+	
+	module.exports = Object.getPrototypeOf || function(O){
+	  O = toObject(O);
+	  if(has(O, IE_PROTO))return O[IE_PROTO];
+	  if(typeof O.constructor == 'function' && O instanceof O.constructor){
+	    return O.constructor.prototype;
+	  } return O instanceof Object ? ObjectProto : null;
+	};
+
+/***/ },
+/* 79 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// 7.1.13 ToObject(argument)
+	var defined = __webpack_require__(42);
+	module.exports = function(it){
+	  return Object(defined(it));
+	};
+
+/***/ },
+/* 80 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	var $at  = __webpack_require__(81)(true);
+	
+	// 21.1.3.27 String.prototype[@@iterator]()
+	__webpack_require__(43)(String, 'String', function(iterated){
+	  this._t = String(iterated); // target
+	  this._i = 0;                // next index
+	// 21.1.5.2.1 %StringIteratorPrototype%.next()
+	}, function(){
+	  var O     = this._t
+	    , index = this._i
+	    , point;
+	  if(index >= O.length)return {value: undefined, done: true};
+	  point = $at(O, index);
+	  this._i += point.length;
+	  return {value: point, done: false};
+	});
+
+/***/ },
+/* 81 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var toInteger = __webpack_require__(69)
+	  , defined   = __webpack_require__(42);
+	// true  -> String#at
+	// false -> String#codePointAt
+	module.exports = function(TO_STRING){
+	  return function(that, pos){
+	    var s = String(defined(that))
+	      , i = toInteger(pos)
+	      , l = s.length
+	      , a, b;
+	    if(i < 0 || i >= l)return TO_STRING ? '' : undefined;
+	    a = s.charCodeAt(i);
+	    return a < 0xd800 || a > 0xdbff || i + 1 === l || (b = s.charCodeAt(i + 1)) < 0xdc00 || b > 0xdfff
+	      ? TO_STRING ? s.charAt(i) : a
+	      : TO_STRING ? s.slice(i, i + 2) : (a - 0xd800 << 10) + (b - 0xdc00) + 0x10000;
+	  };
+	};
+
+/***/ },
+/* 82 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var classof   = __webpack_require__(83)
+	  , ITERATOR  = __webpack_require__(77)('iterator')
+	  , Iterators = __webpack_require__(38);
+	module.exports = __webpack_require__(47).isIterable = function(it){
+	  var O = Object(it);
+	  return O[ITERATOR] !== undefined
+	    || '@@iterator' in O
+	    || Iterators.hasOwnProperty(classof(O));
+	};
+
+/***/ },
+/* 83 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// getting tag from 19.1.3.6 Object.prototype.toString()
+	var cof = __webpack_require__(41)
+	  , TAG = __webpack_require__(77)('toStringTag')
+	  // ES3 wrong here
+	  , ARG = cof(function(){ return arguments; }()) == 'Arguments';
+	
+	// fallback for IE11 Script Access Denied error
+	var tryGet = function(it, key){
+	  try {
+	    return it[key];
+	  } catch(e){ /* empty */ }
+	};
+	
+	module.exports = function(it){
+	  var O, T, B;
+	  return it === undefined ? 'Undefined' : it === null ? 'Null'
+	    // @@toStringTag case
+	    : typeof (T = tryGet(O = Object(it), TAG)) == 'string' ? T
+	    // builtinTag case
+	    : ARG ? cof(O)
+	    // ES3 arguments fallback
+	    : (B = cof(O)) == 'Object' && typeof O.callee == 'function' ? 'Arguments' : B;
+	};
+
+/***/ },
+/* 84 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(85), __esModule: true };
+
+/***/ },
+/* 85 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(34);
+	__webpack_require__(80);
+	module.exports = __webpack_require__(86);
+
+/***/ },
+/* 86 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var anObject = __webpack_require__(52)
+	  , get      = __webpack_require__(87);
+	module.exports = __webpack_require__(47).getIterator = function(it){
+	  var iterFn = get(it);
+	  if(typeof iterFn != 'function')throw TypeError(it + ' is not iterable!');
+	  return anObject(iterFn.call(it));
+	};
+
+/***/ },
+/* 87 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var classof   = __webpack_require__(83)
+	  , ITERATOR  = __webpack_require__(77)('iterator')
+	  , Iterators = __webpack_require__(38);
+	module.exports = __webpack_require__(47).getIteratorMethod = function(it){
+	  if(it != undefined)return it[ITERATOR]
+	    || it['@@iterator']
+	    || Iterators[classof(it)];
+	};
 
 /***/ }
 /******/ ]);
+//# sourceMappingURL=bundle.js.map

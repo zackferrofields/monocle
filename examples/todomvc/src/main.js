@@ -5,4 +5,4 @@ const node = document.querySelector('[app]');
 const render = renderer(App, node);
 render();
 
-setTimeout(() => render(App({ name: 'Zack' })), 1000);
+setTimeout(() => render(App()), 1000);

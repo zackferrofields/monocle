@@ -12,5 +12,7 @@ module.exports = {
     loaders: [
       { test: /\.(js|jsx)$/, exclude: /node_modules/, loader: 'babel' }
     ]
-  }
+  },
+  debug: true,
+  devtool: '#source-map'
 };

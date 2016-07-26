@@ -1,7 +1,7 @@
 import todo from '../stores/todo';
-import { filter, compose } from 'ramda';
+import { filter, curry } from 'ramda';
 
-const remaining = compose(filter(({ complete }) => !complete));
+const remaining = curry(filter(({ completed }) => !completed));
 
 const Count = ({ remaining }) =>
   <span className="todo-count">
