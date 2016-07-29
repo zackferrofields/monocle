@@ -1,20 +1,20 @@
 // import csp from 'js-csp';
 import renderer from './renderer';
 import App from './components/App';
-import { put, take, actions } from './actions';
-import increment from './actions/increment';
+import { put, take, actions } from './action';
+import { increment, types } from './action/types';
 
 const node = document.querySelector('[app]');
 const render = renderer(App, node);
 
 let model = { count: 0 };
 
-function update(model, action) {
-  switch (action.actionType) {
-  case 'incr':
-    model.count += 1;
-    return model;
+function update(model, { type, payload}) {
+  switch (type) {
+  case types.increment:
+    model.count += payload;
   }
+  return model;
 }
 
 async function loop() {
@@ -26,4 +26,4 @@ async function loop() {
 }
 
 loop();
-increment();
+increment(0);

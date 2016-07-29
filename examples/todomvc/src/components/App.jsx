@@ -1,11 +1,15 @@
 import Footer from './Footer';
 import Header from './Header';
 import Main from './Main';
-import increment from '../actions/increment';
+import { increment } from '../action/types';
 
 export default ({ model: { count } }) =>
   <section className="todoapp">
-    <h2 on-click={increment}>{count}</h2>
+    <h2>
+      <span on-click={() => increment(-1)}>{' - '}</span>
+      {count}
+      <span on-click={() => increment(1)}>{' + '}</span>
+    </h2>
     <Header/>
     <Main/>
     <Footer/>
