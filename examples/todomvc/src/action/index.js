@@ -1,5 +1,6 @@
-const channel = () =>
-  ({ messages: [], takers: [], putters: [] });
+import { compose, map, fromPairs, toPairs } from 'ramda';
+
+const actions = { messages: [], takers: [], putters: [] };
 
 const put = ({ putters, takers }, msg) =>
   new Promise(resolve => {
@@ -13,9 +14,11 @@ export const take = ({ putters, takers }) =>
     if (putters.length) takers.pop()(putters.pop()());
   });
 
-export const actions = channel();
+const create = type => payload =>
+  put(actions, { type, payload });
 
-export const create = type => payload =>
-  (console.log(payload), put(actions, { type, payload }));
+export const createTypes = compose(fromPairs, map(key => [ key, Symbol(key) ]));
+
+export const createActions = compose(fromPairs, map(([key, value]) => [ key, create(value) ]), toPairs);
 
 export default actions;

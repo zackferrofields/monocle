@@ -1,9 +1,5 @@
-import { create } from './index';
+import { createActions, createTypes } from './index';
 
-export const types = {
-  increment: Symbol('increment')
-};
+export const types = createTypes([ 'increment' ]);
 
-export const increment = create(types.increment);
-
-export default types;
+export default createActions(types);

@@ -54,42 +54,6 @@
 	
 	var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 	
-	var loop = function () {
-	  var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
-	    var action;
-	    return _regenerator2.default.wrap(function _callee$(_context) {
-	      while (1) {
-	        switch (_context.prev = _context.next) {
-	          case 0:
-	            if (false) {
-	              _context.next = 8;
-	              break;
-	            }
-	
-	            _context.next = 3;
-	            return (0, _action.take)(_action.actions);
-	
-	          case 3:
-	            action = _context.sent;
-	
-	            model = update(model, action);
-	            render(_snabbdomJsx2.default.html(_App2.default, { model: model }));
-	            _context.next = 0;
-	            break;
-	
-	          case 8:
-	          case 'end':
-	            return _context.stop();
-	        }
-	      }
-	    }, _callee, this);
-	  }));
-	
-	  return function loop() {
-	    return _ref2.apply(this, arguments);
-	  };
-	}();
-	
 	var _snabbdomJsx = __webpack_require__(12);
 	
 	var _snabbdomJsx2 = _interopRequireDefault(_snabbdomJsx);
@@ -104,11 +68,14 @@
 	
 	var _action = __webpack_require__(145);
 	
+	var _action2 = _interopRequireDefault(_action);
+	
 	var _types = __webpack_require__(144);
+	
+	var _types2 = _interopRequireDefault(_types);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	// import csp from 'js-csp';
 	var node = document.querySelector('[app]');
 	var render = (0, _renderer2.default)(_App2.default, node);
 	
@@ -125,8 +92,44 @@
 	  return model;
 	}
 	
+	var loop = function () {
+	  var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+	    var action;
+	    return _regenerator2.default.wrap(function _callee$(_context) {
+	      while (1) {
+	        switch (_context.prev = _context.next) {
+	          case 0:
+	            if (false) {
+	              _context.next = 8;
+	              break;
+	            }
+	
+	            _context.next = 3;
+	            return (0, _action.take)(_action2.default);
+	
+	          case 3:
+	            action = _context.sent;
+	
+	            model = update(model, action);
+	            render(_snabbdomJsx2.default.html(_App2.default, { model: model }));
+	            _context.next = 0;
+	            break;
+	
+	          case 8:
+	          case 'end':
+	            return _context.stop();
+	        }
+	      }
+	    }, _callee, undefined);
+	  }));
+	
+	  return function loop() {
+	    return _ref2.apply(this, arguments);
+	  };
+	}();
+	
 	loop();
-	(0, _types.increment)(0);
+	_types2.default.increment(0);
 
 /***/ },
 /* 1 */
@@ -796,6 +799,8 @@
 	
 	var _types = __webpack_require__(144);
 	
+	var _types2 = _interopRequireDefault(_types);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	exports.default = function (_ref) {
@@ -809,7 +814,7 @@
 	      _snabbdomJsx2.default.html(
 	        'span',
 	        { 'on-click': function onClick() {
-	            return (0, _types.increment)(-1);
+	            return _types2.default.increment(-1);
 	          } },
 	        ' - '
 	      ),
@@ -817,7 +822,7 @@
 	      _snabbdomJsx2.default.html(
 	        'span',
 	        { 'on-click': function onClick() {
-	            return (0, _types.increment)(1);
+	            return _types2.default.increment(1);
 	          } },
 	        ' + '
 	      )
@@ -21642,44 +21647,42 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.increment = exports.types = undefined;
-	
-	var _symbol = __webpack_require__(119);
-	
-	var _symbol2 = _interopRequireDefault(_symbol);
+	exports.types = undefined;
 	
 	var _index = __webpack_require__(145);
 	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	var types = exports.types = (0, _index.createTypes)(['increment']);
 	
-	var types = exports.types = {
-	  increment: (0, _symbol2.default)('increment')
-	};
-	
-	var increment = exports.increment = (0, _index.create)(types.increment);
-	
-	exports.default = types;
+	exports.default = (0, _index.createActions)(types);
 
 /***/ },
 /* 145 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.create = exports.actions = exports.take = undefined;
+	exports.createActions = exports.createTypes = exports.take = undefined;
+	
+	var _slicedToArray2 = __webpack_require__(31);
+	
+	var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
+	
+	var _symbol = __webpack_require__(119);
+	
+	var _symbol2 = _interopRequireDefault(_symbol);
 	
 	var _promise = __webpack_require__(104);
 	
 	var _promise2 = _interopRequireDefault(_promise);
 	
+	var _ramda = __webpack_require__(15);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var channel = function channel() {
-	  return { messages: [], takers: [], putters: [] };
-	};
+	var actions = { messages: [], takers: [], putters: [] };
 	
 	var put = function put(_ref, msg) {
 	  var putters = _ref.putters;
@@ -21701,13 +21704,23 @@
 	  });
 	};
 	
-	var actions = exports.actions = channel();
-	
-	var create = exports.create = function create(type) {
+	var create = function create(type) {
 	  return function (payload) {
-	    return console.log(payload), put(actions, { type: type, payload: payload });
+	    return put(actions, { type: type, payload: payload });
 	  };
 	};
+	
+	var createTypes = exports.createTypes = (0, _ramda.compose)(_ramda.fromPairs, (0, _ramda.map)(function (key) {
+	  return [key, (0, _symbol2.default)(key)];
+	}));
+	
+	var createActions = exports.createActions = (0, _ramda.compose)(_ramda.fromPairs, (0, _ramda.map)(function (_ref3) {
+	  var _ref4 = (0, _slicedToArray3.default)(_ref3, 2);
+	
+	  var key = _ref4[0];
+	  var value = _ref4[1];
+	  return [key, create(value)];
+	}), _ramda.toPairs);
 	
 	exports.default = actions;
 

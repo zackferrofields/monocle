@@ -1,8 +1,7 @@
-// import csp from 'js-csp';
 import renderer from './renderer';
 import App from './components/App';
-import { put, take, actions } from './action';
-import { increment, types } from './action/types';
+import channel, { put, take } from './action';
+import actions, { types } from './action/types';
 
 const node = document.querySelector('[app]');
 const render = renderer(App, node);
@@ -17,13 +16,13 @@ function update(model, { type, payload}) {
   return model;
 }
 
-async function loop() {
+const loop = async () => {
   while (true) {
-    const action = await take(actions);
+    const action = await take(channel);
     model = update(model, action);
     render(<App {...{ model }}/>);
   }
 }
 
 loop();
-increment(0);
+actions.increment(0);
