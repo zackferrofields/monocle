@@ -1,8 +1,9 @@
 import { compose, map } from 'ramda';
 import * as utils from '../utils';
 import increment from './increment';
+import complete from './complete';
 
-const actions = [ increment ];
+const actions = [ increment, complete ];
 
 const channel = utils.channel();
 

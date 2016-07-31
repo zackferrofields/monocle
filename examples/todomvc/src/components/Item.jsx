@@ -1,5 +1,6 @@
-import TextField from './TextField';
 import { filter, map, compose, toPairs } from 'ramda';
+import TextField from './TextField';
+import actions from '../actionTypes';
 
 const getClassName = compose(
   map(([ key ]) => key),
@@ -7,10 +8,11 @@ const getClassName = compose(
   toPairs
 );
 
-export default ({ text, completed, editing }) =>
+export default ({ text, completed, editing }, key) =>
   <li className={getClassName({ completed, editing })}>
     <div className="view">
-      <input className="toggle" type="checkbox" checked={completed}/>
+      <input className="toggle" type="checkbox" checked={completed}
+        on-change={() => actions.complete(key)}/>
       <label>{text}</label>
       <button className="destroy"/>
     </div>

@@ -1,4 +1,3 @@
-import todo from '../stores/todo';
 import { filter, curry } from 'ramda';
 
 const remaining = curry(filter(({ completed }) => !completed));
@@ -15,5 +14,5 @@ const Footer = ({ items }) =>
     <Count remaining={remaining(items)}/>
   </footer>;
 
-export default() =>
-  <Footer items={todo()}/>;
+export default({ todos }) =>
+  <Footer items={todos}/>;
