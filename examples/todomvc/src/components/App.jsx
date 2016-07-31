@@ -1,7 +1,7 @@
 import Footer from './Footer';
 import Header from './Header';
 import Main from './Main';
-import actions from '../action/types';
+import actions from '../actionTypes';
 
 export default ({ model: { count } }) =>
   <section className="todoapp">

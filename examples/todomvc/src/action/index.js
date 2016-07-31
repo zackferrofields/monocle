@@ -1,24 +1,14 @@
-import { compose, map, fromPairs, toPairs } from 'ramda';
+import { compose, map } from 'ramda';
+import * as utils from '../utils';
+import increment from './increment';
 
-const actions = { messages: [], takers: [], putters: [] };
+const actions = [ increment ];
 
-const put = ({ putters, takers }, msg) =>
-  new Promise(resolve => {
-    putters.unshift(() => (resolve(), msg));
-    if (takers.length) takers.pop()(putters.pop()());
-  });
+const channel = utils.channel();
 
-export const take = ({ putters, takers }) =>
-  new Promise(resolve => {
-    takers.unshift(resolve);
-    if (putters.length) takers.pop()(putters.pop()());
-  });
+export const put = utils.put(channel);
 
-const create = type => payload =>
-  put(actions, { type, payload });
+export const take = utils.take(channel);
 
-export const createTypes = compose(fromPairs, map(key => [ key, Symbol(key) ]));
-
-export const createActions = compose(fromPairs, map(([key, value]) => [ key, create(value) ]), toPairs);
-
-export default actions;
+export const run = action =>
+  compose(...map(fn => fn(action), actions));
