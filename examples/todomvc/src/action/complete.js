@@ -1,10 +1,5 @@
-import { lensProp, lensIndex, over, compose } from 'ramda';
 import { types } from '../actionTypes';
-
-const todos = lensProp('todos');
-const completed = lensProp('completed');
-const toggle = value => !value;
+import { toggleCompleted } from '../stores/todos';
 
 export default ({ type, payload }) => state =>
-  type !== types.complete ? state :
-  over(compose(todos, lensIndex(payload), completed), toggle, state);
+  type !== types.complete ? state : toggleCompleted(payload)(state);

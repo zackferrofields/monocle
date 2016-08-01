@@ -81,7 +81,8 @@
 	var node = document.querySelector('[app]');
 	var render = (0, _renderer2.default)(_App2.default, node);
 	
-	var model = { count: 0, todos: _todos2.default };
+	var model = { count: 0 };
+	model = (0, _todos2.default)(model);
 	
 	var loop = function () {
 	  var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
@@ -90,23 +91,26 @@
 	      while (1) {
 	        switch (_context.prev = _context.next) {
 	          case 0:
+	            render(_snabbdomJsx2.default.html(_App2.default, { model: model }));
+	
+	          case 1:
 	            if (false) {
-	              _context.next = 8;
+	              _context.next = 9;
 	              break;
 	            }
 	
-	            _context.next = 3;
+	            _context.next = 4;
 	            return (0, _action.take)();
 	
-	          case 3:
+	          case 4:
 	            action = _context.sent;
 	
 	            model = (0, _action.run)(action)(model);
 	            render(_snabbdomJsx2.default.html(_App2.default, { model: model }));
-	            _context.next = 0;
+	            _context.next = 1;
 	            break;
 	
-	          case 8:
+	          case 9:
 	          case 'end':
 	            return _context.stop();
 	        }
@@ -120,7 +124,10 @@
 	}();
 	
 	loop();
-	_actionTypes2.default.increment(0);
+	
+	_actionTypes2.default.add('feed Willow');
+	_actionTypes2.default.add('brush Willow');
+	_actionTypes2.default.add('adore Willow');
 
 /***/ },
 /* 1 */
@@ -3236,38 +3243,13 @@
 	
 	var _Main2 = _interopRequireDefault(_Main);
 	
-	var _actionTypes = __webpack_require__(96);
-	
-	var _actionTypes2 = _interopRequireDefault(_actionTypes);
-	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	exports.default = function (_ref) {
-	  var _ref$model = _ref.model;
-	  var count = _ref$model.count;
-	  var todos = _ref$model.todos;
+	  var todos = _ref.model.todos;
 	  return _snabbdomJsx2.default.html(
 	    'section',
 	    { className: 'todoapp' },
-	    _snabbdomJsx2.default.html(
-	      'h2',
-	      null,
-	      _snabbdomJsx2.default.html(
-	        'span',
-	        { 'on-click': function onClick() {
-	            return _actionTypes2.default.increment(-1);
-	          } },
-	        ' - '
-	      ),
-	      count,
-	      _snabbdomJsx2.default.html(
-	        'span',
-	        { 'on-click': function onClick() {
-	            return _actionTypes2.default.increment(1);
-	          } },
-	        ' + '
-	      )
-	    ),
 	    _snabbdomJsx2.default.html(_Header2.default, null),
 	    _snabbdomJsx2.default.html(_Main2.default, { todos: todos }),
 	    _snabbdomJsx2.default.html(_Footer2.default, { todos: todos })
@@ -3313,7 +3295,7 @@
 	
 	var Footer = function Footer(_ref3) {
 	  var items = _ref3.items;
-	  return items.length < 1 ? '' : _snabbdomJsx2.default.html(
+	  return _snabbdomJsx2.default.html(
 	    'footer',
 	    { className: 'footer' },
 	    _snabbdomJsx2.default.html(Count, { remaining: remaining(items) })
@@ -12125,6 +12107,10 @@
 	  value: true
 	});
 	
+	var _extends2 = __webpack_require__(124);
+	
+	var _extends3 = _interopRequireDefault(_extends2);
+	
 	var _snabbdomJsx = __webpack_require__(71);
 	
 	var _snabbdomJsx2 = _interopRequireDefault(_snabbdomJsx);
@@ -12133,13 +12119,25 @@
 	
 	var _TextField2 = _interopRequireDefault(_TextField);
 	
+	var _actionTypes = __webpack_require__(96);
+	
+	var _actionTypes2 = _interopRequireDefault(_actionTypes);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var ENTER = 13;
 	
 	var NEW_TODO = {
 	  className: 'new-todo',
 	  placeholder: 'What needs to be done?',
 	  value: '',
 	  autofocus: true
+	};
+	
+	var onkeyup = function onkeyup(_ref) {
+	  var keyCode = _ref.keyCode;
+	  var target = _ref.target;
+	  return keyCode !== ENTER ? false : _actionTypes2.default.add(target.value);
 	};
 	
 	exports.default = function () {
@@ -12151,7 +12149,7 @@
 	      null,
 	      'todos'
 	    ),
-	    _snabbdomJsx2.default.html(_TextField2.default, NEW_TODO)
+	    _snabbdomJsx2.default.html(_TextField2.default, (0, _extends3.default)({}, NEW_TODO, { 'on-keyup': onkeyup }))
 	  );
 	};
 
@@ -12256,6 +12254,17 @@
 	  return value;
 	}), _ramda.toPairs);
 	
+	var onchange = function onchange(key) {
+	  return function () {
+	    return _actionTypes2.default.complete(key);
+	  };
+	};
+	var onclick = function onclick(key) {
+	  return function () {
+	    return _actionTypes2.default.remove(key);
+	  };
+	};
+	
 	exports.default = function (_ref5, key) {
 	  var text = _ref5.text;
 	  var completed = _ref5.completed;
@@ -12267,15 +12276,13 @@
 	      'div',
 	      { className: 'view' },
 	      _snabbdomJsx2.default.html('input', { className: 'toggle', type: 'checkbox', checked: completed,
-	        'on-change': function onChange() {
-	          return _actionTypes2.default.complete(key);
-	        } }),
+	        'on-change': onchange(key) }),
 	      _snabbdomJsx2.default.html(
 	        'label',
 	        null,
 	        text
 	      ),
-	      _snabbdomJsx2.default.html('button', { className: 'destroy' })
+	      _snabbdomJsx2.default.html('button', { className: 'destroy', 'on-click': onclick(key) })
 	    ),
 	    _snabbdomJsx2.default.html(_TextField2.default, { value: text, className: 'edit' })
 	  );
@@ -12434,7 +12441,7 @@
 	  return [key, create(value)];
 	}), _ramda.toPairs);
 	
-	var types = exports.types = createTypes(['increment', 'complete']);
+	var types = exports.types = createTypes(['add', 'remove', 'complete']);
 	
 	exports.default = createActions(types);
 
@@ -12908,7 +12915,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.run = exports.take = exports.put = undefined;
+	exports.run = exports.filterAction = exports.take = exports.put = undefined;
 	
 	var _toConsumableArray2 = __webpack_require__(114);
 	
@@ -12920,9 +12927,13 @@
 	
 	var utils = _interopRequireWildcard(_utils);
 	
-	var _increment = __webpack_require__(120);
+	var _add = __webpack_require__(123);
 	
-	var _increment2 = _interopRequireDefault(_increment);
+	var _add2 = _interopRequireDefault(_add);
+	
+	var _remove = __webpack_require__(129);
+	
+	var _remove2 = _interopRequireDefault(_remove);
 	
 	var _complete = __webpack_require__(121);
 	
@@ -12932,13 +12943,17 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var actions = [_increment2.default, _complete2.default];
+	var actions = [_add2.default, _remove2.default, _complete2.default];
 	
 	var channel = utils.channel();
 	
 	var put = exports.put = utils.put(channel);
 	
 	var take = exports.take = utils.take(channel);
+	
+	var filterAction = exports.filterAction = function filterAction(bool, fn) {
+	  return bool ? _ramda.identity : fn;
+	};
 	
 	var run = exports.run = function run(action) {
 	  return _ramda.compose.apply(undefined, (0, _toConsumableArray3.default)((0, _ramda.map)(function (fn) {
@@ -13091,30 +13106,7 @@
 	};
 
 /***/ },
-/* 120 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _ramda = __webpack_require__(84);
-	
-	var _actionTypes = __webpack_require__(96);
-	
-	var count = (0, _ramda.lensProp)('count');
-	
-	exports.default = function (_ref) {
-	  var type = _ref.type;
-	  var payload = _ref.payload;
-	  return function (state) {
-	    return type !== _actionTypes.types.increment ? state : (0, _ramda.over)(count, (0, _ramda.add)(payload), state);
-	  };
-	};
-
-/***/ },
+/* 120 */,
 /* 121 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -13124,36 +13116,193 @@
 	  value: true
 	});
 	
-	var _ramda = __webpack_require__(84);
-	
 	var _actionTypes = __webpack_require__(96);
 	
-	var todos = (0, _ramda.lensProp)('todos');
-	var completed = (0, _ramda.lensProp)('completed');
-	var toggle = function toggle(value) {
-	  return !value;
-	};
+	var _todos = __webpack_require__(122);
 	
 	exports.default = function (_ref) {
 	  var type = _ref.type;
 	  var payload = _ref.payload;
 	  return function (state) {
-	    return type !== _actionTypes.types.complete ? state : (0, _ramda.over)((0, _ramda.compose)(todos, (0, _ramda.lensIndex)(payload), completed), toggle, state);
+	    return type !== _actionTypes.types.complete ? state : (0, _todos.toggleCompleted)(payload)(state);
 	  };
 	};
 
 /***/ },
 /* 122 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	var initialState = [{ text: 'feed Willow', completed: true }, { text: 'brush Willow', completed: false }];
+	exports.removeTodo = exports.addTodo = exports.toggleCompleted = undefined;
 	
-	exports.default = initialState;
+	var _ramda = __webpack_require__(84);
+	
+	var DEFAULT_TODO = { text: '', completed: false };
+	var DEFAULT_TODOS = [];
+	
+	var store = (0, _ramda.lensProp)('todos');
+	var list = (0, _ramda.lensProp)('todos');
+	var completed = (0, _ramda.lensProp)('completed');
+	
+	var toggle = function toggle(value) {
+	  return !value;
+	};
+	
+	var add = function add(todo) {
+	  return (0, _ramda.append)((0, _ramda.merge)(DEFAULT_TODO, todo));
+	};
+	
+	var init = (0, _ramda.over)(store, (0, _ramda.always)(DEFAULT_TODOS));
+	
+	var toggleCompleted = exports.toggleCompleted = function toggleCompleted(i) {
+	  return (0, _ramda.over)((0, _ramda.compose)(list, (0, _ramda.lensIndex)(i), completed), toggle);
+	};
+	
+	var addTodo = exports.addTodo = function addTodo(todo) {
+	  return (0, _ramda.over)(list, add(todo));
+	};
+	
+	var removeTodo = exports.removeTodo = function removeTodo(i) {
+	  return (0, _ramda.over)(list, (0, _ramda.remove)(i, i));
+	};
+	
+	exports.default = init;
+
+/***/ },
+/* 123 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _actionTypes = __webpack_require__(96);
+	
+	var _todos = __webpack_require__(122);
+	
+	var _index = __webpack_require__(113);
+	
+	exports.default = function (_ref) {
+	  var type = _ref.type;
+	  var text = _ref.payload;
+	  return (0, _index.filterAction)(type !== _actionTypes.types.add, (0, _todos.addTodo)({ text: text }));
+	};
+
+/***/ },
+/* 124 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	exports.__esModule = true;
+	
+	var _assign = __webpack_require__(125);
+	
+	var _assign2 = _interopRequireDefault(_assign);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = _assign2.default || function (target) {
+	  for (var i = 1; i < arguments.length; i++) {
+	    var source = arguments[i];
+	
+	    for (var key in source) {
+	      if (Object.prototype.hasOwnProperty.call(source, key)) {
+	        target[key] = source[key];
+	      }
+	    }
+	  }
+	
+	  return target;
+	};
+
+/***/ },
+/* 125 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(126), __esModule: true };
+
+/***/ },
+/* 126 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(127);
+	module.exports = __webpack_require__(17).Object.assign;
+
+/***/ },
+/* 127 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// 19.1.3.1 Object.assign(target, source)
+	var $export = __webpack_require__(15);
+	
+	$export($export.S + $export.F, 'Object', {assign: __webpack_require__(128)});
+
+/***/ },
+/* 128 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	// 19.1.2.1 Object.assign(target, source, ...)
+	var getKeys  = __webpack_require__(36)
+	  , gOPS     = __webpack_require__(105)
+	  , pIE      = __webpack_require__(106)
+	  , toObject = __webpack_require__(52)
+	  , IObject  = __webpack_require__(39)
+	  , $assign  = Object.assign;
+	
+	// should work with symbols and should have deterministic property order (V8 bug)
+	module.exports = !$assign || __webpack_require__(26)(function(){
+	  var A = {}
+	    , B = {}
+	    , S = Symbol()
+	    , K = 'abcdefghijklmnopqrst';
+	  A[S] = 7;
+	  K.split('').forEach(function(k){ B[k] = k; });
+	  return $assign({}, A)[S] != 7 || Object.keys($assign({}, B)).join('') != K;
+	}) ? function assign(target, source){ // eslint-disable-line no-unused-vars
+	  var T     = toObject(target)
+	    , aLen  = arguments.length
+	    , index = 1
+	    , getSymbols = gOPS.f
+	    , isEnum     = pIE.f;
+	  while(aLen > index){
+	    var S      = IObject(arguments[index++])
+	      , keys   = getSymbols ? getKeys(S).concat(getSymbols(S)) : getKeys(S)
+	      , length = keys.length
+	      , j      = 0
+	      , key;
+	    while(length > j)if(isEnum.call(S, key = keys[j++]))T[key] = S[key];
+	  } return T;
+	} : $assign;
+
+/***/ },
+/* 129 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _actionTypes = __webpack_require__(96);
+	
+	var _todos = __webpack_require__(122);
+	
+	var _index = __webpack_require__(113);
+	
+	exports.default = function (_ref) {
+	  var type = _ref.type;
+	  var payload = _ref.payload;
+	  return (0, _index.filterAction)(type !== _actionTypes.types.remove, (0, _todos.removeTodo)(payload));
+	};
 
 /***/ }
 /******/ ]);

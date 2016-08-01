@@ -9,7 +9,6 @@ const Count = ({ remaining }) =>
   </span>;
 
 const Footer = ({ items }) =>
-  items.length < 1 ? '' :
   <footer className="footer">
     <Count remaining={remaining(items)}/>
   </footer>;
