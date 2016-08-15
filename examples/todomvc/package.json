@@ -26,7 +26,6 @@
   },
   "scripts": {
     "build": ". ./build.sh & webpack",
-    "deploy": ". ./deploy.sh",
     "lint": "eslint src"
   }
 }
