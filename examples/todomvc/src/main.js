@@ -7,17 +7,17 @@ import todosStore from './stores/todos';
 import appStore from './stores/app';
 
 const node = document.querySelector('[app]');
-const render = renderer(App, node);
-const initModel = compose(appStore, todosStore);
+const render = compose(renderer(App, node), App);
+const stores = compose(appStore, todosStore);
 
-let model = initModel({});
+let model = stores({});
 
 const loop = async () => {
-  render(<App {...{ model }}/>);
+  render(model);
   while (true) {
     const action = await take();
     model = run(action)(model);
-    render(<App {...{ model }}/>);
+    render(model);
   }
 }
 

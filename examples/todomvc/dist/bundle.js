@@ -54,10 +54,6 @@
 	
 	var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 	
-	var _snabbdomJsx = __webpack_require__(71);
-	
-	var _snabbdomJsx2 = _interopRequireDefault(_snabbdomJsx);
-	
 	var _renderer = __webpack_require__(72);
 	
 	var _renderer2 = _interopRequireDefault(_renderer);
@@ -85,10 +81,10 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var node = document.querySelector('[app]');
-	var render = (0, _renderer2.default)(_App2.default, node);
-	var initModel = (0, _ramda.compose)(_app2.default, _todos2.default);
+	var render = (0, _ramda.compose)((0, _renderer2.default)(_App2.default, node), _App2.default);
+	var stores = (0, _ramda.compose)(_app2.default, _todos2.default);
 	
-	var model = initModel({});
+	var model = stores({});
 	
 	var loop = function () {
 	  var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
@@ -97,7 +93,7 @@
 	      while (1) {
 	        switch (_context.prev = _context.next) {
 	          case 0:
-	            render(_snabbdomJsx2.default.html(_App2.default, { model: model }));
+	            render(model);
 	
 	          case 1:
 	            if (false) {
@@ -112,7 +108,7 @@
 	            action = _context.sent;
 	
 	            model = (0, _action.run)(action)(model);
-	            render(_snabbdomJsx2.default.html(_App2.default, { model: model }));
+	            render(model);
 	            _context.next = 1;
 	            break;
 	
@@ -3252,9 +3248,8 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	exports.default = function (_ref) {
-	  var _ref$model = _ref.model;
-	  var todos = _ref$model.todos;
-	  var app = _ref$model.app;
+	  var todos = _ref.todos;
+	  var app = _ref.app;
 	  return _snabbdomJsx2.default.html(
 	    'section',
 	    { className: 'todoapp' },
