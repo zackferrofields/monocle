@@ -9,7 +9,7 @@ const getClassName = compose(
 );
 
 const onchange = key => () => actions.complete(key);
-const onclick = key => () => actions.remove(key);
+const onclick = key => () => (console.log(key), actions.remove(key));
 
 export default ({ text, completed, editing }, key) =>
   <li className={getClassName({ completed, editing })}>

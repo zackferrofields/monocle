@@ -13139,7 +13139,7 @@
 	};
 	
 	var removeTodo = exports.removeTodo = function removeTodo(i) {
-	  return (0, _ramda.over)(list, (0, _ramda.remove)(i, i));
+	  return (0, _ramda.over)(list, (0, _ramda.remove)(i, 1));
 	};
 	
 	exports.default = init;
@@ -13276,7 +13276,7 @@
 	};
 	var onclick = function onclick(key) {
 	  return function () {
-	    return _actionTypes2.default.remove(key);
+	    return console.log(key), _actionTypes2.default.remove(key);
 	  };
 	};
 	

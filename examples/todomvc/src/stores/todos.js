@@ -20,6 +20,6 @@ export const addTodo = todo =>
   over(list, add(todo));
 
 export const removeTodo = i =>
-  over(list, remove(i, i));
+  over(list, remove(i, 1));
 
 export default init;
