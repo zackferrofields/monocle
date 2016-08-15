@@ -1,5 +1,4 @@
 # monocle
 FLUX with lenses
 
-
-- [TodoMVC](https://zackferrofields.github.io/monocle/ "TodoMVC") 
+...[TodoMVC](https://zackferrofields.github.io/monocle/ "TodoMVC")
