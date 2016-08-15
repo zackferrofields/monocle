@@ -66,13 +66,13 @@
 	
 	var _App2 = _interopRequireDefault(_App);
 	
-	var _action = __webpack_require__(113);
+	var _action = __webpack_require__(116);
 	
-	var _actionTypes = __webpack_require__(96);
+	var _actionTypes = __webpack_require__(94);
 	
 	var _actionTypes2 = _interopRequireDefault(_actionTypes);
 	
-	var _todos = __webpack_require__(122);
+	var _todos = __webpack_require__(124);
 	
 	var _todos2 = _interopRequireDefault(_todos);
 	
@@ -3239,7 +3239,7 @@
 	
 	var _Header2 = _interopRequireDefault(_Header);
 	
-	var _Main = __webpack_require__(87);
+	var _Main = __webpack_require__(127);
 	
 	var _Main2 = _interopRequireDefault(_Main);
 	
@@ -12107,7 +12107,7 @@
 	  value: true
 	});
 	
-	var _extends2 = __webpack_require__(124);
+	var _extends2 = __webpack_require__(86);
 	
 	var _extends3 = _interopRequireDefault(_extends2);
 	
@@ -12115,11 +12115,11 @@
 	
 	var _snabbdomJsx2 = _interopRequireDefault(_snabbdomJsx);
 	
-	var _TextField = __webpack_require__(86);
+	var _TextField = __webpack_require__(93);
 	
 	var _TextField2 = _interopRequireDefault(_TextField);
 	
-	var _actionTypes = __webpack_require__(96);
+	var _actionTypes = __webpack_require__(94);
 	
 	var _actionTypes2 = _interopRequireDefault(_actionTypes);
 	
@@ -12159,6 +12159,106 @@
 
 	"use strict";
 	
+	exports.__esModule = true;
+	
+	var _assign = __webpack_require__(87);
+	
+	var _assign2 = _interopRequireDefault(_assign);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = _assign2.default || function (target) {
+	  for (var i = 1; i < arguments.length; i++) {
+	    var source = arguments[i];
+	
+	    for (var key in source) {
+	      if (Object.prototype.hasOwnProperty.call(source, key)) {
+	        target[key] = source[key];
+	      }
+	    }
+	  }
+	
+	  return target;
+	};
+
+/***/ },
+/* 87 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = { "default": __webpack_require__(88), __esModule: true };
+
+/***/ },
+/* 88 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(89);
+	module.exports = __webpack_require__(17).Object.assign;
+
+/***/ },
+/* 89 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// 19.1.3.1 Object.assign(target, source)
+	var $export = __webpack_require__(15);
+	
+	$export($export.S + $export.F, 'Object', {assign: __webpack_require__(90)});
+
+/***/ },
+/* 90 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	// 19.1.2.1 Object.assign(target, source, ...)
+	var getKeys  = __webpack_require__(36)
+	  , gOPS     = __webpack_require__(91)
+	  , pIE      = __webpack_require__(92)
+	  , toObject = __webpack_require__(52)
+	  , IObject  = __webpack_require__(39)
+	  , $assign  = Object.assign;
+	
+	// should work with symbols and should have deterministic property order (V8 bug)
+	module.exports = !$assign || __webpack_require__(26)(function(){
+	  var A = {}
+	    , B = {}
+	    , S = Symbol()
+	    , K = 'abcdefghijklmnopqrst';
+	  A[S] = 7;
+	  K.split('').forEach(function(k){ B[k] = k; });
+	  return $assign({}, A)[S] != 7 || Object.keys($assign({}, B)).join('') != K;
+	}) ? function assign(target, source){ // eslint-disable-line no-unused-vars
+	  var T     = toObject(target)
+	    , aLen  = arguments.length
+	    , index = 1
+	    , getSymbols = gOPS.f
+	    , isEnum     = pIE.f;
+	  while(aLen > index){
+	    var S      = IObject(arguments[index++])
+	      , keys   = getSymbols ? getKeys(S).concat(getSymbols(S)) : getKeys(S)
+	      , length = keys.length
+	      , j      = 0
+	      , key;
+	    while(length > j)if(isEnum.call(S, key = keys[j++]))T[key] = S[key];
+	  } return T;
+	} : $assign;
+
+/***/ },
+/* 91 */
+/***/ function(module, exports) {
+
+	exports.f = Object.getOwnPropertySymbols;
+
+/***/ },
+/* 92 */
+/***/ function(module, exports) {
+
+	exports.f = {}.propertyIsEnumerable;
+
+/***/ },
+/* 93 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
@@ -12174,7 +12274,7 @@
 	};
 
 /***/ },
-/* 87 */
+/* 94 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12182,125 +12282,57 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	exports.types = undefined;
 	
-	var _snabbdomJsx = __webpack_require__(71);
-	
-	var _snabbdomJsx2 = _interopRequireDefault(_snabbdomJsx);
-	
-	var _ramda = __webpack_require__(84);
-	
-	var _Item = __webpack_require__(88);
-	
-	var _Item2 = _interopRequireDefault(_Item);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var mapIndexed = (0, _ramda.addIndex)(_ramda.map);
-	var getTodos = (0, _ramda.curry)(mapIndexed(_Item2.default));
-	
-	exports.default = function (_ref) {
-	  var todos = _ref.todos;
-	  return _snabbdomJsx2.default.html(
-	    'section',
-	    { className: 'main' },
-	    _snabbdomJsx2.default.html('input', { className: 'toggle-all', type: 'checkbox' }),
-	    _snabbdomJsx2.default.html(
-	      'ul',
-	      { className: 'todo-list' },
-	      getTodos(todos)
-	    )
-	  );
-	};
-
-/***/ },
-/* 88 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _slicedToArray2 = __webpack_require__(89);
+	var _slicedToArray2 = __webpack_require__(95);
 	
 	var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
 	
-	var _snabbdomJsx = __webpack_require__(71);
+	var _symbol = __webpack_require__(102);
 	
-	var _snabbdomJsx2 = _interopRequireDefault(_snabbdomJsx);
+	var _symbol2 = _interopRequireDefault(_symbol);
 	
 	var _ramda = __webpack_require__(84);
 	
-	var _TextField = __webpack_require__(86);
-	
-	var _TextField2 = _interopRequireDefault(_TextField);
-	
-	var _actionTypes = __webpack_require__(96);
-	
-	var _actionTypes2 = _interopRequireDefault(_actionTypes);
+	var _action = __webpack_require__(116);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var getClassName = (0, _ramda.compose)((0, _ramda.map)(function (_ref) {
-	  var _ref2 = (0, _slicedToArray3.default)(_ref, 1);
+	var create = function create(type) {
+	  return function (payload) {
+	    return (0, _action.put)({ type: type, payload: payload });
+	  };
+	};
+	
+	var createTypes = (0, _ramda.compose)(_ramda.fromPairs, (0, _ramda.map)(function (key) {
+	  return [key, (0, _symbol2.default)(key)];
+	}));
+	
+	var createActions = (0, _ramda.compose)(_ramda.fromPairs, (0, _ramda.map)(function (_ref) {
+	  var _ref2 = (0, _slicedToArray3.default)(_ref, 2);
 	
 	  var key = _ref2[0];
-	  return key;
-	}), (0, _ramda.filter)(function (_ref3) {
-	  var _ref4 = (0, _slicedToArray3.default)(_ref3, 2);
-	
-	  var value = _ref4[1];
-	  return value;
+	  var value = _ref2[1];
+	  return [key, create(value)];
 	}), _ramda.toPairs);
 	
-	var onchange = function onchange(key) {
-	  return function () {
-	    return _actionTypes2.default.complete(key);
-	  };
-	};
-	var onclick = function onclick(key) {
-	  return function () {
-	    return _actionTypes2.default.remove(key);
-	  };
-	};
+	var types = exports.types = createTypes(['add', 'remove', 'complete']);
 	
-	exports.default = function (_ref5, key) {
-	  var text = _ref5.text;
-	  var completed = _ref5.completed;
-	  var editing = _ref5.editing;
-	  return _snabbdomJsx2.default.html(
-	    'li',
-	    { className: getClassName({ completed: completed, editing: editing }) },
-	    _snabbdomJsx2.default.html(
-	      'div',
-	      { className: 'view' },
-	      _snabbdomJsx2.default.html('input', { className: 'toggle', type: 'checkbox', checked: completed,
-	        'on-change': onchange(key) }),
-	      _snabbdomJsx2.default.html(
-	        'label',
-	        null,
-	        text
-	      ),
-	      _snabbdomJsx2.default.html('button', { className: 'destroy', 'on-click': onclick(key) })
-	    ),
-	    _snabbdomJsx2.default.html(_TextField2.default, { value: text, className: 'edit' })
-	  );
-	};
+	exports.default = createActions(types);
 
 /***/ },
-/* 89 */
+/* 95 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
 	exports.__esModule = true;
 	
-	var _isIterable2 = __webpack_require__(90);
+	var _isIterable2 = __webpack_require__(96);
 	
 	var _isIterable3 = _interopRequireDefault(_isIterable2);
 	
-	var _getIterator2 = __webpack_require__(93);
+	var _getIterator2 = __webpack_require__(99);
 	
 	var _getIterator3 = _interopRequireDefault(_getIterator2);
 	
@@ -12345,21 +12377,21 @@
 	}();
 
 /***/ },
-/* 90 */
+/* 96 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(91), __esModule: true };
+	module.exports = { "default": __webpack_require__(97), __esModule: true };
 
 /***/ },
-/* 91 */
+/* 97 */
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(53);
 	__webpack_require__(9);
-	module.exports = __webpack_require__(92);
+	module.exports = __webpack_require__(98);
 
 /***/ },
-/* 92 */
+/* 98 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var classof   = __webpack_require__(58)
@@ -12373,21 +12405,21 @@
 	};
 
 /***/ },
-/* 93 */
+/* 99 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(94), __esModule: true };
+	module.exports = { "default": __webpack_require__(100), __esModule: true };
 
 /***/ },
-/* 94 */
+/* 100 */
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(53);
 	__webpack_require__(9);
-	module.exports = __webpack_require__(95);
+	module.exports = __webpack_require__(101);
 
 /***/ },
-/* 95 */
+/* 101 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var anObject = __webpack_require__(22)
@@ -12399,70 +12431,23 @@
 	};
 
 /***/ },
-/* 96 */
+/* 102 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.types = undefined;
-	
-	var _slicedToArray2 = __webpack_require__(89);
-	
-	var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
-	
-	var _symbol = __webpack_require__(97);
-	
-	var _symbol2 = _interopRequireDefault(_symbol);
-	
-	var _ramda = __webpack_require__(84);
-	
-	var _action = __webpack_require__(113);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var create = function create(type) {
-	  return function (payload) {
-	    return (0, _action.put)({ type: type, payload: payload });
-	  };
-	};
-	
-	var createTypes = (0, _ramda.compose)(_ramda.fromPairs, (0, _ramda.map)(function (key) {
-	  return [key, (0, _symbol2.default)(key)];
-	}));
-	
-	var createActions = (0, _ramda.compose)(_ramda.fromPairs, (0, _ramda.map)(function (_ref) {
-	  var _ref2 = (0, _slicedToArray3.default)(_ref, 2);
-	
-	  var key = _ref2[0];
-	  var value = _ref2[1];
-	  return [key, create(value)];
-	}), _ramda.toPairs);
-	
-	var types = exports.types = createTypes(['add', 'remove', 'complete']);
-	
-	exports.default = createActions(types);
+	module.exports = { "default": __webpack_require__(103), __esModule: true };
 
 /***/ },
-/* 97 */
+/* 103 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(98), __esModule: true };
-
-/***/ },
-/* 98 */
-/***/ function(module, exports, __webpack_require__) {
-
-	__webpack_require__(99);
+	__webpack_require__(104);
 	__webpack_require__(8);
-	__webpack_require__(111);
-	__webpack_require__(112);
+	__webpack_require__(114);
+	__webpack_require__(115);
 	module.exports = __webpack_require__(17).Symbol;
 
 /***/ },
-/* 99 */
+/* 104 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12472,24 +12457,24 @@
 	  , DESCRIPTORS    = __webpack_require__(25)
 	  , $export        = __webpack_require__(15)
 	  , redefine       = __webpack_require__(30)
-	  , META           = __webpack_require__(100).KEY
+	  , META           = __webpack_require__(105).KEY
 	  , $fails         = __webpack_require__(26)
 	  , shared         = __webpack_require__(45)
 	  , setToStringTag = __webpack_require__(49)
 	  , uid            = __webpack_require__(46)
 	  , wks            = __webpack_require__(50)
-	  , wksExt         = __webpack_require__(101)
-	  , wksDefine      = __webpack_require__(102)
-	  , keyOf          = __webpack_require__(103)
-	  , enumKeys       = __webpack_require__(104)
-	  , isArray        = __webpack_require__(107)
+	  , wksExt         = __webpack_require__(106)
+	  , wksDefine      = __webpack_require__(107)
+	  , keyOf          = __webpack_require__(108)
+	  , enumKeys       = __webpack_require__(109)
+	  , isArray        = __webpack_require__(110)
 	  , anObject       = __webpack_require__(22)
 	  , toIObject      = __webpack_require__(38)
 	  , toPrimitive    = __webpack_require__(28)
 	  , createDesc     = __webpack_require__(29)
 	  , _create        = __webpack_require__(34)
-	  , gOPNExt        = __webpack_require__(108)
-	  , $GOPD          = __webpack_require__(110)
+	  , gOPNExt        = __webpack_require__(111)
+	  , $GOPD          = __webpack_require__(113)
 	  , $DP            = __webpack_require__(21)
 	  , $keys          = __webpack_require__(36)
 	  , gOPD           = $GOPD.f
@@ -12614,9 +12599,9 @@
 	
 	  $GOPD.f = $getOwnPropertyDescriptor;
 	  $DP.f   = $defineProperty;
-	  __webpack_require__(109).f = gOPNExt.f = $getOwnPropertyNames;
-	  __webpack_require__(106).f  = $propertyIsEnumerable;
-	  __webpack_require__(105).f = $getOwnPropertySymbols;
+	  __webpack_require__(112).f = gOPNExt.f = $getOwnPropertyNames;
+	  __webpack_require__(92).f  = $propertyIsEnumerable;
+	  __webpack_require__(91).f = $getOwnPropertySymbols;
 	
 	  if(DESCRIPTORS && !__webpack_require__(14)){
 	    redefine(ObjectProto, 'propertyIsEnumerable', $propertyIsEnumerable, true);
@@ -12702,7 +12687,7 @@
 	setToStringTag(global.JSON, 'JSON', true);
 
 /***/ },
-/* 100 */
+/* 105 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var META     = __webpack_require__(46)('meta')
@@ -12760,19 +12745,19 @@
 	};
 
 /***/ },
-/* 101 */
+/* 106 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports.f = __webpack_require__(50);
 
 /***/ },
-/* 102 */
+/* 107 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var global         = __webpack_require__(16)
 	  , core           = __webpack_require__(17)
 	  , LIBRARY        = __webpack_require__(14)
-	  , wksExt         = __webpack_require__(101)
+	  , wksExt         = __webpack_require__(106)
 	  , defineProperty = __webpack_require__(21).f;
 	module.exports = function(name){
 	  var $Symbol = core.Symbol || (core.Symbol = LIBRARY ? {} : global.Symbol || {});
@@ -12780,7 +12765,7 @@
 	};
 
 /***/ },
-/* 103 */
+/* 108 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var getKeys   = __webpack_require__(36)
@@ -12795,13 +12780,13 @@
 	};
 
 /***/ },
-/* 104 */
+/* 109 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// all enumerable object keys, includes symbols
 	var getKeys = __webpack_require__(36)
-	  , gOPS    = __webpack_require__(105)
-	  , pIE     = __webpack_require__(106);
+	  , gOPS    = __webpack_require__(91)
+	  , pIE     = __webpack_require__(92);
 	module.exports = function(it){
 	  var result     = getKeys(it)
 	    , getSymbols = gOPS.f;
@@ -12815,19 +12800,7 @@
 	};
 
 /***/ },
-/* 105 */
-/***/ function(module, exports) {
-
-	exports.f = Object.getOwnPropertySymbols;
-
-/***/ },
-/* 106 */
-/***/ function(module, exports) {
-
-	exports.f = {}.propertyIsEnumerable;
-
-/***/ },
-/* 107 */
+/* 110 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// 7.2.2 IsArray(argument)
@@ -12837,12 +12810,12 @@
 	};
 
 /***/ },
-/* 108 */
+/* 111 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// fallback for IE11 buggy Object.getOwnPropertyNames with iframe and window
 	var toIObject = __webpack_require__(38)
-	  , gOPN      = __webpack_require__(109).f
+	  , gOPN      = __webpack_require__(112).f
 	  , toString  = {}.toString;
 	
 	var windowNames = typeof window == 'object' && window && Object.getOwnPropertyNames
@@ -12862,7 +12835,7 @@
 
 
 /***/ },
-/* 109 */
+/* 112 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// 19.1.2.7 / 15.2.3.4 Object.getOwnPropertyNames(O)
@@ -12874,10 +12847,10 @@
 	};
 
 /***/ },
-/* 110 */
+/* 113 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var pIE            = __webpack_require__(106)
+	var pIE            = __webpack_require__(92)
 	  , createDesc     = __webpack_require__(29)
 	  , toIObject      = __webpack_require__(38)
 	  , toPrimitive    = __webpack_require__(28)
@@ -12895,19 +12868,19 @@
 	};
 
 /***/ },
-/* 111 */
+/* 114 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(102)('asyncIterator');
+	__webpack_require__(107)('asyncIterator');
 
 /***/ },
-/* 112 */
+/* 115 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(102)('observable');
+	__webpack_require__(107)('observable');
 
 /***/ },
-/* 113 */
+/* 116 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12917,13 +12890,13 @@
 	});
 	exports.run = exports.filterAction = exports.take = exports.put = undefined;
 	
-	var _toConsumableArray2 = __webpack_require__(114);
+	var _toConsumableArray2 = __webpack_require__(117);
 	
 	var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 	
 	var _ramda = __webpack_require__(84);
 	
-	var _utils = __webpack_require__(119);
+	var _utils = __webpack_require__(122);
 	
 	var utils = _interopRequireWildcard(_utils);
 	
@@ -12931,11 +12904,11 @@
 	
 	var _add2 = _interopRequireDefault(_add);
 	
-	var _remove = __webpack_require__(129);
+	var _remove = __webpack_require__(125);
 	
 	var _remove2 = _interopRequireDefault(_remove);
 	
-	var _complete = __webpack_require__(121);
+	var _complete = __webpack_require__(126);
 	
 	var _complete2 = _interopRequireDefault(_complete);
 	
@@ -12962,14 +12935,14 @@
 	};
 
 /***/ },
-/* 114 */
+/* 117 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
 	exports.__esModule = true;
 	
-	var _from = __webpack_require__(115);
+	var _from = __webpack_require__(118);
 	
 	var _from2 = _interopRequireDefault(_from);
 	
@@ -12988,21 +12961,21 @@
 	};
 
 /***/ },
-/* 115 */
+/* 118 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = { "default": __webpack_require__(116), __esModule: true };
+	module.exports = { "default": __webpack_require__(119), __esModule: true };
 
 /***/ },
-/* 116 */
+/* 119 */
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(9);
-	__webpack_require__(117);
+	__webpack_require__(120);
 	module.exports = __webpack_require__(17).Array.from;
 
 /***/ },
-/* 117 */
+/* 120 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -13012,7 +12985,7 @@
 	  , call           = __webpack_require__(61)
 	  , isArrayIter    = __webpack_require__(62)
 	  , toLength       = __webpack_require__(42)
-	  , createProperty = __webpack_require__(118)
+	  , createProperty = __webpack_require__(121)
 	  , getIterFn      = __webpack_require__(63);
 	
 	$export($export.S + $export.F * !__webpack_require__(70)(function(iter){ Array.from(iter); }), 'Array', {
@@ -13045,7 +13018,7 @@
 
 
 /***/ },
-/* 118 */
+/* 121 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -13058,7 +13031,7 @@
 	};
 
 /***/ },
-/* 119 */
+/* 122 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -13106,8 +13079,7 @@
 	};
 
 /***/ },
-/* 120 */,
-/* 121 */
+/* 123 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -13116,20 +13088,20 @@
 	  value: true
 	});
 	
-	var _actionTypes = __webpack_require__(96);
+	var _actionTypes = __webpack_require__(94);
 	
-	var _todos = __webpack_require__(122);
+	var _todos = __webpack_require__(124);
+	
+	var _index = __webpack_require__(116);
 	
 	exports.default = function (_ref) {
 	  var type = _ref.type;
-	  var payload = _ref.payload;
-	  return function (state) {
-	    return type !== _actionTypes.types.complete ? state : (0, _todos.toggleCompleted)(payload)(state);
-	  };
+	  var text = _ref.payload;
+	  return (0, _index.filterAction)(type !== _actionTypes.types.add, (0, _todos.addTodo)({ text: text }));
 	};
 
 /***/ },
-/* 122 */
+/* 124 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -13173,7 +13145,7 @@
 	exports.default = init;
 
 /***/ },
-/* 123 */
+/* 125 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -13182,126 +13154,153 @@
 	  value: true
 	});
 	
-	var _actionTypes = __webpack_require__(96);
+	var _actionTypes = __webpack_require__(94);
 	
-	var _todos = __webpack_require__(122);
+	var _todos = __webpack_require__(124);
 	
-	var _index = __webpack_require__(113);
+	var _index = __webpack_require__(116);
 	
 	exports.default = function (_ref) {
 	  var type = _ref.type;
-	  var text = _ref.payload;
-	  return (0, _index.filterAction)(type !== _actionTypes.types.add, (0, _todos.addTodo)({ text: text }));
+	  var payload = _ref.payload;
+	  return (0, _index.filterAction)(type !== _actionTypes.types.remove, (0, _todos.removeTodo)(payload));
 	};
-
-/***/ },
-/* 124 */
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	exports.__esModule = true;
-	
-	var _assign = __webpack_require__(125);
-	
-	var _assign2 = _interopRequireDefault(_assign);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	exports.default = _assign2.default || function (target) {
-	  for (var i = 1; i < arguments.length; i++) {
-	    var source = arguments[i];
-	
-	    for (var key in source) {
-	      if (Object.prototype.hasOwnProperty.call(source, key)) {
-	        target[key] = source[key];
-	      }
-	    }
-	  }
-	
-	  return target;
-	};
-
-/***/ },
-/* 125 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = { "default": __webpack_require__(126), __esModule: true };
 
 /***/ },
 /* 126 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(127);
-	module.exports = __webpack_require__(17).Object.assign;
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _actionTypes = __webpack_require__(94);
+	
+	var _todos = __webpack_require__(124);
+	
+	exports.default = function (_ref) {
+	  var type = _ref.type;
+	  var payload = _ref.payload;
+	  return function (state) {
+	    return type !== _actionTypes.types.complete ? state : (0, _todos.toggleCompleted)(payload)(state);
+	  };
+	};
 
 /***/ },
 /* 127 */
 /***/ function(module, exports, __webpack_require__) {
 
-	// 19.1.3.1 Object.assign(target, source)
-	var $export = __webpack_require__(15);
+	'use strict';
 	
-	$export($export.S + $export.F, 'Object', {assign: __webpack_require__(128)});
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _snabbdomJsx = __webpack_require__(71);
+	
+	var _snabbdomJsx2 = _interopRequireDefault(_snabbdomJsx);
+	
+	var _ramda = __webpack_require__(84);
+	
+	var _Item = __webpack_require__(128);
+	
+	var _Item2 = _interopRequireDefault(_Item);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var mapIndexed = (0, _ramda.addIndex)(_ramda.map);
+	var getTodos = (0, _ramda.curry)(mapIndexed(_Item2.default));
+	
+	exports.default = function (_ref) {
+	  var todos = _ref.todos;
+	  return _snabbdomJsx2.default.html(
+	    'section',
+	    { className: 'main' },
+	    _snabbdomJsx2.default.html('input', { className: 'toggle-all', type: 'checkbox' }),
+	    _snabbdomJsx2.default.html(
+	      'ul',
+	      { className: 'todo-list' },
+	      getTodos(todos)
+	    )
+	  );
+	};
 
 /***/ },
 /* 128 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-	// 19.1.2.1 Object.assign(target, source, ...)
-	var getKeys  = __webpack_require__(36)
-	  , gOPS     = __webpack_require__(105)
-	  , pIE      = __webpack_require__(106)
-	  , toObject = __webpack_require__(52)
-	  , IObject  = __webpack_require__(39)
-	  , $assign  = Object.assign;
-	
-	// should work with symbols and should have deterministic property order (V8 bug)
-	module.exports = !$assign || __webpack_require__(26)(function(){
-	  var A = {}
-	    , B = {}
-	    , S = Symbol()
-	    , K = 'abcdefghijklmnopqrst';
-	  A[S] = 7;
-	  K.split('').forEach(function(k){ B[k] = k; });
-	  return $assign({}, A)[S] != 7 || Object.keys($assign({}, B)).join('') != K;
-	}) ? function assign(target, source){ // eslint-disable-line no-unused-vars
-	  var T     = toObject(target)
-	    , aLen  = arguments.length
-	    , index = 1
-	    , getSymbols = gOPS.f
-	    , isEnum     = pIE.f;
-	  while(aLen > index){
-	    var S      = IObject(arguments[index++])
-	      , keys   = getSymbols ? getKeys(S).concat(getSymbols(S)) : getKeys(S)
-	      , length = keys.length
-	      , j      = 0
-	      , key;
-	    while(length > j)if(isEnum.call(S, key = keys[j++]))T[key] = S[key];
-	  } return T;
-	} : $assign;
-
-/***/ },
-/* 129 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
 	
-	var _actionTypes = __webpack_require__(96);
+	var _slicedToArray2 = __webpack_require__(95);
 	
-	var _todos = __webpack_require__(122);
+	var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
 	
-	var _index = __webpack_require__(113);
+	var _snabbdomJsx = __webpack_require__(71);
 	
-	exports.default = function (_ref) {
-	  var type = _ref.type;
-	  var payload = _ref.payload;
-	  return (0, _index.filterAction)(type !== _actionTypes.types.remove, (0, _todos.removeTodo)(payload));
+	var _snabbdomJsx2 = _interopRequireDefault(_snabbdomJsx);
+	
+	var _ramda = __webpack_require__(84);
+	
+	var _TextField = __webpack_require__(93);
+	
+	var _TextField2 = _interopRequireDefault(_TextField);
+	
+	var _actionTypes = __webpack_require__(94);
+	
+	var _actionTypes2 = _interopRequireDefault(_actionTypes);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var getClassName = (0, _ramda.compose)((0, _ramda.map)(function (_ref) {
+	  var _ref2 = (0, _slicedToArray3.default)(_ref, 1);
+	
+	  var key = _ref2[0];
+	  return key;
+	}), (0, _ramda.filter)(function (_ref3) {
+	  var _ref4 = (0, _slicedToArray3.default)(_ref3, 2);
+	
+	  var value = _ref4[1];
+	  return value;
+	}), _ramda.toPairs);
+	
+	var onchange = function onchange(key) {
+	  return function () {
+	    return _actionTypes2.default.complete(key);
+	  };
+	};
+	var onclick = function onclick(key) {
+	  return function () {
+	    return _actionTypes2.default.remove(key);
+	  };
+	};
+	
+	exports.default = function (_ref5, key) {
+	  var text = _ref5.text;
+	  var completed = _ref5.completed;
+	  var editing = _ref5.editing;
+	  return _snabbdomJsx2.default.html(
+	    'li',
+	    { className: getClassName({ completed: completed, editing: editing }) },
+	    _snabbdomJsx2.default.html(
+	      'div',
+	      { className: 'view' },
+	      _snabbdomJsx2.default.html('input', { className: 'toggle', type: 'checkbox', checked: completed,
+	        'on-change': onchange(key) }),
+	      _snabbdomJsx2.default.html(
+	        'label',
+	        null,
+	        text
+	      ),
+	      _snabbdomJsx2.default.html('button', { className: 'destroy', 'on-click': onclick(key) })
+	    ),
+	    _snabbdomJsx2.default.html(_TextField2.default, { value: text, className: 'edit' })
+	  );
 	};
 
 /***/ }

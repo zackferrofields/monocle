@@ -25,7 +25,8 @@
     "node": ">=6.0.0"
   },
   "scripts": {
-    "build": "webpack",
+    "build": ". ./build.sh & webpack",
+    "deploy": ". ./deploy.sh",
     "lint": "eslint src"
   }
 }
