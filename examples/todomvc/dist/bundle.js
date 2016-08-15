@@ -66,6 +66,8 @@
 	
 	var _App2 = _interopRequireDefault(_App);
 	
+	var _ramda = __webpack_require__(84);
+	
 	var _action = __webpack_require__(116);
 	
 	var _actionTypes = __webpack_require__(94);
@@ -76,13 +78,17 @@
 	
 	var _todos2 = _interopRequireDefault(_todos);
 	
+	var _app = __webpack_require__(129);
+	
+	var _app2 = _interopRequireDefault(_app);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var node = document.querySelector('[app]');
 	var render = (0, _renderer2.default)(_App2.default, node);
+	var initModel = (0, _ramda.compose)(_app2.default, _todos2.default);
 	
-	var model = { count: 0 };
-	model = (0, _todos2.default)(model);
+	var model = initModel({});
 	
 	var loop = function () {
 	  var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
@@ -3246,11 +3252,13 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	exports.default = function (_ref) {
-	  var todos = _ref.model.todos;
+	  var _ref$model = _ref.model;
+	  var todos = _ref$model.todos;
+	  var app = _ref$model.app;
 	  return _snabbdomJsx2.default.html(
 	    'section',
 	    { className: 'todoapp' },
-	    _snabbdomJsx2.default.html(_Header2.default, null),
+	    _snabbdomJsx2.default.html(_Header2.default, app),
 	    _snabbdomJsx2.default.html(_Main2.default, { todos: todos }),
 	    _snabbdomJsx2.default.html(_Footer2.default, { todos: todos })
 	  );
@@ -12115,6 +12123,8 @@
 	
 	var _snabbdomJsx2 = _interopRequireDefault(_snabbdomJsx);
 	
+	var _ramda = __webpack_require__(84);
+	
 	var _TextField = __webpack_require__(93);
 	
 	var _TextField2 = _interopRequireDefault(_TextField);
@@ -12123,6 +12133,8 @@
 	
 	var _actionTypes2 = _interopRequireDefault(_actionTypes);
 	
+	var _app = __webpack_require__(129);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var ENTER = 13;
@@ -12130,17 +12142,24 @@
 	var NEW_TODO = {
 	  className: 'new-todo',
 	  placeholder: 'What needs to be done?',
-	  value: '',
 	  autofocus: true
 	};
+	
+	var onEnter = (0, _ramda.compose)(_actionTypes2.default.clear, _actionTypes2.default.add);
 	
 	var onkeyup = function onkeyup(_ref) {
 	  var keyCode = _ref.keyCode;
 	  var target = _ref.target;
-	  return keyCode !== ENTER ? false : _actionTypes2.default.add(target.value);
+	  return keyCode !== ENTER ? false : onEnter(target.value);
 	};
 	
-	exports.default = function () {
+	var onchange = function onchange(_ref2) {
+	  var target = _ref2.target;
+	  return _actionTypes2.default.change(target.value);
+	};
+	
+	exports.default = function (_ref3) {
+	  var current = _ref3.current;
 	  return _snabbdomJsx2.default.html(
 	    'header',
 	    null,
@@ -12149,7 +12168,7 @@
 	      null,
 	      'todos'
 	    ),
-	    _snabbdomJsx2.default.html(_TextField2.default, (0, _extends3.default)({}, NEW_TODO, { 'on-keyup': onkeyup }))
+	    _snabbdomJsx2.default.html(_TextField2.default, (0, _extends3.default)({}, NEW_TODO, { value: current, 'on-keyup': onkeyup, 'on-input': onchange }))
 	  );
 	};
 
@@ -12316,7 +12335,7 @@
 	  return [key, create(value)];
 	}), _ramda.toPairs);
 	
-	var types = exports.types = createTypes(['add', 'remove', 'complete']);
+	var types = exports.types = createTypes(['add', 'remove', 'complete', 'change', 'clear']);
 	
 	exports.default = createActions(types);
 
@@ -12912,11 +12931,19 @@
 	
 	var _complete2 = _interopRequireDefault(_complete);
 	
+	var _change = __webpack_require__(130);
+	
+	var _change2 = _interopRequireDefault(_change);
+	
+	var _clear = __webpack_require__(131);
+	
+	var _clear2 = _interopRequireDefault(_clear);
+	
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var actions = [_add2.default, _remove2.default, _complete2.default];
+	var actions = [_add2.default, _remove2.default, _complete2.default, _change2.default, _clear2.default];
 	
 	var channel = utils.channel();
 	
@@ -13301,6 +13328,81 @@
 	    ),
 	    _snabbdomJsx2.default.html(_TextField2.default, { value: text, className: 'edit' })
 	  );
+	};
+
+/***/ },
+/* 129 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.changeCurrent = exports.clearCurrent = exports.current = undefined;
+	
+	var _ramda = __webpack_require__(84);
+	
+	var DEFAULT_APP = {
+	  current: ''
+	};
+	
+	var store = (0, _ramda.lensProp)('app');
+	var current = exports.current = (0, _ramda.compose)(store, (0, _ramda.lensProp)('current'));
+	
+	var init = (0, _ramda.over)(store, (0, _ramda.always)(DEFAULT_APP));
+	
+	var clearCurrent = exports.clearCurrent = function clearCurrent() {
+	  return (0, _ramda.over)(current, (0, _ramda.always)(''));
+	};
+	
+	var changeCurrent = exports.changeCurrent = function changeCurrent(str) {
+	  return (0, _ramda.over)(current, (0, _ramda.always)(str));
+	};
+	
+	exports.default = init;
+
+/***/ },
+/* 130 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _actionTypes = __webpack_require__(94);
+	
+	var _app = __webpack_require__(129);
+	
+	var _index = __webpack_require__(116);
+	
+	exports.default = function (_ref) {
+	  var type = _ref.type;
+	  var payload = _ref.payload;
+	  return (0, _index.filterAction)(type !== _actionTypes.types.change, (0, _app.changeCurrent)(payload));
+	};
+
+/***/ },
+/* 131 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _actionTypes = __webpack_require__(94);
+	
+	var _app = __webpack_require__(129);
+	
+	var _index = __webpack_require__(116);
+	
+	exports.default = function (_ref) {
+	  var type = _ref.type;
+	  return (0, _index.filterAction)(type !== _actionTypes.types.clear, (0, _app.clearCurrent)());
 	};
 
 /***/ }

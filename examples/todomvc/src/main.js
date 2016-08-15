@@ -1,14 +1,16 @@
 import renderer from './renderer';
 import App from './components/App';
+import { compose } from 'ramda';
 import { put, take, run } from './action';
 import actions, { types } from './actionTypes';
 import todosStore from './stores/todos';
+import appStore from './stores/app';
 
 const node = document.querySelector('[app]');
 const render = renderer(App, node);
+const initModel = compose(appStore, todosStore);
 
-let model = { count: 0 };
-model = todosStore(model);
+let model = initModel({});
 
 const loop = async () => {
   render(<App {...{ model }}/>);

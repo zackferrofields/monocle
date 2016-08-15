@@ -3,8 +3,10 @@ import * as utils from '../utils';
 import add from './add';
 import remove from './remove';
 import complete from './complete';
+import change from './change';
+import clear from './clear';
 
-const actions = [ add, remove, complete ];
+const actions = [ add, remove, complete, change, clear ];
 
 const channel = utils.channel();
 
