@@ -1,27 +1,19 @@
 import renderer from './renderer';
 import App from './components/App';
 import { compose } from 'ramda';
-import { put, take, run } from './action';
-import actions, { types } from './actionTypes';
+import * as Actions from './action';
+import actions from './actionTypes';
 import todosStore from './stores/todos';
 import appStore from './stores/app';
+import Monocle from 'monocle';
 
 const node = document.querySelector('[app]');
 const render = compose(renderer(App, node), App);
 const stores = compose(appStore, todosStore);
 
-let model = stores({});
-
-const loop = async () => {
-  render(model);
-  while (true) {
-    const action = await take();
-    model = run(action)(model);
-    render(model);
-  }
-}
-
-loop();
+const Stores = stores({});
+const application = new Monocle(Stores, Actions);
+application.init(render);
 
 actions.add('feed Willow');
 actions.add('brush Willow');

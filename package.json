@@ -2,9 +2,9 @@
   "name": "monocle",
   "version": "0.0.1",
   "description": "FLUX with lenses",
-  "main": "src/main",
+  "main": "index",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "deploy": ". ./deploy.sh"
   },
   "repository": {
     "type": "git",
@@ -18,9 +18,7 @@
   "homepage": "https://github.com/zackferrofields/monocle#readme",
   "devDependencies": {
     "eslint": "^3.1.1",
-    "eslint-plugin-react": "^5.2.2"
-  },
-  "scripts": {
-    "deploy": ". ./deploy.sh"
+    "eslint-plugin-react": "^5.2.2",
+    "typescript": "^1.8.10"
   }
 }
