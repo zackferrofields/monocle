@@ -13,5 +13,5 @@ const Footer = ({ items }) =>
     <Count remaining={remaining(items)}/>
   </footer>;
 
-export default({ todos }) =>
+export default({ todos = [] }) =>
   <Footer items={todos}/>;

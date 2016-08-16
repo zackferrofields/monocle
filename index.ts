@@ -1,21 +1,56 @@
 type State = Object;
-type Store = (state: Object) => Object;
+type StateModifier = (state: State) => State;
 
-interface Channel {
-  take(): Promise<any>;
+interface ActionType {
+  type: Symbol;
+  payload: any;
+  error?: boolean;
 }
 
-interface Actions extends Channel {
-  run(action: Object): (x: State) => State;
+class Channel {
+  public takes: Array<any>;
+  public puts: Array<any>;
+  constructor() {
+    this.puts = [];
+    this.takes = [];
+  }
+  public put(data: any) {
+    return new Promise(resolve => {
+      this.puts.unshift(() => (resolve(), data));
+      if (this.takes.length) this.takes.pop()(this.puts.pop()());
+    });
+  }
+  public take() {
+    return new Promise(resolve => {
+      this.takes.unshift(resolve);
+      if (this.puts.length) this.takes.pop()(this.puts.pop()());
+    });
+  }
+}
+
+class Action extends Channel {
+  constructor(private actions: Array<StateModifier>) {
+    super();
+  }
+  public run(action = {}, state: State) {
+    return this.actions
+      .map(fn => fn(action))
+      .reduceRight((x: State, fn) => fn(x), state);
+  }
 }
 
 class App {
-  constructor(public stores: Object, public actions: Actions) { }
+  public action: Action;
+  public dispatch: Function;
+  constructor(public stores: Object, actions: Array<StateModifier>, register: Function) {
+    this.action = new Action(actions);
+    this.dispatch = register(this.action);
+  }
   public async init(render: Function) {
     render(this.stores);
     while(true) {
-      var action = await this.actions.take();
-      this.stores = this.actions.run(action)(this.stores);
+      var action = await this.action.take();
+      this.stores = this.action.run(action, this.stores);
       render(this.stores);
     }
   }

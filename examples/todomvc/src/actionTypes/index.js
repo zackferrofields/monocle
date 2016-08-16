@@ -1,12 +1,14 @@
 import { compose, map, fromPairs, toPairs } from 'ramda';
-import { put } from '../action';
+import * as Action from '../action';
 
-const create = type => payload => put({ type, payload });
+const create = (type, channel) => payload => channel.put.call(channel, { type, payload });
 
 const createTypes = compose(fromPairs, map(key => [ key, Symbol(key) ]));
 
-const createActions = compose(fromPairs, map(([key, value]) => [ key, create(value) ]), toPairs);
+const createActions = channel => compose(fromPairs, map(([key, value]) => [ key, create(value, channel) ]), toPairs);
 
 export const types = createTypes([ 'add', 'remove', 'complete', 'change', 'clear' ]);
 
-export default createActions(types);
+export const register = channel => createActions(channel)(types);
+
+export default register(Action);

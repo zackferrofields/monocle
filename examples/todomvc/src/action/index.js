@@ -18,3 +18,5 @@ export const filterAction = (bool, fn) => bool ? identity : fn;
 
 export const run = action =>
   compose(...map(fn => fn(action), actions));
+
+export default actions;

@@ -46,51 +46,11 @@
 
 	'use strict';
 	
-	var _renderer = __webpack_require__(71);
+	var _app = __webpack_require__(134);
 	
-	var _renderer2 = _interopRequireDefault(_renderer);
-	
-	var _App = __webpack_require__(81);
-	
-	var _App2 = _interopRequireDefault(_App);
-	
-	var _ramda = __webpack_require__(84);
-	
-	var _action = __webpack_require__(116);
-	
-	var Actions = _interopRequireWildcard(_action);
-	
-	var _actionTypes = __webpack_require__(94);
-	
-	var _actionTypes2 = _interopRequireDefault(_actionTypes);
-	
-	var _todos = __webpack_require__(124);
-	
-	var _todos2 = _interopRequireDefault(_todos);
-	
-	var _app = __webpack_require__(128);
-	
-	var _app2 = _interopRequireDefault(_app);
-	
-	var _monocle = __webpack_require__(132);
-	
-	var _monocle2 = _interopRequireDefault(_monocle);
-	
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var node = document.querySelector('[app]');
-	var render = (0, _ramda.compose)((0, _renderer2.default)(_App2.default, node), _App2.default);
-	var stores = (0, _ramda.compose)(_app2.default, _todos2.default);
-	
-	var Stores = stores({});
-	var application = new _monocle2.default(Stores, Actions);
-	application.init(render);
-	
-	_actionTypes2.default.add('feed Willow');
-	_actionTypes2.default.add('brush Willow');
-	_actionTypes2.default.add('adore Willow');
+	_app.dispatch.add('feed Willow');
+	_app.dispatch.add('brush Willow');
+	_app.dispatch.add('adore Willow');
 
 /***/ },
 /* 1 */,
@@ -1592,9 +1552,8 @@
 	
 	var patch = _snabbdom2.default.init([_attributes2.default, _class2.default, _props2.default, _style2.default, _eventlisteners2.default]);
 	
-	exports.default = function (Component, node) {
-	  return function () {
-	    var tree = arguments.length <= 0 || arguments[0] === undefined ? Component() : arguments[0];
+	exports.default = function (node) {
+	  return function (tree) {
 	    return node = patch(node, tree);
 	  };
 	};
@@ -2384,7 +2343,8 @@
 	};
 	
 	exports.default = function (_ref4) {
-	  var todos = _ref4.todos;
+	  var _ref4$todos = _ref4.todos;
+	  var todos = _ref4$todos === undefined ? [] : _ref4$todos;
 	  return _snabbdomJsx2.default.html(Footer, { items: todos });
 	};
 
@@ -11196,17 +11156,11 @@
 	
 	var _snabbdomJsx2 = _interopRequireDefault(_snabbdomJsx);
 	
-	var _ramda = __webpack_require__(84);
-	
 	var _TextField = __webpack_require__(93);
 	
 	var _TextField2 = _interopRequireDefault(_TextField);
 	
-	var _actionTypes = __webpack_require__(94);
-	
-	var _actionTypes2 = _interopRequireDefault(_actionTypes);
-	
-	var _app = __webpack_require__(128);
+	var _app = __webpack_require__(134);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -11218,17 +11172,15 @@
 	  autofocus: true
 	};
 	
-	var onEnter = (0, _ramda.compose)(_actionTypes2.default.clear, _actionTypes2.default.add);
-	
 	var onkeyup = function onkeyup(_ref) {
 	  var keyCode = _ref.keyCode;
 	  var target = _ref.target;
-	  return keyCode !== ENTER ? false : onEnter(target.value);
+	  return keyCode !== ENTER ? false : (_app.dispatch.clear(), _app.dispatch.add(target.value));
 	};
 	
 	var onchange = function onchange(_ref2) {
 	  var target = _ref2.target;
-	  return _actionTypes2.default.change(target.value);
+	  return _app.dispatch.change(target.value);
 	};
 	
 	exports.default = function (_ref3) {
@@ -11374,7 +11326,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.types = undefined;
+	exports.register = exports.types = undefined;
 	
 	var _slicedToArray2 = __webpack_require__(95);
 	
@@ -11388,11 +11340,15 @@
 	
 	var _action = __webpack_require__(116);
 	
+	var Action = _interopRequireWildcard(_action);
+	
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var create = function create(type) {
+	var create = function create(type, channel) {
 	  return function (payload) {
-	    return (0, _action.put)({ type: type, payload: payload });
+	    return channel.put.call(channel, { type: type, payload: payload });
 	  };
 	};
 	
@@ -11400,17 +11356,23 @@
 	  return [key, (0, _symbol2.default)(key)];
 	}));
 	
-	var createActions = (0, _ramda.compose)(_ramda.fromPairs, (0, _ramda.map)(function (_ref) {
-	  var _ref2 = (0, _slicedToArray3.default)(_ref, 2);
+	var createActions = function createActions(channel) {
+	  return (0, _ramda.compose)(_ramda.fromPairs, (0, _ramda.map)(function (_ref) {
+	    var _ref2 = (0, _slicedToArray3.default)(_ref, 2);
 	
-	  var key = _ref2[0];
-	  var value = _ref2[1];
-	  return [key, create(value)];
-	}), _ramda.toPairs);
+	    var key = _ref2[0];
+	    var value = _ref2[1];
+	    return [key, create(value, channel)];
+	  }), _ramda.toPairs);
+	};
 	
 	var types = exports.types = createTypes(['add', 'remove', 'complete', 'change', 'clear']);
 	
-	exports.default = createActions(types);
+	var register = exports.register = function register(channel) {
+	  return createActions(channel)(types);
+	};
+	
+	exports.default = register(Action);
 
 /***/ },
 /* 95 */
@@ -12033,6 +11995,8 @@
 	    return fn(action);
 	  }, actions)));
 	};
+	
+	exports.default = actions;
 
 /***/ },
 /* 117 */
@@ -12389,7 +12353,8 @@
 	var getTodos = (0, _ramda.curry)(mapIndexed(_Item2.default));
 	
 	exports.default = function (_ref) {
-	  var todos = _ref.todos;
+	  var _ref$todos = _ref.todos;
+	  var todos = _ref$todos === undefined ? [] : _ref$todos;
 	  return _snabbdomJsx2.default.html(
 	    'section',
 	    { className: 'main' },
@@ -12430,6 +12395,8 @@
 	
 	var _actionTypes2 = _interopRequireDefault(_actionTypes);
 	
+	var _app = __webpack_require__(134);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var getClassName = (0, _ramda.compose)((0, _ramda.map)(function (_ref) {
@@ -12446,12 +12413,12 @@
 	
 	var onchange = function onchange(key) {
 	  return function () {
-	    return _actionTypes2.default.complete(key);
+	    return _app.dispatch.complete(key);
 	  };
 	};
 	var onclick = function onclick(key) {
 	  return function () {
-	    return console.log(key), _actionTypes2.default.remove(key);
+	    return _app.dispatch.remove(key);
 	  };
 	};
 	
@@ -12508,17 +12475,45 @@
 	        step((generator = generator.apply(thisArg, _arguments)).next());
 	    });
 	};
-	class App {
-	    constructor(stores, actions) {
-	        this.stores = stores;
+	class Channel {
+	    constructor() {
+	        this.puts = [];
+	        this.takes = [];
+	    }
+	    put(data) {
+	        return new Promise(resolve => {
+	            this.puts.unshift(() => (resolve(), data));
+	            if (this.takes.length) this.takes.pop()(this.puts.pop()());
+	        });
+	    }
+	    take() {
+	        return new Promise(resolve => {
+	            this.takes.unshift(resolve);
+	            if (this.puts.length) this.takes.pop()(this.puts.pop()());
+	        });
+	    }
+	}
+	class Action extends Channel {
+	    constructor(actions) {
+	        super();
 	        this.actions = actions;
+	    }
+	    run(action = {}, state) {
+	        return this.actions.map(fn => fn(action)).reduceRight((x, fn) => fn(x), state);
+	    }
+	}
+	class App {
+	    constructor(stores, actions, register) {
+	        this.stores = stores;
+	        this.action = new Action(actions);
+	        this.dispatch = register(this.action);
 	    }
 	    init(render) {
 	        return __awaiter(this, void 0, void 0, function* () {
 	            render(this.stores);
 	            while (true) {
-	                var action = yield this.actions.take();
-	                this.stores = this.actions.run(action)(this.stores);
+	                var action = yield this.action.take();
+	                this.stores = this.action.run(action, this.stores);
 	                render(this.stores);
 	            }
 	        });
@@ -12526,6 +12521,78 @@
 	}
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = App;
+
+/***/ },
+/* 133 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _ramda = __webpack_require__(84);
+	
+	var _app = __webpack_require__(128);
+	
+	var _app2 = _interopRequireDefault(_app);
+	
+	var _todos = __webpack_require__(124);
+	
+	var _todos2 = _interopRequireDefault(_todos);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var stores = (0, _ramda.compose)(_app2.default, _todos2.default);
+	
+	exports.default = stores({});
+
+/***/ },
+/* 134 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.dispatch = undefined;
+	
+	var _renderer = __webpack_require__(71);
+	
+	var _renderer2 = _interopRequireDefault(_renderer);
+	
+	var _App = __webpack_require__(81);
+	
+	var _App2 = _interopRequireDefault(_App);
+	
+	var _ramda = __webpack_require__(84);
+	
+	var _action = __webpack_require__(116);
+	
+	var _action2 = _interopRequireDefault(_action);
+	
+	var _actionTypes = __webpack_require__(94);
+	
+	var _stores = __webpack_require__(133);
+	
+	var _stores2 = _interopRequireDefault(_stores);
+	
+	var _monocle = __webpack_require__(132);
+	
+	var _monocle2 = _interopRequireDefault(_monocle);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var node = document.querySelector('[app]');
+	var render = (0, _ramda.compose)((0, _renderer2.default)(node), _App2.default);
+	
+	var application = new _monocle2.default(_stores2.default, _action2.default, _actionTypes.register);
+	application.init(render);
+	
+	var dispatch = application.dispatch;
+	exports.dispatch = dispatch;
 
 /***/ }
 /******/ ]);

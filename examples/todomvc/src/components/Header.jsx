@@ -1,7 +1,5 @@
-import { compose } from 'ramda';
 import TextField from './TextField';
-import actions from '../actionTypes';
-import { current } from '../stores/app';
+import { dispatch } from '../app';
 
 const ENTER = 13;
 
@@ -11,13 +9,11 @@ const NEW_TODO = {
   autofocus: true
 };
 
-const onEnter = compose(actions.clear, actions.add);
-
 const onkeyup = ({ keyCode, target }) =>
   keyCode !== ENTER ? false:
-  onEnter(target.value);
+  (dispatch.clear(), dispatch.add(target.value));
 
-const onchange = ({ target }) => actions.change(target.value);
+const onchange = ({ target }) => dispatch.change(target.value);
 
 export default ({ current }) =>
   <header>

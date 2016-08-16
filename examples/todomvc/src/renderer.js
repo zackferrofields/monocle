@@ -7,6 +7,5 @@ import snabbdomEvents from 'snabbdom/modules/eventlisteners';
 
 const patch = snabbdom.init([ snabbdomAttrs, snabbdomClass, snabbdomProps, snabbdomStyle, snabbdomEvents ]);
 
-export default (Component, node) =>
-  (tree = Component()) =>
-    node = patch(node, tree);
+export default node =>
+  tree => node = patch(node, tree);
