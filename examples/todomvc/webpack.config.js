@@ -6,7 +6,7 @@ module.exports = {
     filename: 'bundle.js'
   },
   resolve: {
-    alias: { monocle: __dirname + '/../../index.js' },
+    alias: { monocle: __dirname + '/../../scripts/index.js' },
     extensions: ['', '.js', '.jsx']
   },
   module: {

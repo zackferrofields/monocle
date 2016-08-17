@@ -2,9 +2,14 @@
   "name": "monocle",
   "version": "0.0.1",
   "description": "FLUX with lenses",
-  "main": "index",
+  "main": "scripts/index",
+  "engines": {
+    "node": ">=6.0.0"
+  },
   "scripts": {
-    "deploy": ". ./deploy.sh"
+    "deploy": ". ./deploy.sh",
+    "test": "npm run test:unit",
+    "test:unit": "tape -r babel-polyfill 'scripts/**/*.spec.js'"
   },
   "repository": {
     "type": "git",
@@ -17,6 +22,7 @@
   },
   "homepage": "https://github.com/zackferrofields/monocle#readme",
   "devDependencies": {
-    "typescript": "^1.8.10"
+    "babel-polyfill": "^6.13.0",
+    "tape": "^4.6.0"
   }
 }
