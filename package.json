@@ -9,7 +9,8 @@
   "scripts": {
     "deploy": ". ./deploy.sh",
     "test": "npm run test:unit",
-    "test:unit": "tape -r babel-polyfill 'scripts/**/*.spec.js'"
+    "test:unit": "tape -r babel-polyfill 'scripts/**/*.spec.js'",
+    "test:coverage": "nyc --check-coverage npm run test:unit"
   },
   "repository": {
     "type": "git",
@@ -23,6 +24,15 @@
   "homepage": "https://github.com/zackferrofields/monocle#readme",
   "devDependencies": {
     "babel-polyfill": "^6.13.0",
+    "nyc": "^8.1.0",
     "tape": "^4.6.0"
+  },
+  "nyc": {
+    "exclude": [
+      "scripts/**/*.spec.js"
+    ],
+    "include": [
+      "scripts/**/*.js"
+    ]
   }
 }
