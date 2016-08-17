@@ -38,13 +38,16 @@ class Action extends Channel {
       .reduceRight((x: State, fn) => fn(x), state);
   }
 }
+const dispatcher = channel => type => payload => channel.put.call(channel, { type, payload });
 
 class App {
   public action: Action;
   public dispatch: Function;
-  constructor(public stores: Object, actions: Array<StateModifier>, register: Function) {
+  constructor(public stores: Object, actions: Array<StateModifier>, types: Object) {
     this.action = new Action(actions);
-    this.dispatch = register(this.action);
+    this.dispatch = (<any>Object).entries(types)
+      .map(([key, value]) => [ key, dispatcher(this.action)(value)])
+      .reduce((acc, [ key, value ]) => Object.assign(acc, { [key]: value }) ,{});
   }
   public async init(render: Function) {
     render(this.stores);

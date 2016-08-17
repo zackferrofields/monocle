@@ -11,7 +11,7 @@ const NEW_TODO = {
 
 const onkeyup = ({ keyCode, target }) =>
   keyCode !== ENTER ? false:
-  (dispatch.clear(), dispatch.add(target.value));
+  dispatch.add(target.value);
 
 const onchange = ({ target }) => dispatch.change(target.value);
 

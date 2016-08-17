@@ -38,11 +38,14 @@ class Action extends Channel {
             .reduceRight((x, fn) => fn(x), state);
     }
 }
+const dispatcher = channel => type => payload => channel.put.call(channel, { type, payload });
 class App {
-    constructor(stores, actions, register) {
+    constructor(stores, actions, types) {
         this.stores = stores;
         this.action = new Action(actions);
-        this.dispatch = register(this.action);
+        this.dispatch = Object.entries(types)
+            .map(([key, value]) => [key, dispatcher(this.action)(value)])
+            .reduce((acc, [key, value]) => Object.assign(acc, { [key]: value }), {});
     }
     init(render) {
         return __awaiter(this, void 0, void 0, function* () {

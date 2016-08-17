@@ -3,4 +3,4 @@ import { clearCurrent } from '../stores/app';
 import { filterAction } from './index';
 
 export default ({ type }) =>
-  filterAction(type !== types.clear, clearCurrent());
+  filterAction(type !== types.add && type !== types.clear, clearCurrent());
