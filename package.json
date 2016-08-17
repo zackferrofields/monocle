@@ -4,7 +4,8 @@
   "description": "FLUX with lenses",
   "main": "index",
   "scripts": {
-    "deploy": ". ./deploy.sh"
+    "deploy": ". ./deploy.sh",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -15,8 +16,5 @@
   "bugs": {
     "url": "https://github.com/zackferrofields/monocle/issues"
   },
-  "homepage": "https://github.com/zackferrofields/monocle#readme",
-  "devDependencies": {
-    "typescript": "^1.8.10"
-  }
+  "homepage": "https://github.com/zackferrofields/monocle#readme"
 }
