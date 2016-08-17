@@ -1,6 +1,5 @@
 import { filter, map, compose, toPairs } from 'ramda';
 import TextField from './TextField';
-import actions from '../actionTypes';
 import { dispatch } from '../app';
 
 const getClassName = compose(

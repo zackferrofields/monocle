@@ -38,13 +38,12 @@ class Action extends Channel {
             .reduceRight((x, fn) => fn(x), state);
     }
 }
-const dispatcher = channel => type => payload => channel.put.call(channel, { type, payload });
 class App {
     constructor(stores, actions, types) {
         this.stores = stores;
         this.action = new Action(actions);
         this.dispatch = Object.entries(types)
-            .map(([key, value]) => [key, dispatcher(this.action)(value)])
+            .map(([key, value]) => [key, this.dispatcher(value)])
             .reduce((acc, [key, value]) => Object.assign(acc, { [key]: value }), {});
     }
     init(render) {
@@ -56,6 +55,9 @@ class App {
                 render(this.stores);
             }
         });
+    }
+    dispatcher(type) {
+        return payload => this.action.put({ type, payload });
     }
 }
 Object.defineProperty(exports, "__esModule", { value: true });

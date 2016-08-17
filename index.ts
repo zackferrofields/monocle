@@ -8,13 +8,13 @@ interface ActionType {
 }
 
 class Channel {
-  public takes: Array<any>;
-  public puts: Array<any>;
+  public takes: Array<Function>;
+  public puts: Array<() => ActionType>;
   constructor() {
     this.puts = [];
     this.takes = [];
   }
-  public put(data: any) {
+  public put(data: ActionType) {
     return new Promise(resolve => {
       this.puts.unshift(() => (resolve(), data));
       if (this.takes.length) this.takes.pop()(this.puts.pop()());
@@ -38,15 +38,14 @@ class Action extends Channel {
       .reduceRight((x: State, fn) => fn(x), state);
   }
 }
-const dispatcher = channel => type => payload => channel.put.call(channel, { type, payload });
 
 class App {
   public action: Action;
-  public dispatch: Function;
+  public dispatch: Object;
   constructor(public stores: Object, actions: Array<StateModifier>, types: Object) {
     this.action = new Action(actions);
     this.dispatch = (<any>Object).entries(types)
-      .map(([key, value]) => [ key, dispatcher(this.action)(value)])
+      .map(([key, value]) => [ key, this.dispatcher(value)])
       .reduce((acc, [ key, value ]) => Object.assign(acc, { [key]: value }) ,{});
   }
   public async init(render: Function) {
@@ -56,6 +55,9 @@ class App {
       this.stores = this.action.run(action, this.stores);
       render(this.stores);
     }
+  }
+  private dispatcher(type: Symbol) {
+    return payload => this.action.put({ type, payload });
   }
 }
 

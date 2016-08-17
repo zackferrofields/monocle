@@ -18476,10 +18476,6 @@
 	
 	var _TextField2 = _interopRequireDefault(_TextField);
 	
-	var _actionTypes = __webpack_require__(382);
-	
-	var _actionTypes2 = _interopRequireDefault(_actionTypes);
-	
 	var _app = __webpack_require__(299);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -19817,12 +19813,11 @@
 	        return this.actions.map(fn => fn(action)).reduceRight((x, fn) => fn(x), state);
 	    }
 	}
-	const dispatcher = channel => type => payload => channel.put.call(channel, { type, payload });
 	class App {
 	    constructor(stores, actions, types) {
 	        this.stores = stores;
 	        this.action = new Action(actions);
-	        this.dispatch = Object.entries(types).map(([key, value]) => [key, dispatcher(this.action)(value)]).reduce((acc, [key, value]) => Object.assign(acc, { [key]: value }), {});
+	        this.dispatch = Object.entries(types).map(([key, value]) => [key, this.dispatcher(value)]).reduce((acc, [key, value]) => Object.assign(acc, { [key]: value }), {});
 	    }
 	    init(render) {
 	        return __awaiter(this, void 0, void 0, function* () {
@@ -19833,6 +19828,9 @@
 	                render(this.stores);
 	            }
 	        });
+	    }
+	    dispatcher(type) {
+	        return payload => this.action.put({ type, payload });
 	    }
 	}
 	Object.defineProperty(exports, "__esModule", { value: true });
