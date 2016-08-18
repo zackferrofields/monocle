@@ -1,9 +1,7 @@
-const test = require('tape');
-const monocle = require('./index');
+import test from 'tape';
+import { App, Action, Channel } from './index';
 
-const App = monocle.App;
-const Channel = monocle.Channel;
-const Action = monocle.Action;
+const monocle = require('./index');
 
 const add = Symbol('add');
 const identity = x => x;
@@ -60,13 +58,13 @@ test('Monocle.Action', t => {
     const type = 'test1';
     const payload = 1;
 
-    const actions = [ ({ type: t, payload }) => t !== type ? identity: () => payload];
+    const actions = [data => data.type !== type ? identity: () => data.payload];
     const action = new Action(actions);
 
     t.same(action.actions, actions, 'should contain `actions`');
     t.is(typeof action.run, 'function', 'should be a function');
     t.is(action.run({ type, payload }, 0), 1, 'should run actions');
-    t.not(action.run(undefined, 0), 1, 'should not run actions');
+    t.not(action.run({}, 0), 1, 'should not run actions');
   });
 });
 
@@ -89,7 +87,7 @@ test('Monocle.App', t => {
 
     const message = 'should run once';
     const type = Symbol('test');
-    const actions = [({ type: t, payload }) => t !== type ? identity: state => payload];
+    const actions = [data => data.type !== type ? identity: state => data.payload];
     const types = { constant: type };
     const app = new App(message, actions, types);
 
