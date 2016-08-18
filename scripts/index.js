@@ -27,6 +27,7 @@ class Channel {
         });
     }
 }
+exports.Channel = Channel;
 class Action extends Channel {
     constructor(actions) {
         super();
@@ -38,6 +39,7 @@ class Action extends Channel {
             .reduceRight((x, fn) => fn(x), state);
     }
 }
+exports.Action = Action;
 class App {
     constructor(stores, actions, types) {
         this.stores = stores;
@@ -60,6 +62,7 @@ class App {
         return payload => this.action.put({ type, payload });
     }
 }
+exports.App = App;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = App;
 //# sourceMappingURL=index.js.map

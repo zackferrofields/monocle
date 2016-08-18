@@ -7,7 +7,7 @@ interface ActionType {
   error?: boolean;
 }
 
-class Channel {
+export class Channel {
   public takes: Array<Function>;
   public puts: Array<() => ActionType>;
   constructor() {
@@ -28,7 +28,7 @@ class Channel {
   }
 }
 
-class Action extends Channel {
+export class Action extends Channel {
   constructor(private actions: Array<StateModifier>) {
     super();
   }
@@ -39,7 +39,7 @@ class Action extends Channel {
   }
 }
 
-class App {
+export class App {
   public action: Action;
   public dispatch: Object;
   constructor(public stores: Object, actions: Array<StateModifier>, types: Object) {
