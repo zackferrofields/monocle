@@ -19,7 +19,7 @@
     "build": "babel ./scripts/index.js -o index.js --source-maps",
     "test": "NODE_ENV=test npm run test:coverage",
     "test:unit": "tape 'scripts/**/*.spec.js'",
-    "test:coverage": "nyc --require babel-register --require babel-polyfill npm run test:unit",
+    "test:coverage": "nyc --check-coverage --require babel-register --require babel-polyfill npm run test:unit",
     "test:report": "npm run test:coverage && nyc report --reporter=lcov"
   },
   "devDependencies": {
