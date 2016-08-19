@@ -1,5 +1,5 @@
 module.exports = {
-  cmd: 'npm install && npm run test',
+  cmd: 'npm install --no-optional && npm run test',
   notifications: {
     slack: {
       channel: '#bots-monocle'
