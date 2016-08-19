@@ -29,9 +29,6 @@
     "nyc": "^8.1.0",
     "tape": "^4.6.0"
   },
-  "optionalDependencies": {
-    "babel-cli": "^6.6.5"
-  },
   "nyc": {
     "exclude": [
       "scripts/**/*.spec.js"
