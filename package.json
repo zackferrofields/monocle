@@ -16,7 +16,6 @@
   "engine": "node >0.4.3",
   "scripts": {
     "deploy": ". ./deploy.sh",
-    "build": "babel ./scripts/index.js -o index.js --source-maps",
     "test": "NODE_ENV=test npm run test:coverage",
     "test:unit": "tape -r core-js/shim 'scripts/**/*.spec.js'",
     "test:coverage": "nyc --check-coverage npm run test:unit",
