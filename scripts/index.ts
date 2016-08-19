@@ -32,7 +32,7 @@ export class Action extends Channel {
   constructor(private actions: Array<StateModifier>) {
     super();
   }
-  public run(action = {}, state: State) {
+  public run(action: Object, state: State) {
     return this.actions
       .map(fn => fn(action))
       .reduceRight((x: State, fn) => fn(x), state);
@@ -45,8 +45,8 @@ export class App {
   constructor(public stores: Object, actions: Array<StateModifier>, types: Object) {
     this.action = new Action(actions);
     this.dispatch = (<any>Object).entries(types)
-      .map(([key, value]) => [ key, this.dispatcher(value)])
-      .reduce((acc, [ key, value ]) => Object.assign(acc, { [key]: value }) ,{});
+      .map(type => [ type[0], this.dispatcher(type[1])])
+      .reduce((acc, type) => Object.assign(acc, { [type[0]]: type[1] }) ,{});
   }
   public async init(render: Function) {
     render(this.stores);
