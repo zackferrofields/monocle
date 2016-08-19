@@ -19804,6 +19804,7 @@
 	        });
 	    }
 	}
+	exports.Channel = Channel;
 	class Action extends Channel {
 	    constructor(actions) {
 	        super();
@@ -19813,6 +19814,7 @@
 	        return this.actions.map(fn => fn(action)).reduceRight((x, fn) => fn(x), state);
 	    }
 	}
+	exports.Action = Action;
 	class App {
 	    constructor(stores, actions, types) {
 	        this.stores = stores;
@@ -19833,6 +19835,7 @@
 	        return payload => this.action.put({ type, payload });
 	    }
 	}
+	exports.App = App;
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = App;
 	//# sourceMappingURL=index.js.map
