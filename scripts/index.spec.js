@@ -1,7 +1,9 @@
-import test from 'tape';
-import { App, Action, Channel } from './index';
-
+const test = require('tape');
 const monocle = require('./index');
+
+const App = monocle.App;
+const Channel = monocle.Channel;
+const Action = monocle.Action;
 
 const add = Symbol('add');
 const identity = x => x;
@@ -64,7 +66,7 @@ test('Monocle.Action', t => {
     t.same(action.actions, actions, 'should contain `actions`');
     t.is(typeof action.run, 'function', 'should be a function');
     t.is(action.run({ type, payload }, 0), 1, 'should run actions');
-    t.not(action.run({}, 0), 1, 'should not run actions');
+    t.not(action.run(undefined, 0), 1, 'should not run actions');
   });
 });
 

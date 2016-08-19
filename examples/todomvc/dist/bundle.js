@@ -19810,7 +19810,7 @@
 	        super();
 	        this.actions = actions;
 	    }
-	    run(action, state) {
+	    run(action = {}, state) {
 	        return this.actions.map(fn => fn(action)).reduceRight((x, fn) => fn(x), state);
 	    }
 	}

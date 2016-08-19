@@ -32,7 +32,7 @@ export class Action extends Channel {
   constructor(private actions: Array<StateModifier>) {
     super();
   }
-  public run(action: Object, state: State) {
+  public run(action = {}, state: State) {
     return this.actions
       .map(fn => fn(action))
       .reduceRight((x: State, fn) => fn(x), state);
