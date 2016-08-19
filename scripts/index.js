@@ -33,7 +33,7 @@ class Action extends Channel {
         super();
         this.actions = actions;
     }
-    run(action = {}, state) {
+    run(action, state) {
         return this.actions
             .map(fn => fn(action))
             .reduceRight((x, fn) => fn(x), state);
@@ -45,8 +45,8 @@ class App {
         this.stores = stores;
         this.action = new Action(actions);
         this.dispatch = Object.entries(types)
-            .map(([key, value]) => [key, this.dispatcher(value)])
-            .reduce((acc, [key, value]) => Object.assign(acc, { [key]: value }), {});
+            .map(type => [type[0], this.dispatcher(type[1])])
+            .reduce((acc, type) => Object.assign(acc, { [type[0]]: type[1] }), {});
     }
     init(render) {
         return __awaiter(this, void 0, void 0, function* () {
