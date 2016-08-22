@@ -1,4 +1,3 @@
-require('core-js/shim');
 const test = require('tape');
 const monocle = require('./index');
 
