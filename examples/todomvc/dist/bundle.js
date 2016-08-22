@@ -8122,11 +8122,19 @@
 
 	'use strict';
 	
+	var _monocle = __webpack_require__(407);
+	
+	var _monocle2 = _interopRequireDefault(_monocle);
+	
 	var _app = __webpack_require__(299);
 	
-	_app.dispatch.add('feed Willow');
-	_app.dispatch.add('brush Willow');
-	_app.dispatch.add('adore Willow');
+	var _app2 = _interopRequireDefault(_app);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	_monocle2.default.dispatch(_app2.default, 'add', 'feed Willow');
+	_monocle2.default.dispatch(_app2.default, 'add', 'brush Willow');
+	_monocle2.default.dispatch(_app2.default, 'add', 'adore Willow');
 
 /***/ },
 /* 299 */
@@ -8137,7 +8145,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.dispatch = undefined;
+	exports.dispatch = exports.connect = undefined;
 	
 	var _renderer = __webpack_require__(300);
 	
@@ -8173,8 +8181,12 @@
 	var application = new _monocle2.default(_stores2.default, _action2.default, _actionTypes2.default);
 	application.init(render);
 	
+	var connect = exports.connect = function connect() {
+	  return application.stores;
+	};
 	var dispatch = application.dispatch;
 	exports.dispatch = dispatch;
+	exports.default = application;
 
 /***/ },
 /* 300 */
@@ -8974,6 +8986,12 @@
 	
 	var _ramda = __webpack_require__(313);
 	
+	var _app = __webpack_require__(299);
+	
+	var _app2 = _interopRequireDefault(_app);
+	
+	var _monocle = __webpack_require__(407);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var remaining = (0, _ramda.curry)((0, _ramda.filter)(function (_ref) {
@@ -8996,19 +9014,16 @@
 	};
 	
 	var Footer = function Footer(_ref3) {
-	  var items = _ref3.items;
+	  var _ref3$todos = _ref3.todos;
+	  var todos = _ref3$todos === undefined ? [] : _ref3$todos;
 	  return _snabbdomJsx2.default.html(
 	    'footer',
 	    { className: 'footer' },
-	    _snabbdomJsx2.default.html(Count, { remaining: remaining(items) })
+	    _snabbdomJsx2.default.html(Count, { remaining: remaining(todos) })
 	  );
 	};
 	
-	exports.default = function (_ref4) {
-	  var _ref4$todos = _ref4.todos;
-	  var todos = _ref4$todos === undefined ? [] : _ref4$todos;
-	  return _snabbdomJsx2.default.html(Footer, { items: todos });
-	};
+	exports.default = (0, _ramda.compose)(Footer, (0, _monocle.connect)(_app2.default));
 
 /***/ },
 /* 313 */
@@ -17824,6 +17839,12 @@
 	
 	var _app = __webpack_require__(299);
 	
+	var _app2 = _interopRequireDefault(_app);
+	
+	var _monocle = __webpack_require__(407);
+	
+	var _monocle2 = _interopRequireDefault(_monocle);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var ENTER = 13;
@@ -17837,12 +17858,12 @@
 	var onkeyup = function onkeyup(_ref) {
 	  var keyCode = _ref.keyCode;
 	  var target = _ref.target;
-	  return keyCode !== ENTER ? false : _app.dispatch.add(target.value);
+	  return keyCode !== ENTER ? false : _monocle2.default.dispatch(_app2.default, 'add', target.value);
 	};
 	
 	var onchange = function onchange(_ref2) {
 	  var target = _ref2.target;
-	  return _app.dispatch.change(target.value);
+	  return _monocle2.default.dispatch(_app2.default, 'change', target.value);
 	};
 	
 	exports.default = function (_ref3) {
@@ -18478,6 +18499,12 @@
 	
 	var _app = __webpack_require__(299);
 	
+	var _app2 = _interopRequireDefault(_app);
+	
+	var _monocle = __webpack_require__(407);
+	
+	var _monocle2 = _interopRequireDefault(_monocle);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var getClassName = (0, _ramda.compose)((0, _ramda.map)(function (_ref) {
@@ -18494,12 +18521,12 @@
 	
 	var onchange = function onchange(key) {
 	  return function () {
-	    return _app.dispatch.complete(key);
+	    return _monocle2.default.dispatch(_app2.default, 'complete', key);
 	  };
 	};
 	var onclick = function onclick(key) {
 	  return function () {
-	    return _app.dispatch.remove(key);
+	    return _monocle2.default.dispatch(_app2.default, 'remove', key);
 	  };
 	};
 	
@@ -19786,6 +19813,8 @@
 	        step((generator = generator.apply(thisArg, _arguments)).next());
 	    });
 	};
+	const identity = x => x;
+	const constant = x => y => x;
 	class Channel {
 	    constructor() {
 	        this.puts = [];
@@ -19815,11 +19844,13 @@
 	    }
 	}
 	exports.Action = Action;
+	exports.dispatch = (app, type, payload) => app ? app.action.put({ type: app.types[type], payload }) : null;
+	exports.connect = app => app ? constant(app.stores) : identity;
 	class App {
 	    constructor(stores, actions, types) {
 	        this.stores = stores;
+	        this.types = types;
 	        this.action = new Action(actions);
-	        this.dispatch = Object.entries(types).map(type => [type[0], this.dispatcher(type[1])]).reduce((acc, type) => Object.assign(acc, { [type[0]]: type[1] }), {});
 	    }
 	    init(render) {
 	        return __awaiter(this, void 0, void 0, function* () {
@@ -19831,10 +19862,9 @@
 	            }
 	        });
 	    }
-	    dispatcher(type) {
-	        return payload => this.action.put({ type, payload });
-	    }
 	}
+	App.dispatch = exports.dispatch;
+	App.connect = exports.connect;
 	exports.App = App;
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.default = App;

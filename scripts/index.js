@@ -7,6 +7,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments)).next());
     });
 };
+const identity = x => x;
+const constant = x => y => x;
 class Channel {
     constructor() {
         this.puts = [];
@@ -40,13 +42,13 @@ class Action extends Channel {
     }
 }
 exports.Action = Action;
+exports.dispatch = (app, type, payload) => app ? app.action.put({ type: app.types[type], payload }) : null;
+exports.connect = (app) => app ? constant(app.stores) : identity;
 class App {
     constructor(stores, actions, types) {
         this.stores = stores;
+        this.types = types;
         this.action = new Action(actions);
-        this.dispatch = Object.entries(types)
-            .map(type => [type[0], this.dispatcher(type[1])])
-            .reduce((acc, type) => Object.assign(acc, { [type[0]]: type[1] }), {});
     }
     init(render) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -58,10 +60,9 @@ class App {
             }
         });
     }
-    dispatcher(type) {
-        return payload => this.action.put({ type, payload });
-    }
 }
+App.dispatch = exports.dispatch;
+App.connect = exports.connect;
 exports.App = App;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = App;
