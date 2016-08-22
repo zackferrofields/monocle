@@ -5,7 +5,8 @@ const monocle = require('./index');
 const App = monocle.App;
 const Channel = monocle.Channel;
 const Action = monocle.Action;
-
+const dispatch = monocle.dispatch;
+const connect = monocle.connect;
 const add = Symbol('add');
 const identity = x => x;
 
@@ -58,7 +59,7 @@ test('Monocle.Action', t => {
   t.test('Monocle.Action.run', t => {
     t.plan(4);
 
-    const type = 'test1';
+    const type = 'test:run';
     const payload = 1;
 
     const actions = [data => data.type !== type ? identity: () => data.payload];
@@ -71,32 +72,50 @@ test('Monocle.Action', t => {
   });
 });
 
+test('Monocle.dispatch', t => {
+  t.plan(5);
+
+  t.not(typeof dispatch, 'undefined', 'should not be undefined');
+  t.same(dispatch, App.dispatch, 'should be `App.dispatch`');
+
+  const app = new App(stores, actions, types);
+  const promise = dispatch(app, 'constant', 'data');
+  t.is(typeof promise.then, 'function', 'should return a `thenable`');
+  t.doesNotThrow(dispatch, undefined, 'should not throw when `undefined`');
+  t.false(dispatch(null), 'should be false');
+});
+
+test('Monocle.connect', t => {
+  t.plan(5);
+
+  t.not(typeof connect, 'undefined', 'should not be undefined');
+  t.same(connect, App.connect, 'should be `App.connect`');
+
+  const props = 'default value';
+  const app = new App(stores, actions, types);
+  t.same(connect(app), stores, 'should return `app.stores`');
+  t.doesNotThrow(connect, undefined, 'should not throw when `undefined`');
+  t.same(connect(null, props), props, 'should return `props`');
+});
+
 test('Monocle.App', t => {
   t.plan(4);
 
   t.is(typeof App, 'function', 'should be a constructor');
+  t.same(App, monocle.default, 'should be `monocle.default`');
   t.true(new App(stores, actions, types) instanceof App, 'should be an instance of `App`');
-
-  t.test('Monocle.App.dispatch', t => {
-    t.plan(2);
-
-    const app = new App(stores, actions, types);
-    t.not(typeof app.dispatch, 'undefined', 'should not be undefined');
-    t.same(Object.keys(app.dispatch), Object.keys(types), 'should mirror `types`');
-  });
 
   t.test('Monocle.App.init', t => {
     t.plan(3);
 
-    const message = 'should run once';
-    const type = Symbol('test');
+    const type = 'test:init';
+    const message = 'should run';
     const actions = [data => data.type !== type ? identity: state => data.payload];
     const types = { constant: type };
     const app = new App(message, actions, types);
 
     t.is(typeof app.init, 'function', 'should be a function supplied');
     app.init(t.pass);
-
-    app.dispatch.constant('should run twice');
+    dispatch(app, 'constant', 'should run again');
   });
 });

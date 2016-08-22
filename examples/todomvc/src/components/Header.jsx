@@ -1,5 +1,6 @@
 import TextField from './TextField';
-import { dispatch } from '../app';
+import app from '../app';
+import Monocle from 'monocle';
 
 const ENTER = 13;
 
@@ -11,9 +12,9 @@ const NEW_TODO = {
 
 const onkeyup = ({ keyCode, target }) =>
   keyCode !== ENTER ? false:
-  dispatch.add(target.value);
+  Monocle.dispatch(app, 'add', target.value);
 
-const onchange = ({ target }) => dispatch.change(target.value);
+const onchange = ({ target }) => Monocle.dispatch(app, 'change', target.value);
 
 export default ({ current }) =>
   <header>

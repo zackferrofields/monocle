@@ -1,5 +1,6 @@
-import { dispatch } from './app';
+import Monocle from 'monocle';
+import app from './app';
 
-dispatch.add('feed Willow');
-dispatch.add('brush Willow');
-dispatch.add('adore Willow');
+Monocle.dispatch(app, 'add', 'feed Willow');
+Monocle.dispatch(app, 'add', 'brush Willow');
+Monocle.dispatch(app, 'add', 'adore Willow');

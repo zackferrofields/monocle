@@ -1,6 +1,7 @@
 import { filter, map, compose, toPairs } from 'ramda';
 import TextField from './TextField';
-import { dispatch } from '../app';
+import app from '../app';
+import Monocle from 'monocle';
 
 const getClassName = compose(
   map(([ key ]) => key),
@@ -8,8 +9,8 @@ const getClassName = compose(
   toPairs
 );
 
-const onchange = key => () => dispatch.complete(key);
-const onclick = key => () => dispatch.remove(key);
+const onchange = key => () => Monocle.dispatch(app,'complete', key);
+const onclick = key => () => Monocle.dispatch(app, 'remove', key);
 
 export default ({ text, completed, editing }, key) =>
   <li className={getClassName({ completed, editing })}>

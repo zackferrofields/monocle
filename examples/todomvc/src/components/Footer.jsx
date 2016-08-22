@@ -1,4 +1,6 @@
 import { filter, curry } from 'ramda';
+import app from '../app';
+import { connect } from 'monocle';
 
 const remaining = curry(filter(({ completed }) => !completed));
 
@@ -8,10 +10,9 @@ const Count = ({ remaining }) =>
     {` ${remaining.length === 1 ? 'item' : 'items'} left`}
   </span>;
 
-const Footer = ({ items }) =>
+const Footer = ({ todos = [] }) =>
   <footer className="footer">
-    <Count remaining={remaining(items)}/>
+    <Count remaining={remaining(todos)}/>
   </footer>;
 
-export default({ todos = [] }) =>
-  <Footer items={todos}/>;
+export default props => <Footer {...connect(app, props)}/>;

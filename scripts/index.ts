@@ -39,14 +39,19 @@ export class Action extends Channel {
   }
 }
 
+export const dispatch = (app: App, type: string, payload: any) =>
+  app ? app.action.put({ type: app.types[type], payload }): null;
+
+export const connect = (app: App, props: any) =>
+  app ? app.stores : props;
+
 export class App {
   public action: Action;
   public dispatch: Object;
-  constructor(public stores: Object, actions: Array<StateModifier>, types: Object) {
+  public static dispatch = dispatch;
+  public static connect = connect;
+  constructor(public stores: Object, actions: Array<StateModifier>, public types: Object) {
     this.action = new Action(actions);
-    this.dispatch = (<any>Object).entries(types)
-      .map(type => [ type[0], this.dispatcher(type[1])])
-      .reduce((acc, type) => Object.assign(acc, { [type[0]]: type[1] }) ,{});
   }
   public async init(render: Function) {
     render(this.stores);
@@ -55,9 +60,6 @@ export class App {
       this.stores = this.action.run(action, this.stores);
       render(this.stores);
     }
-  }
-  private dispatcher(type: Symbol) {
-    return payload => this.action.put({ type, payload });
   }
 }
 
