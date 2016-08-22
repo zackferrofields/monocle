@@ -1,9 +1,6 @@
 type State = Object;
 type StateModifier = (state: State) => State;
 
-const identity = x => x;
-const constant = x => y => x;
-
 interface ActionType {
   type: Symbol;
   payload: any;
@@ -45,8 +42,8 @@ export class Action extends Channel {
 export const dispatch = (app: App, type: string, payload: any) =>
   app ? app.action.put({ type: app.types[type], payload }): null;
 
-export const connect = (app: App) =>
-  app ? constant(app.stores) : identity;
+export const connect = (app: App, props: any) =>
+  app ? app.stores : props;
 
 export class App {
   public action: Action;

@@ -1,4 +1,4 @@
-import { filter, curry, compose } from 'ramda';
+import { filter, curry } from 'ramda';
 import app from '../app';
 import { connect } from 'monocle';
 
@@ -15,4 +15,4 @@ const Footer = ({ todos = [] }) =>
     <Count remaining={remaining(todos)}/>
   </footer>;
 
-export default compose(Footer, connect(app));
+export default props => <Footer {...connect(app, props)}/>;

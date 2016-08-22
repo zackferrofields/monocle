@@ -6,5 +6,5 @@ export default ({ todos, app }) =>
   <section className="todoapp">
     <Header {...app}/>
     <Main {...{ todos }}/>
-    <Footer {...{ todos }}/>
+    <Footer/>
   </section>;

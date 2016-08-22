@@ -7,8 +7,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments)).next());
     });
 };
-const identity = x => x;
-const constant = x => y => x;
 class Channel {
     constructor() {
         this.puts = [];
@@ -43,7 +41,7 @@ class Action extends Channel {
 }
 exports.Action = Action;
 exports.dispatch = (app, type, payload) => app ? app.action.put({ type: app.types[type], payload }) : null;
-exports.connect = (app) => app ? constant(app.stores) : identity;
+exports.connect = (app, props) => app ? app.stores : props;
 class App {
     constructor(stores, actions, types) {
         this.stores = stores;

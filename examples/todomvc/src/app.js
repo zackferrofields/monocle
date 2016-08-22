@@ -12,6 +12,4 @@ const render = compose(renderer(node), App);
 const application = new Monocle(stores, actions, types);
 application.init(render);
 
-export const connect = () => application.stores;
-export const { dispatch } = application;
 export default application;

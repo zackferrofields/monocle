@@ -93,9 +93,9 @@ test('Monocle.connect', t => {
 
   const props = 'default value';
   const app = new App(stores, actions, types);
-  t.same(connect(app)(), stores, 'should return `app.stores`');
+  t.same(connect(app), stores, 'should return `app.stores`');
   t.doesNotThrow(connect, undefined, 'should not throw when `undefined`');
-  t.same(connect(null)(props), props, 'should return `props`');
+  t.same(connect(null, props), props, 'should return `props`');
 });
 
 test('Monocle.App', t => {

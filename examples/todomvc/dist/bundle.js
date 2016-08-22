@@ -8145,7 +8145,6 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.dispatch = exports.connect = undefined;
 	
 	var _renderer = __webpack_require__(300);
 	
@@ -8181,11 +8180,6 @@
 	var application = new _monocle2.default(_stores2.default, _action2.default, _actionTypes2.default);
 	application.init(render);
 	
-	var connect = exports.connect = function connect() {
-	  return application.stores;
-	};
-	var dispatch = application.dispatch;
-	exports.dispatch = dispatch;
 	exports.default = application;
 
 /***/ },
@@ -8863,7 +8857,7 @@
 	    { className: 'todoapp' },
 	    _snabbdomJsx2.default.html(_Header2.default, app),
 	    _snabbdomJsx2.default.html(_Main2.default, { todos: todos }),
-	    _snabbdomJsx2.default.html(_Footer2.default, { todos: todos })
+	    _snabbdomJsx2.default.html(_Footer2.default, null)
 	  );
 	};
 
@@ -9023,7 +9017,9 @@
 	  );
 	};
 	
-	exports.default = (0, _ramda.compose)(Footer, (0, _monocle.connect)(_app2.default));
+	exports.default = function (props) {
+	  return _snabbdomJsx2.default.html(Footer, (0, _monocle.connect)(_app2.default, props));
+	};
 
 /***/ },
 /* 313 */
@@ -19813,8 +19809,6 @@
 	        step((generator = generator.apply(thisArg, _arguments)).next());
 	    });
 	};
-	const identity = x => x;
-	const constant = x => y => x;
 	class Channel {
 	    constructor() {
 	        this.puts = [];
@@ -19845,7 +19839,7 @@
 	}
 	exports.Action = Action;
 	exports.dispatch = (app, type, payload) => app ? app.action.put({ type: app.types[type], payload }) : null;
-	exports.connect = app => app ? constant(app.stores) : identity;
+	exports.connect = (app, props) => app ? app.stores : props;
 	class App {
 	    constructor(stores, actions, types) {
 	        this.stores = stores;
