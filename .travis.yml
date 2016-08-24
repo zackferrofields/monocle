@@ -21,4 +21,4 @@ install:
 script:
   - npm run test:features
 notifications:
-  - slack: zackferrofields:XNoCn4AKv4YLQJIdElyOQTyg#bots-monocle
+  - slack: zackferrofields:XNoCn4AKv4YLQJIdElyOQTyg
