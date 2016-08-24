@@ -31,6 +31,7 @@
   },
   "scripts": {
     "build": ". ./build.sh & webpack",
-    "lint": "eslint --ext .js --ext .jsx src"
+    "test:lint": "eslint --ext .js --ext .jsx src",
+    "test:features": "nightwatch"
   }
 }
