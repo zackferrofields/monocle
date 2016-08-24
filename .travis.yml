@@ -20,5 +20,6 @@ install:
   - npm i nightwatch cucumber nightwatch-cucumber
 script:
   - npm run test:features
-notifications:
-  slack: zackferrofields:XNoCn4AKv4YLQJIdElyOQTyg
+slack:
+    rooms:
+      - zackferrofields:XNoCn4AKv4YLQJIdElyOQTyg#bots-monocle
