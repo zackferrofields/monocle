@@ -7,6 +7,6 @@ branches:
 services:
   - docker
 install:
-  - docker build -t $DOCKER_TAG .
+  - docker build -t $DOCKER_TAG examples/todomvc
 script:
   - docker run $DOCKER_TAG bash -c "npm test"
