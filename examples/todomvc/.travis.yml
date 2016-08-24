@@ -1,0 +1,12 @@
+env:
+  DOCKER_TAG: monocle-todo
+branches:
+  only:
+    - develop
+    - release
+services:
+  - docker
+install:
+  - docker build -t $DOCKER_TAG .
+script:
+  - docker run $DOCKER_TAG bash -c "npm test"
