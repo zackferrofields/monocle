@@ -1,0 +1,21 @@
+language: node_js
+node_js: "node"
+env:
+  DOCKER_TAG: monocle-todo
+branches:
+  only:
+    - develop
+    - release
+    - feature/travis
+services:
+  - docker
+before_install:
+  - cd examples/todomvc
+  - docker-compose up -d
+install:
+  - npm i nightwatch cucumber nightwatch-cucumber
+script:
+  - npm run test:features
+slack:
+    rooms:
+      - zackferrofields:XNoCn4AKv4YLQJIdElyOQTyg#bots-monocle
