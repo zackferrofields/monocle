@@ -1,12 +1,15 @@
+language: node_js
 env:
   DOCKER_TAG: monocle-todo
 branches:
   only:
-    - develop
     - release
 services:
   - docker
+before_install:
+  - cd examples/todomvc
+  - docker-compose up -d
 install:
-  - docker build -t $DOCKER_TAG examples/todomvc
+  - npm i nightwatch cucumber nightwatch-cucumber
 script:
-  - docker run $DOCKER_TAG bash -c "npm test"
+  - npm run test:features
