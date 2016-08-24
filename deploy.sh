@@ -2,4 +2,4 @@
 
 set -o errexit # Exit on error
 
-git subtree --prefix examples/todomvc push origin gh-pages
+git subtree --prefix examples/todomvc/public push origin gh-pages
