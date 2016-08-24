@@ -4,6 +4,7 @@ env:
   DOCKER_TAG: monocle-todo
 branches:
   only:
+    - develop
     - release
     - feature/travis
 services:
