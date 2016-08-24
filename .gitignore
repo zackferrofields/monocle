@@ -18,6 +18,12 @@ lib-cov
 coverage
 .nyc_output
 
+# Test outputs
+tests_output
+
+# Reports
+reports
+
 # Source maps files
 .map
 
