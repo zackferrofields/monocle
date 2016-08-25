@@ -3,7 +3,7 @@ app:
   volumes:
     - ./public:/usr/share/nginx/html
   ports:
-    - "80:80"
+    - 80:80
 
 seleniumhub:
   image: selenium/hub
@@ -23,3 +23,9 @@ chromenode:
     - 5900
   links:
     - seleniumhub:hub
+
+nightwatch:
+  build: ./tests
+  links:
+    - app
+    - seleniumhub

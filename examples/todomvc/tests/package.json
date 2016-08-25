@@ -1,0 +1,15 @@
+{
+  "private": true,
+  "devDependencies": {
+    "cucumber": "^1.2.2",
+    "nightwatch": "^0.9.8",
+    "nightwatch-cucumber": "^4.1.1"
+  },
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "scripts": {
+    "test": "npm run test:features",
+    "test:features": "nightwatch"
+  }
+}
