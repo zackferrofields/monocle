@@ -7,10 +7,9 @@ services:
   - docker
 before_install:
   - cd examples/todomvc
+  - docker-compose build
   - docker-compose up -d
-install:
-  - npm i nightwatch cucumber nightwatch-cucumber
 script:
-  - npm run test:features
+  - docker-compose run nightwatch bash -c "npm test"
 notifications:
   slack: zackferrofields:XNoCn4AKv4YLQJIdElyOQTyg
