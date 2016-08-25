@@ -2,7 +2,7 @@ module.exports = function() {
 
   this.Given(/^I am on ToDo page$/, function() {
     this
-      .url('https://zackferrofields.github.io/monocle/')
+      .url(this.launch_url)
       .pause(1000);
 
     this.expect.element('body').to.be.present.before(1000);
