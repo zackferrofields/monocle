@@ -9,7 +9,8 @@ module.exports = function() {
   this.Then(/^I see "([^"]*)" is displayed$/, function(name) {
     const main = this.page.main();
     const todoList = main.section.todoList;
-    todoList.expect.element('@latestTodo').text.to.equal(name);
+    const last = todoList.section.last;
+    last.expect.element('@label').text.to.equal(name);
   });
 
   this.Then(/^I see todo count increment "([^"]*)"$/, function(number) {
@@ -17,5 +18,11 @@ module.exports = function() {
     const todoCount = main.section.todoCount;
     const value = count + parseInt(number);
     todoCount.expect.element('@items').text.to.equal(value);
+  });
+
+  this.Then(/^I see input without "([^"]*)"$/, function(text) {
+    const main = this.page.main();
+    main.expect.element('@newTodo').attribute('value').not.to.equal(text);
+    main.expect.element('@newTodo').attribute('value').to.equal('');
   });
 };

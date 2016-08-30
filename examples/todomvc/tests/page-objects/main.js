@@ -13,9 +13,17 @@ module.exports = {
   sections: {
     todoList: {
       selector: '.todo-list',
-      elements: {
-        latestTodo: {
-          selector: 'li:last-child'
+      sections: {
+        last: {
+          selector: 'li:last-child',
+          elements: {
+            label: {
+              selector: 'label'
+            },
+            toggle: {
+              selector: 'input.toggle'
+            }
+          }
         }
       }
     },
