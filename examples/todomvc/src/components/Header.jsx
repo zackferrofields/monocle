@@ -5,6 +5,7 @@ import Monocle from 'monocle';
 const ENTER = 13;
 
 const NEW_TODO = {
+  name: 'new-todo',
   className: 'new-todo',
   placeholder: 'What needs to be done?',
   autofocus: true
