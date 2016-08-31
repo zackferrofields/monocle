@@ -26,6 +26,8 @@ chromenode:
 
 nightwatch:
   build: ./tests
+  volumes:
+    - ./tests/reports:/usr/src/test/reports
   links:
     - app
     - seleniumhub
