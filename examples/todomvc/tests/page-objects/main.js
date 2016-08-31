@@ -14,7 +14,7 @@ module.exports = {
     todoList: {
       selector: '.todo-list',
       sections: {
-        last: {
+        latest: {
           selector: 'li:last-child',
           elements: {
             label: {

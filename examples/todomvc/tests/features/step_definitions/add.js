@@ -9,8 +9,8 @@ module.exports = function() {
   this.Then(/^I see "([^"]*)" is displayed$/, function(name) {
     const main = this.page.main();
     const todoList = main.section.todoList;
-    const last = todoList.section.last;
-    last.expect.element('@label').text.to.equal(name);
+    const latest = todoList.section.latest;
+    latest.expect.element('@label').text.to.equal(name);
   });
 
   this.Then(/^I see todo count increment "([^"]*)"$/, function(number) {
