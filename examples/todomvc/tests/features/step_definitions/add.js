@@ -16,8 +16,8 @@ module.exports = function() {
   this.Then(/^I see todo count increment "([^"]*)"$/, function(number) {
     const main = this.page.main();
     const todoCount = main.section.todoCount;
-    const value = count + parseInt(number);
-    todoCount.expect.element('@items').text.to.equal(value);
+    count += parseInt(number);
+    todoCount.expect.element('@items').text.to.equal(count);
   });
 
   this.Then(/^I see input without "([^"]*)"$/, function(text) {
