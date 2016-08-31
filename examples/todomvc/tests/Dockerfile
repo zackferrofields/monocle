@@ -10,3 +10,5 @@ RUN npm i
 
 # Bundle test source
 COPY . /usr/src/test
+
+CMD ["npm", "test"]

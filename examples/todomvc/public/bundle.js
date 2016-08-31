@@ -17931,6 +17931,7 @@
 	var ENTER = 13;
 	
 	var NEW_TODO = {
+	  name: 'new-todo',
 	  className: 'new-todo',
 	  placeholder: 'What needs to be done?',
 	  autofocus: true

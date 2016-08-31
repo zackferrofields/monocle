@@ -1,11 +1,9 @@
 module.exports = function() {
 
-  this.Given(/^I am on ToDo page$/, function() {
-    this
-      .url(this.launch_url)
-      .pause(1000);
-
-    this.expect.element('body').to.be.present.before(1000);
+  this.Given(/^I open Monocle ToDoMVC page$/, function() {
+    const main = this.page.main();
+    main.navigate();
+    main.expect.element('body').to.be.present.before(1000);
   });
 
   this.Then(/^I see title "([^"]*)"$/, function(title) {
@@ -14,10 +12,12 @@ module.exports = function() {
   });
 
   this.Then(/^I see header "([^"]*)"$/, function(header) {
-    this.expect.element('h1').text.to.equal(header);
+    const main = this.page.main();
+    main.expect.element('@title').text.to.equal(header);
   });
 
   this.Then(/^I see input with placeholder "([^"]*)"$/, function(placeholder) {
-    this.expect.element('input.new-todo').to.have.attribute('placeholder').equals(placeholder);
+    const main = this.page.main();
+    main.expect.element('@newTodo').to.have.attribute('placeholder').equals(placeholder);
   });
 };

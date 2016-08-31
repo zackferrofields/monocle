@@ -28,7 +28,6 @@
   "scripts": {
     "build": ". ./build.sh & webpack",
     "test": "echo \"Success: no errors found!\" && exit 0",
-    "test:lint": "eslint --ext .js --ext .jsx src",
-    "test:features": "nightwatch"
+    "test:lint": "eslint --ext .js --ext .jsx src"
   }
 }
