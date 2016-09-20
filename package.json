@@ -16,11 +16,11 @@
   "engine": "node >0.4.3",
   "scripts": {
     "deploy": ". ./deploy.sh",
-    "test": "NODE_ENV=test npm run test:report",
+    "test": "NODE_ENV=test npm run test:unit",
     "test:unit": "tape 'scripts/**/*.spec.js'",
     "test:coverage": "nyc --check-coverage npm run test:unit",
     "test:report": "npm run test:coverage && nyc report --reporter=lcov",
-    "coveralls": "npm run test:coverage && nyc --reporter=text-lcov | coveralls"
+    "coveralls": "nyc npm test && nyc report --reporter=text-lcov | coveralls"
   },
   "devDependencies": {
     "coveralls": "^2.11.14",
